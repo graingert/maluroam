@@ -30,19 +30,20 @@
                     <span class="col2">Events</span>
                     <span class="col3">Packets</span>
                 </div>
-                {foreach from=$users item=user name=users}
+                {% for user in users %}
                     <div class="table-row">
-                        <span class="col1"><a href="/index.php?page=user&user={$user.username}">{$user.username}</a></span>
-                        <span class="col2">{$user.alerts}</span>
-                        <span class="col3">{$user.packets}</span>
+                        <span class="col1"><a href="/index.php?page=user&user={{user.username}}">{{user.username}}</a></span>
+                        <span class="col2">{{user.alerts}}</span>
+                        <span class="col3">{{user.packets}}</span>
                     </div>
-                {/foreach}
+                {% endfor %}
             </div>
         </div>
     </div>
+    {% comment %}
     {* Provide JSON data for graphs *}
     <script type="text/javascript">
-        $(document).ready(function(){ldelim}
+        $(document).ready(function(){
             $('#rangeSelector').buttonset();
             {foreach from=$overviews item=range name=ranges key=range_key}
                 results_{$range_key} = [
@@ -69,6 +70,7 @@
             {/foreach}
             
             dashboard.setupCharts();
-        {rdelim});
+        });
     </script>
+    {% endcomment %}
 </div>

@@ -1,3 +1,4 @@
+{% block content %}
 <div id="settings">
 
     <div id="tabs">
@@ -15,19 +16,19 @@
                     <span class="col4">Rule Name</span>
                 </div>
             
-                {foreach from=$rules item=rule}
+                {% for rule in rules %}
                     <div class="table-row">
-                        <form action="/index.php?page=settings&update=rule&id={$rule.rule}" method="post" name="rule_{$rule.rule}">
-                            <span class="col1">{$rule.rule}</span>
-                            <span class="col2"><a class="button" href="http://snortid.com/snortid.asp?QueryId={$rule.rule}" target="_blank">snortid.com lookup</a></span>
-                            <span class="col3"><input type="checkbox" name="hide" {if $rule.hide eq 1}checked=checked{/if} value="1"/></span>
+                        <form action="/index.php?page=settings&update=rule&id={{rule.rule}" method="post" name="rule_{{rule.rule}}">
+                            <span class="col1">{{rule.rule}</span>
+                            <span class="col2"><a class="button" href="http://snortid.com/snortid.asp?QueryId={{rule.rule}}" target="_blank">snortid.com lookup</a></span>
+                            <span class="col3"><input type="checkbox" name="hide" {% if rule.hide }}checked="checked"{% endif %} value="1"/></span>
                             <span class="col4">
-                                <input type="text" name="rulename" value="{$rule.rule_name}" />
+                                <input type="text" name="rulename" value="{{rule.rule_name}}" />
                                 <input class="button" type="submit" value="Update"/>
                             </span>
                         </form>
                     </div>
-                {/foreach}
+                {% endfor %}
             </div>
         </div>
         
@@ -40,22 +41,23 @@
                     <span class="col4">Hide</span>
                 </div>
             
-                {foreach from=$blacklists item=blacklist}
+                {% for blacklist in blacklists %}
                     <div class="table-row">
-                        <span class="col1">{$blacklist.name}</span>
-                        <span class="col2"><a class="button" href="{$blacklist.url}" target="_blank">{$blacklist.url}</a></span>
-                        <span class="col3">{$blacklist.updated}</span>
+                        <span class="col1">{{blacklist.name}</span>
+                        <span class="col2"><a class="button" href="{{blacklist.url}}" target="_blank">{{blacklist.url}}</a></span>
+                        <span class="col3">{{blacklist.updated}}</span>
                         <span class="col4">
-                            <form action="/index.php?page=settings&update=blacklist&id={$blacklist.bl_id}" method="post" name="blacklist_{$blacklist.bl_id}">
-                                <input type="checkbox" name="hide" {if $blacklist.hide eq 1}checked=checked{/if} value="1"/>
+                            <form action="/index.php?page=settings&update=blacklist&id={{blacklist.pk}}" method="post" name="blacklist_{{blacklist.pk}}">
+                                <input type="checkbox" name="hide" {% if blacklist.hide %}checked="checked"{% endif %} value="1"/>
                                 <input class="button" type="submit" value="Update"/>
                             </form>
                         </span>
                     </div>
-                {/foreach}
+                {% endfor %}
             </div>
         
         </div>
     </div>
 
 </div>
+{% endblock content %}
