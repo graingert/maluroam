@@ -1,0 +1,15 @@
+2012-04-29 19:00:00 to 2012-04-29 20:00:00
+
+Number of events from Snort: 2
+
+Attempted to insert following SQL : 
+
+			INSERT INTO event
+			(`username`,`radius_account_id`,`radius_session_id`,`radius_info`,`ip_src`,`ip_dst`,`start`,`finish`,`alerts`,`blacklist`,`rule`,`rule_class`)
+			VALUES ('6f317ab59f4297bdbf62c4a23ce93580', '6807442', '4f9d4681/4c:0f:6e:d7:f2:b7/5308045', 'a:14:{s:9:"radacctid";s:7:"6807442";s:13:"acctsessionid";s:34:"4f9d4681/4c:0f:6e:d7:f2:b7/5308045";s:12:"acctuniqueid";s:16:"bae013b6ca73aa8a";s:8:"username";s:32:"6f317ab59f4297bdbf62c4a23ce93580";s:5:"realm";s:11:"soton.ac.uk";s:12:"nasipaddress";s:13:"192.168.213.1";s:9:"nasportid";s:2:"13";s:13:"acctstarttime";s:19:"2012-04-29 14:47:44";s:12:"acctstoptime";N;s:15:"acctsessiontime";s:5:"18231";s:15:"calledstationid";s:13:"192.168.213.1";s:16:"callingstationid";s:14:"152.78.161.176";s:18:"acctterminatecause";s:0:"";s:15:"framedipaddress";s:14:"152.78.161.176";}', '152.78.161.176', '208.87.35.106', '2012-04-29 19:01:12', '2012-04-29 19:58:16', '60', '3', '1', 'bad-unknown'),('6f317ab59f4297bdbf62c4a23ce93580', '6807442', '4f9d4681/4c:0f:6e:d7:f2:b7/5308045', 'a:14:{s:9:"radacctid";s:7:"6807442";s:13:"acctsessionid";s:34:"4f9d4681/4c:0f:6e:d7:f2:b7/5308045";s:12:"acctuniqueid";s:16:"bae013b6ca73aa8a";s:8:"username";s:32:"6f317ab59f4297bdbf62c4a23ce93580";s:5:"realm";s:11:"soton.ac.uk";s:12:"nasipaddress";s:13:"192.168.213.1";s:9:"nasportid";s:2:"13";s:13:"acctstarttime";s:19:"2012-04-29 14:47:44";s:12:"acctstoptime";N;s:15:"acctsessiontime";s:5:"18231";s:15:"calledstationid";s:13:"192.168.213.1";s:16:"callingstationid";s:14:"152.78.161.176";s:18:"acctterminatecause";s:0:"";s:15:"framedipaddress";s:14:"152.78.161.176";}', '208.87.35.106', '152.78.161.176', '2012-04-29 19:01:12', '2012-04-29 19:58:16', '60', '3', '1', 'bad-unknown')
+		
+
+Successful Inserts (2 rows affected)
+
+Script Updated in Database: 2012-04-29 20:00:00, updater.events.php
+

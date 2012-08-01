@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Get date parts
+year=`date "+%Y"`;
+month=`date "+%m"`;
+day=`date "+%d"`;
+time=`date "+%R"`;
+
+# Attempt to create directory if needed
+mkdir -p "/var/www/html/3yp-platform/scripts/logs/$year/$month/$day"
+
+# Save output from PHP CLI script
+/usr/bin/php /var/www/html/3yp-platform/scripts/php/updater.blacklists.php > "/var/www/html/3yp-platform/scripts/logs/$year/$month/$day/updater.blacklists-$time"

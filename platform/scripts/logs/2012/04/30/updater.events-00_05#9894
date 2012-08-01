@@ -1,0 +1,15 @@
+2012-04-29 23:00:00 to 2012-04-30 00:00:00
+
+Number of events from Snort: 2
+
+Attempted to insert following SQL : 
+
+			INSERT INTO event
+			(`username`,`radius_account_id`,`radius_session_id`,`radius_info`,`ip_src`,`ip_dst`,`start`,`finish`,`alerts`,`blacklist`,`rule`,`rule_class`)
+			VALUES ('Unknown', '', '', '', '199.59.241.228', '152.78.162.219', '2012-04-29 23:21:36', '2012-04-29 23:37:12', '6', '2', '1', 'bad-unknown'),('Unknown', '', '', '', '152.78.162.219', '199.59.241.228', '2012-04-29 23:21:36', '2012-04-29 23:37:12', '10', '2', '1', 'bad-unknown')
+		
+
+Successful Inserts (2 rows affected)
+
+Script Updated in Database: 2012-04-30 00:00:00, updater.events.php
+

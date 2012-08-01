@@ -1,0 +1,15 @@
+2012-04-29 22:00:00 to 2012-04-29 23:00:00
+
+Number of events from Snort: 5
+
+Attempted to insert following SQL : 
+
+			INSERT INTO event
+			(`username`,`radius_account_id`,`radius_session_id`,`radius_info`,`ip_src`,`ip_dst`,`start`,`finish`,`alerts`,`blacklist`,`rule`,`rule_class`)
+			VALUES ('6f317ab59f4297bdbf62c4a23ce93580', '6807442', '4f9d4681/4c:0f:6e:d7:f2:b7/5308045', 'a:14:{s:9:"radacctid";s:7:"6807442";s:13:"acctsessionid";s:34:"4f9d4681/4c:0f:6e:d7:f2:b7/5308045";s:12:"acctuniqueid";s:16:"bae013b6ca73aa8a";s:8:"username";s:32:"6f317ab59f4297bdbf62c4a23ce93580";s:5:"realm";s:11:"soton.ac.uk";s:12:"nasipaddress";s:13:"192.168.213.1";s:9:"nasportid";s:2:"13";s:13:"acctstarttime";s:19:"2012-04-29 14:47:44";s:12:"acctstoptime";N;s:15:"acctsessiontime";s:5:"22648";s:15:"calledstationid";s:13:"192.168.213.1";s:16:"callingstationid";s:14:"152.78.161.176";s:18:"acctterminatecause";s:0:"";s:15:"framedipaddress";s:14:"152.78.161.176";}', '152.78.161.176', '208.87.35.106', '2012-04-29 22:01:31', '2012-04-29 22:04:29', '6', '3', '1', 'bad-unknown'),('6f317ab59f4297bdbf62c4a23ce93580', '6807442', '4f9d4681/4c:0f:6e:d7:f2:b7/5308045', 'a:14:{s:9:"radacctid";s:7:"6807442";s:13:"acctsessionid";s:34:"4f9d4681/4c:0f:6e:d7:f2:b7/5308045";s:12:"acctuniqueid";s:16:"bae013b6ca73aa8a";s:8:"username";s:32:"6f317ab59f4297bdbf62c4a23ce93580";s:5:"realm";s:11:"soton.ac.uk";s:12:"nasipaddress";s:13:"192.168.213.1";s:9:"nasportid";s:2:"13";s:13:"acctstarttime";s:19:"2012-04-29 14:47:44";s:12:"acctstoptime";N;s:15:"acctsessiontime";s:5:"22648";s:15:"calledstationid";s:13:"192.168.213.1";s:16:"callingstationid";s:14:"152.78.161.176";s:18:"acctterminatecause";s:0:"";s:15:"framedipaddress";s:14:"152.78.161.176";}', '208.87.35.106', '152.78.161.176', '2012-04-29 22:01:32', '2012-04-29 22:04:30', '6', '3', '1', 'bad-unknown'),('08c7dffc92ebba279363f4a666f93c6b', '6811544', '4f9d911b/68:a3:c4:9b:4e:49/5314896', 'a:14:{s:9:"radacctid";s:7:"6811544";s:13:"acctsessionid";s:34:"4f9d911b/68:a3:c4:9b:4e:49/5314896";s:12:"acctuniqueid";s:16:"1d81f5bb089775be";s:8:"username";s:32:"08c7dffc92ebba279363f4a666f93c6b";s:5:"realm";s:11:"soton.ac.uk";s:12:"nasipaddress";s:13:"192.168.213.1";s:9:"nasportid";s:2:"13";s:13:"acctstarttime";s:19:"2012-04-29 20:06:03";s:12:"acctstoptime";N;s:15:"acctsessiontime";s:4:"3546";s:15:"calledstationid";s:13:"192.168.213.1";s:16:"callingstationid";s:14:"152.78.206.248";s:18:"acctterminatecause";s:0:"";s:15:"framedipaddress";s:14:"152.78.206.248";}', '152.78.206.248', '199.59.241.228', '2012-04-29 22:01:34', '2012-04-29 22:14:11', '35', '2', '1', 'bad-unknown'),('Unknown', '', '', '', '199.59.241.228', '152.78.162.219', '2012-04-29 22:21:36', '2012-04-29 22:37:11', '6', '2', '1', 'bad-unknown'),('Unknown', '', '', '', '152.78.162.219', '199.59.241.228', '2012-04-29 22:21:36', '2012-04-29 22:37:11', '10', '2', '1', 'bad-unknown')
+		
+
+Successful Inserts (5 rows affected)
+
+Script Updated in Database: 2012-04-29 23:00:00, updater.events.php
+

@@ -1,0 +1,35 @@
+In order to get this framework installed and running on a server, read the following instructions.
+It is worth noting that these instructions are intended to be followed by a user with elevated
+privileges.
+
+INSTALL AND CONFIGURE SNORT & BARNYARD2:
+======================================================
+1) i.  Compile and install the latest version of Snort (v2.9.1.2 was used)
+   ii. Compile and install Barnyard2
+2) Create /etc/snort directory
+3) Copy all configuration files from Snort & Barnyard2 to /etc/snort
+3) i.  Download the latest rules from http://www.snort.org/snort-rules/
+   ii. Copy rules into relevant locations in /etc/snort
+4) Insert Barnyard2's database schema provided in it's packages
+5) Create /var/log/snort/
+6) Create a barnyard.waldo file within /var/log/snort/
+7) Start running Snort and Barnyard2, the following flags were used:
+
+snort -c /etc/snort/snort.conf -i p3p1 -D && \
+barnyard2 -c /etc/snort/barnyard2.conf -d /var/log/snort/ -f snort.log -w /var/log/snort/barnyard.waldo -D
+
+N.B. If for any reason Snort or Barnyard2 are not running, check log files and consult relevant software documentation. 
+
+INSTALL FRAMEWORK
+=====================================================
+1) Install Apache, PHP and PEAR.
+2) Configure Apache to personal preference, this project utilised VirtualHosts, of which can be found located on this CD.
+3) Copy across the framework source, from /platform/ on this CD.
+4) Make sure the /platform/cache/ directory is writeable by Apache, as this is needed for Smarty.
+5) Insert the associated MySQL database schema provided in the root of this CD.
+6) Insert the relevant scripts into the root user's crontab (example crontab file located in root of CD)
+   through `crontab -e`.
+7) Start Apache.
+
+N.B. If the framework is not running correctly, monitor apache error logs to determine why
+through the following command: `tail -f /var/log/httpd/yourerrorlog-error_log`

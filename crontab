@@ -1,0 +1,3 @@
+5 * * * * /var/www/html/3yp-platform/scripts/sys/updater.events
+15 3 * * * /var/www/html/3yp-platform/scripts/sys/updater.blacklists
+0 0 * * * tar -czf /home/jh4g09/3yp.backup.tar.gz /home/jh4g09/3yp-platform/

@@ -1,0 +1,30 @@
+2012-05-02 05:00:00 to 2012-05-02 06:00:00
+
+Number of events from Snort: 0
+
+
+		SELECT INET_NTOA(ip_src) AS ip_src, INET_NTOA(ip_dst) AS ip_dst, MIN(e.timestamp) as start, MAX(e.timestamp) as finish, COUNT(e.cid) as alerts,
+			s.sig_sid as rule, sc.sig_class_name AS rule_class, s.sig_gid as sig_gid
+		FROM event e
+		INNER JOIN signature s
+			ON s.sig_id = e.signature
+		INNER JOIN sig_class sc
+			ON s.sig_class_id = sc.sig_class_id
+		INNER JOIN iphdr ip
+			ON e.cid = ip.cid
+		WHERE
+			(s.sig_gid = '136' OR sc.sig_class_name = 'trojan-activity')
+			
+			AND e.timestamp >= '2012-05-02 05:00:00'
+			AND e.timestamp < '2012-05-02 06:00:00'
+
+			AND INET_NTOA(ip_dst) NOT LIKE '152.78.3.%'
+			AND INET_NTOA(ip_src) NOT LIKE '152.78.3.%'
+		GROUP BY ip_src, ip_dst, DATE_FORMAT(e.timestamp, '%Y-%m-%d %H:00:00')
+		ORDER BY e.timestamp ASC
+	
+
+No alerts found
+
+Script Updated in Database: 2012-05-02 06:00:00, updater.events.php
+
