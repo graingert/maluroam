@@ -1,0 +1,51 @@
+{% extends base.html %}
+{% block content %}
+<div id="users">    
+    {% include "eduroam_snort/users.pagination.html" with info only %}
+    {% include "eduroam_snort/users.filters.html" with filters rules blacklists only %}
+    
+    {% for user in users %}
+        {% if forloop.first %}
+            <div class="table">
+                <div class="table-header ui-accordion-header ui-helper-reset ui-state-default ui-state-active ui-corner-top">
+                    <span class="col1">Username</span></span>
+                    <span class="col2">Rules</span>
+                    <span class="col3">Blacklists</span>
+                    <span class="col4">Alerts</span>
+                    <span class="col5">Packets</span>
+                    <span class="col6">Earliest Alert</span>
+                    <span class="col7">Latest Alert</span>
+                </div>
+        {% endif %}
+            <div class="table-row {% cycle 'even' 'odd' %}">
+                <span class="col1"><a href="/index.php?page=user&user={{user.username}}">{{user.username}}</a></span>
+                <span class="col2">
+                    {% filter force_escape %}
+                        {% firstof user.rules "-" %}
+                    {% endfilter %}
+                </span>
+                <span class="col3">
+                    {% filter force_escape %}
+                        {% firstof user.blacklists "-" %}
+                    {% endfilter %}
+                </span>
+                <span class="col4">{{user.alerts}}</span>
+                <span class="col5">{{user.packets}}</span>
+                <span class="col6">{{user.earliest}}</span>
+                <span class="col7">{{user.latest}}</span>
+                <span class="col8"><a class="viewuser" href="/index.php?page=user&user={{user.username}}">&raquo;</a></span>
+            </div>
+        {% if forloop.last %}
+            </div>
+        {% endif %}
+    {% empty %}
+        <div class="error">
+            <span>No users were returned. Please check your filters or go back to <a href="/index.php?page=users">the first page</a>.</span>
+        </div>
+    {% endfor %}
+    {% include "eduroam_snort/users.pagination.html" with info only %}
+</div>
+{% endblock content %}
+{% block scripts %}
+            <script type="text/javascript" src="{{ STATIC_URL }}/js/page.users.js"></script>
+{% endblock scripts %}

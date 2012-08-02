@@ -1,3 +1,4 @@
+{% extends base.html %}
 {% block content %}
 <div id="settings">
 
@@ -61,3 +62,6 @@
 
 </div>
 {% endblock content %}
+{% block scripts %}
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/page.settings.js"></script>
+{% endblock scripts %}

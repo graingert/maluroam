@@ -1,3 +1,5 @@
+{% extends base.html %}
+{% block content %}
 <div id="dashboard">
     <h1 class="title">Dashboard</h1>
     <form style="display: block; text-align: center; font-size: 10px;" >
@@ -74,3 +76,8 @@
     </script>
     {% endcomment %}
 </div>
+{% enblock content %}
+
+{% block scripts %}
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/page.dashboard.js"></script>
+{% endblock scripts %}

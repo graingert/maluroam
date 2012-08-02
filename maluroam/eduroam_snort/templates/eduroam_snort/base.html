@@ -21,11 +21,8 @@
             <script type="text/javascript" src="{{ STATIC_URL }}/js/jquery.flot.symbol.min.js"></script>
             <script type="text/javascript" src="{{ STATIC_URL }}/js/jquery.flot.threshold.min.js"></script>
             <script type="text/javascript" src="{{ STATIC_URL }}/js/misc.js"></script>
-            
-            <script type="text/javascript" src="{{ STATIC_URL }}/js/page.dashboard.js"></script>
-            <script type="text/javascript" src="{{ STATIC_URL }}/js/page.user.js"></script>
-            <script type="text/javascript" src="{{ STATIC_URL }}/js/page.users.js"></script>
-            <script type="text/javascript" src="{{ STATIC_URL }}/js/page.settings.js"></script>
+            {% block scripts %}
+            {% endblock scripts %}
 
     </head>
     <body>
