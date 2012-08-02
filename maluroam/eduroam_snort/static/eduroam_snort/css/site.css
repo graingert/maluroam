@@ -1,0 +1,467 @@
+/*
+YUI 3.5.0 (build 5089)
+Copyright 2012 Yahoo! Inc. All rights reserved.
+Licensed under the BSD License.
+http://yuilibrary.com/license/
+*/
+html{color:#000;background:#FFF}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{margin:0;padding:0}table{border-collapse:collapse;border-spacing:0}fieldset,img{border:0}address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal}ol,ul{list-style:none}caption,th{text-align:left}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal}q:before,q:after{content:''}abbr,acronym{border:0;font-variant:normal}sup{vertical-align:text-top}sub{vertical-align:text-bottom}input,textarea,select{font-family:inherit;font-size:inherit;font-weight:inherit}input,textarea,select{*font-size:100%}legend{color:#000}#yui3-css-stamp.cssreset{display:none}
+
+html{
+	/* background: url('/images/body-bg.png') #A3A3A3; /* F0F0F0 */
+	/* Source: subtlepatterns.com / atlemo.com, Under Creative Commons Attribution 3.0 Unported License */
+	background: url('/images/background.png') #CCC;
+	font-family: "Lucida Grande", Arial, sans-serif;
+	font-size: 12px;
+	display: block;
+}
+body{
+	
+}
+a{
+	color: #0078AE;
+	text-decoration: none;
+}
+a:hover{
+	text-decoration: underline;
+}
+strong, .bold{font-weight: bold;}
+#container{
+	padding: 70px 0 5px;
+	margin: 0 auto;
+	width: 1000px;
+}
+#inner-wrapper{
+	float: left;
+	width: 950px;
+	padding: 25px 25px 25px;
+/*	min-height: 500px;*/
+	background: #FFF;
+	
+	border-top: 1px solid #AAA;
+	border-right: 1px solid #AAA;
+	border-left: 1px solid #AAA;
+	border-bottom: 1px solid white;
+	border-radius: 15px;
+	box-shadow: inset 0 0 20px rgba(0,0,0,1);
+	position: relative;
+}
+#sitetitle{
+	position: absolute;
+	width: 100%;
+	top: -55px;
+	left: 15px;
+	text-align: left;
+	font-size: 3em; 
+	text-shadow: 0px 1px 1px rgba(255,255,255,1),  0px 1px 1px rgba(255,255,255,1);
+}
+#sitetitle a{color: #0078AE;}
+#sitetitle a:hover{text-decoration: none;}
+#lastupdated{
+	position: absolute;
+	top: -20px;
+	right: 15px;
+	font-size: 10px;
+	color: #0078AE;
+	text-shadow: 0px 1px 1px rgba(255,255,255,0.5),  0px 1px 1px rgba(255,255,255,0.5);
+}
+#menu{
+	position: relative;
+	top: -10px;
+	text-align: center;
+	padding: 0 0 5px;
+}
+#menu li{
+	display: inline-block;
+	font-weight: bold;
+}
+
+#footer{
+	display: inline-block;
+	clear: both;
+	width: 950px;
+	padding: 0 25px;
+	margin: 15px auto 10px;
+	font-weight: bold;
+	text-align: center;
+	font-size: 0.8em;
+}
+#menu-search{
+	display: block;
+}
+#search{
+	display: block;
+	position: relative;
+	padding: 5px;
+	margin: 10px 0;
+	border-top: 2px solid #0078AE;
+	border-bottom: 2px solid #0078AE;
+	font-size: 0.9em;
+}
+#date-search #searchfrom,
+#date-search #searchto{
+	width: 150px;
+	display: inline-block;
+	padding: 5px;
+}
+#search label{
+	padding: 0 10px 0 10px;
+}
+#search input{
+	display: inline-block;
+}
+#user-search{
+	display: inline-block;
+}
+#date-search{
+	display: inline-block;
+	position: absolute;
+	right: 15px;
+}
+#date-search .button{
+	margin-left: 10px;
+}
+
+
+h1, h2, h3, h4, h5{
+	display: block;
+	color: #0078AE;
+	font-weight: bold;
+}
+h1{
+	font-size: 2em;
+}
+h2{
+	font-size: 1.6em;
+}
+
+.title{
+ 	text-align: center;
+ 	padding: 10px;
+}
+.title small{
+	display: block;
+	clear: both;
+	font-size: 0.7em;
+}
+.box{
+	float: left;
+}
+
+.hideLegend .legend{
+	display: none;
+}
+.legend{
+	font-size: 12px;
+}
+
+#overviewLegend {
+    position: absolute;
+	top: 35px;
+	left: 755px;
+	font-size: 10px;
+	list-style: none;
+	margin-left: 0 !important;
+	background: white;
+	padding: 5px;
+	width: 170px;
+}
+
+#overviewLegend li > div {
+    display: inline-block;
+    margin-right: 4px;
+}
+
+#overviewLegend li label {
+    margin-left: 3px;
+}
+
+.ui-autocomplete{
+	max-height: 100px;
+	overflow-y: auto;
+	overflow-x: hidden;
+	padding-right: 20px;
+}
+
+table{
+	border-collapse: collapse;
+}
+table th{
+	text-align: center;
+	font-weight: bold;
+}
+table th.left{
+	text-align: left;
+}
+
+
+h4{
+	margin: 0;
+}
+.month-events{
+	padding: 10px !important;
+	width: 928px;
+}
+
+#user table.hover tr.entry:hover td{
+	background: #A6C9E2;
+}
+
+#user .activeTop{
+	background: #F0F0F0;
+	border-top: 1px solid #CCC;
+	border-left: 1px solid #CCC;
+	border-right: 1px solid #CCC;
+}
+#user .activeBottom{
+	background: #F0F0F0;
+	border-bottom: 1px solid #CCC;
+	border-left: 1px solid #CCC;
+	border-right: 1px solid #CCC;
+	margin-bottom: 5px;
+}
+#user table th{
+	padding: 5px 0;
+	height: 1em;
+}
+#user table td{
+	padding: 5px 0;
+}
+#user .radiusButton{
+	font-size: 10px;
+}
+#user .radiusButton .ui-button-text{
+	padding: 1px 10px !important;
+}
+#user .radius-row{
+	display: block;
+	text-indent: 50px;
+}
+
+
+
+
+.table{
+	display: inline-block;
+	width: 100%;
+	border-bottom: 1px solid #A6C9E2;
+	margin: 10px 0;
+}
+.table-header{
+	padding: 5px;
+	font-weight: bold;
+}
+.table-header span{
+	font-weight: bold;
+	text-align: center;
+}
+.table-row{
+	display: block;
+	padding: 5px;
+	border-left: 1px solid #A6C9E2;
+	border-right: 1px solid #A6C9E2;
+}
+.table-row.odd{
+	background: #F0F0F0;
+}
+.table-row:hover{
+	background: #A6C9E2;
+}
+.table-header span,
+.table-row span{
+	display: inline-block;
+	text-align: center;
+}
+
+#user #ips{
+	font-size: 0.9em;
+}
+#user #ips span.col1{width: 120px;}
+#user #ips span.col2{width: 160px;}
+#user #ips span.col3{width: 90px;}
+#user #ips span.col4{width: 90px;}
+#user #ips span.col5{width: 180px;}
+#user #ips span.col6{width: 180px;}
+
+#user #alerts{
+	font-size: 0.9em;
+}
+#user #alerts span.col1{width: 160px;}
+#user #alerts span.col2{width: 120px;}
+#user #alerts span.col3{width: 90px;}
+#user #alerts span.col4{width: 90px;}
+#user #alerts span.col5{width: 180px;}
+#user #alerts span.col6{width: 180px;}
+
+#dashboard #users_overview{
+	width: 450px;
+}
+#dashboard #users_overview span.col1{
+	width: 280px;
+	text-align: left;
+	text-indent: 5px;
+}
+#dashboard #users_overview .table-header span.col1{text-align: center;}
+#dashboard #users_overview span.col2{width: 70px;}
+#dashboard #users_overview span.col3{width: 70px;}
+#dashboard #users_overview span.col4{width: 50px;}
+
+
+#users span{
+	vertical-align: middle;
+}
+#users span.col1{
+	text-align: left;
+	text-indent: 15px;
+	width: 280px;
+	font-weight: bold;
+}
+#users span.col2{width: 120px;}
+#users span.col3{width: 120px;}
+#users span.col4{width: 70px;}
+#users span.col5{width: 70px;}
+#users span.col6{width: 100px;}
+#users span.col7{width: 100px;}
+#users span.col8{width: 50px; font-size: 11px; font-weight: bold;}
+#users .table a span{
+	padding: 1px 5px;
+}
+#users .pagination{
+/*	background: #d5dbe5;
+	border-top: 1px solid #0078AE;
+	border-bottom: 1px solid #0078AE;*/
+	display: block;
+	padding: 10px;
+	margin: 10px 0;
+	position: relative;
+	text-align: center;
+}
+#users .pagination a{
+	padding: 0;
+	margin: 0;
+}
+#users .pagination .prev{
+	position: absolute;
+	left: 10px;
+	width: 100px;
+	text-align: left;
+}
+#users .pagination .next{
+	position: absolute;
+	right: 10px;
+	width: 100px;
+	text-align: right;
+}
+#users .pagination a:hover{text-decoration: underline;}
+
+#settings #rulenames .table{
+	font-size: 0.9em;
+}
+#settings #rulenames span.col1{width: 200px;}
+#settings #rulenames span.col2{width: 200px;}
+#settings #rulenames span.col3{width: 50px;}
+#settings #rulenames span.col4{width: 400px;}
+#settings #blacklists .table{
+	font-size: 0.9em;
+}
+#settings #blacklists span.col1{width: 160px;}
+#settings #blacklists span.col2{width: 400px; font-size: 0.8em;}
+#settings #blacklists span.col3{width: 200px;}
+#settings #blacklists span.col4{width: 100px;}
+
+
+#settings .button{
+	font-size: 11px;
+}
+
+#filters{
+	display: block;
+	border-top: 1px solid #0078AE;
+	border-bottom: 1px solid #0078AE;
+	margin: 5px 0;
+	padding: 5px;
+	text-align: center;
+	position: relative;
+}
+#filters .title{
+	margin: 5px 0;
+	padding: 0;
+}
+#filters > div{
+	display: inline-block;
+	vertical-align: top;
+	width: 200px;
+	margin: 0 15px;
+}
+#filters .filter{
+	display: block;
+	padding: 2px 0;
+	text-align: center;
+}
+#filters label{
+	text-indent: 15px;
+	display: inline-block;
+	width: 150px;
+	text-align: right;
+	padding: 0 5px 0 0;
+}
+
+#filters #date{
+	width: 220px;
+}
+#filters #date label{
+	display: inline-block;
+	width: 50px;
+	text-align: right;
+	padding: 0 5px 0 0;
+}
+#filters #date input{
+	display: inline-block;
+	width: 130px;
+}
+#filters #date a.clear{
+	display: inline-block;
+	margin: 0 0 0 5px;
+	padding: 1px 5px;
+}
+#filters #date a.clear span{
+	display: block;
+	margin: 0;
+	padding: 0;
+	font-size: 10px;
+	font-weight: bold;
+	text-align: center;
+}
+
+#filters #apply{
+	font-size: 10px;
+	position: relative;
+	top: 30px;
+	width: 100px;
+}
+#filters #apply a.button{
+	display: inline-block;
+	clear: both;
+	margin: 3px 0;
+}
+
+#users .error{
+	display: block;
+	background: #FFB6B6; 
+	border-top: 2px solid #FF0000;
+	border-bottom: 2px solid #FF0000;
+	margin: 25px 0;
+	padding: 25px;
+	text-align: center;
+}
+
+/**
+ * TimePicker CSS
+ * Source: http://trentrichardson.com/examples/timepicker/ 
+ * License: MIT and GPL 
+ */
+.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+.ui-timepicker-div dl { text-align: left; }
+.ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; }
+.ui-timepicker-div dl dd { margin: 0 10px 10px 65px; }
+.ui-timepicker-div td { font-size: 90%; }
+.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
