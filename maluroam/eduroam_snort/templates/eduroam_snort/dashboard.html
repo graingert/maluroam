@@ -1,4 +1,4 @@
-{% extends base.html %}
+{% extends "eduroam_snort/base.html" %}
 {% block content %}
 <div id="dashboard">
     <h1 class="title">Dashboard</h1>
@@ -76,7 +76,7 @@
     </script>
     {% endcomment %}
 </div>
-{% enblock content %}
+{% endblock content %}
 
 {% block scripts %}
     <script type="text/javascript" src="{{ STATIC_URL }}eduroam_snort/js/page.dashboard.js"></script>
