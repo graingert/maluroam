@@ -9,13 +9,13 @@
 
 from django.db import models
 
-class Blacklists(models.Model):
+class Blacklist(models.Model):
     bl_id = models.BigIntegerField(primary_key=True)
     name = models.CharField(max_length=765)
     url = models.CharField(max_length=765)
     serialized = models.TextField()
     updated = models.DateTimeField()
-    hide = models.IntegerField()
+    hide = models.BooleanField()
     class Meta:
         db_table = u'blacklists'
 
@@ -30,20 +30,20 @@ class Event(models.Model):
     start = models.DateTimeField(unique=True)
     finish = models.DateTimeField(unique=True)
     alerts = models.BigIntegerField()
-    blacklist = models.IntegerField()
-    rule = models.BigIntegerField()
+    blacklist = models.ForeignKey("Blacklist", db_column = "blacklist")
+    rule = models.ForeignKey("Rule", db_column = "rule")
     rule_class = models.CharField(max_length=93)
     class Meta:
         db_table = u'event'
 
-class Rules(models.Model):
+class Rule(models.Model):
     rule_id = models.BigIntegerField(primary_key=True)
     rule_name = models.CharField(max_length=765)
-    hide = models.IntegerField()
+    hide = models.BooleanField()
     class Meta:
         db_table = u'rules'
 
-class Scripts(models.Model):
+class Script(models.Model):
     script_id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=765)
     lastupdated = models.DateTimeField()
