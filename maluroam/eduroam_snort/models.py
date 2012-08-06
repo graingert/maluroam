@@ -16,6 +16,10 @@ class Blacklist(models.Model):
     serialized = models.TextField()
     updated = models.DateTimeField()
     hide = models.BooleanField()
+    
+    def __unicode__(self):
+        return self.name
+    
     class Meta:
         db_table = u'blacklists'
 
@@ -27,26 +31,48 @@ class Event(models.Model):
     radius_info = models.TextField()
     ip_src = models.CharField(max_length=765)
     ip_dst = models.CharField(max_length=765)
-    start = models.DateTimeField(unique=True)
-    finish = models.DateTimeField(unique=True)
+    start = models.DateTimeField()
+    finish = models.DateTimeField()
     alerts = models.BigIntegerField()
     blacklist = models.ForeignKey("Blacklist", db_column = "blacklist")
     rule = models.ForeignKey("Rule", db_column = "rule")
     rule_class = models.CharField(max_length=93)
+    
+    def __unicode__(self):
+        return "{username}@{ip_src} accessed {ip_dst} from {start} till {finish}. Rule class: {rule_class}".format(
+            username = self.username,
+            ip_src = self.ip_src,
+            ip_dst = self.ip_dst,
+            start = self.start,
+            finish = self.finish,
+            rule_class = self.rule_class
+        )
+    
     class Meta:
         db_table = u'event'
+        unique_together = ("username", "ip_src", "ip_dst", "start", "finish")
 
 class Rule(models.Model):
     rule_id = models.BigIntegerField(primary_key=True)
     rule_name = models.CharField(max_length=765)
     hide = models.BooleanField()
+    
+    def __unicode__(self):
+        return self.rule_name
+    
     class Meta:
         db_table = u'rules'
 
 class Script(models.Model):
-    script_id = models.IntegerField(primary_key=True)
+    script_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=765)
     lastupdated = models.DateTimeField()
+    
+    def __unicode__(self):
+        return "{name} Updated: {lastupdated}".format(
+            name=self.name,
+            lastupdated=self.lastupdated
+        ) 
+    
     class Meta:
         db_table = u'scripts'
-
