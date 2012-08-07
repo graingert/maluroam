@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from eduroam_snort.models import Event
-from django.db.models import Q
+from django.db.models import Q, Count, Sum
 from datetime import datetime, timedelta
-from django.db.models import Count, Sum
+from collections import defaultdict
 
 def dashboard(request):
     events = Event.objects.filter(
@@ -133,44 +133,58 @@ def dashboard(request):
 
 def getOverview(start, finish, username=None):
     delta = end - finish;
-        
+    
     if delta <= timedelta(days=4):
         interval = timedelta(hour=1)
+        sqldateformat = r'%Y-%m-%d %H:00:00'
     else if delta <= timedelta(months=3):
         interval = timedelta(day=1)
+        sqldateformat = r'%Y-%m-%d'
     else if delta <= timedelta(years = 3):
         interval = timedelta(month=1)
+        sqldateformat = r'%Y-%m'
     else:
         interval = timedelta(year=1)
+        sqldateformat = r'%Y'
         
     events = Event.objects.filter(
         Q(rule__hide=False) | Q(blacklist__hide=False),
         start__gte = start,
         finish__lte = finish,
-    )
-    
-    events = events.values("blacklist", "rule").annotate(Count('event_id'), Sum("alerts"))
+    ).extra(
+        select={
+            'timestamp': "DATE_FORMAT(event.start, %s)",
+            'users' : "COUNT(DISTINCT(event.username))",
+        },
+        select_params = (sqldateformat,),
+    ).values("timestamp", "blacklist", "rule").annotate(Count('event_id')).order_by("rule", "blacklist__name", "start")
     
     if username:
         events = events.filter(username=username)
     
-"""
-        SELECT DATE_FORMAT(e.start, '{dateformat}') as timestamp, COUNT(e.event_id) as alerts, bl.name as blacklist, rule, rule_name, rule_class, COUNT(DISTINCT(e.username)) as users
-        FROM event e
-        LEFT JOIN blacklists bl
-            ON e.blacklist = bl.bl_id
-        LEFT JOIN rules r
-            ON r.rule_id = e.rule
-        WHERE
-            e.start >= '{from}'
-            AND e.finish <= '{to}'
-            AND (r.hide = 0 OR bl.hide = 0)
-            {user_where}
-        GROUP BY DATE_FORMAT(e.start, {dateformat}), bl.bl_id, rule
-        ORDER BY rule ASC, bl.name ASC, e.start ASC
-"""
+    grouping = defaultdict(dict)
+    
+    for event in events:
+        """
+        Determine if event is a blacklist or rule, and if a rule
+        check whether a rule name has been set for it. Store events in alertinfo
+        """
+        
+        event.alertinfo
+        if event.blacklist.bl_id > 0:
+            grouping[event.blacklist][event.timestamp] = event.alerts
+        else if event.rulename != "":
+            grouping[
+                "{rule_name}[{rule}]".format(
+                    rule_name = event.rule_name, rule = event.rule
+                )
+            ][event.timestamp] = event.alerts;
+        else:
+            grouping["snort_" + event.rule][event.timestamp] = event.alerts
+    
+    grouping = dict(grouping)
 
-
+"""
 public function getOverview($from, $to, $username=""){
 		
 		// Work out the length of time between two dates
@@ -342,3 +356,4 @@ public function getOverview($from, $to, $username=""){
 		// Return data
 		return $grouping;
 	}
+"""
