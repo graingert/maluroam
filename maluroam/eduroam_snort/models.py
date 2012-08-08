@@ -53,8 +53,8 @@ class Event(models.Model):
         unique_together = ("username", "ip_src", "ip_dst", "start", "finish")
 
 class Rule(models.Model):
-    rule_id = models.BigIntegerField(primary_key=True)
-    rule_name = models.CharField(max_length=765)
+    id = models.BigIntegerField(primary_key=True, db_column="rule_id")
+    name = models.CharField(max_length=765, db_column = "rule_name")
     hide = models.BooleanField()
     
     def __unicode__(self):
@@ -64,7 +64,7 @@ class Rule(models.Model):
         db_table = u'rules'
 
 class Script(models.Model):
-    script_id = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True, db_column = "script_id")
     name = models.CharField(max_length=765)
     lastupdated = models.DateTimeField()
     
