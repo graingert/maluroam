@@ -1,8 +1,14 @@
 from django.shortcuts import render
-from eduroam_snort.models import Event
 from django.db.models import Q, Count, Sum
+
 from datetime import datetime, timedelta
+
+from dateutil.relativedelta import relativedelta
+from dateutil.tz import tzutc
+
 from collections import defaultdict
+
+from maluroam.eduroam_snort.models import Event
 
 def dashboard(request):
     events = Event.objects.filter(
@@ -131,21 +137,27 @@ def dashboard(request):
 
 #?>
 
-def getOverview(start, finish, username=None):
-    delta = end - finish;
+def getEvents(
+        start=datetime.min.replace(tzinfo=tzutc()),
+        finish=datetime.now(tzutc()),
+        delta=None, username=None):
+    
+    assert start < finish
+    if not delta:
+        delta = finish - start;
     
     if delta <= timedelta(days=4):
-        interval = timedelta(hour=1)
-        sqldateformat = r'%Y-%m-%d %H:00:00'
-    else if delta <= timedelta(months=3):
-        interval = timedelta(day=1)
-        sqldateformat = r'%Y-%m-%d'
-    else if delta <= timedelta(years = 3):
-        interval = timedelta(month=1)
-        sqldateformat = r'%Y-%m'
+        interval = relativedelta(hours=1)
+        sqldateformat = r'%Y-%m-%dT%H:00:00Z'
+    elif delta <= timedelta(weeks=4*3):
+        interval = relativedelta(days=1)
+        sqldateformat = r'%Y-%m-%dT00:00:00Z'
+    elif delta <= timedelta(days = 3*365):
+        interval = relativedelta(months=1)
+        sqldateformat = r'%Y-%m-01T00:00:00Z'
     else:
-        interval = timedelta(year=1)
-        sqldateformat = r'%Y'
+        interval = relativedelta(years=1)
+        sqldateformat = r'%Y-01-01T00:00:00Z'
         
     events = Event.objects.filter(
         Q(rule__hide=False) | Q(blacklist__hide=False),
@@ -154,35 +166,144 @@ def getOverview(start, finish, username=None):
     ).extra(
         select={
             'timestamp': "DATE_FORMAT(event.start, %s)",
-            'users' : "COUNT(DISTINCT(event.username))",
         },
         select_params = (sqldateformat,),
-    ).values("timestamp", "blacklist", "rule").annotate(Count('event_id')).order_by("rule", "blacklist__name", "start")
+    ).values("timestamp", "blacklist", "blacklist__name", "rule", "rule__name").annotate(alerts=Count('event_id')).order_by("rule", "blacklist__name", "start")
     
     if username:
         events = events.filter(username=username)
     
+    return events
+    
+def getGrouping(*args, **kwargs):
+    events = getEvents(*args, **kwargs)
     grouping = defaultdict(dict)
     
     for event in events:
         """
         Determine if event is a blacklist or rule, and if a rule
         check whether a rule name has been set for it. Store events in alertinfo
+        
+        {
+            "frip" : {
+                "2012":264,
+                "2011":2
+            },
+            "banana[1]" : {
+                "2012":40,
+            }
+        }
+        
         """
         
-        event.alertinfo
-        if event.blacklist.bl_id > 0:
-            grouping[event.blacklist][event.timestamp] = event.alerts
-        else if event.rulename != "":
+        if event["blacklist__name"]:
+            grouping[ event["blacklist__name"] ][ event["timestamp"] ] = event["alerts"]
+        elif event["rule__name"] != "":
             grouping[
                 "{rule_name}[{rule}]".format(
-                    rule_name = event.rule_name, rule = event.rule
+                    rule_name = event["rule__name"], rule = event["rule"]
                 )
-            ][event.timestamp] = event.alerts;
+            ][ event["timestamp"] ] = event["alerts"];
         else:
-            grouping["snort_" + event.rule][event.timestamp] = event.alerts
+            grouping[ "snort_" + event["rule"] ][ event["timestamp"] ] = event["alerts"]
     
-    grouping = dict(grouping)
+    return dict(grouping)
+
+def getTotals(*args, **kwargs):
+    grouping = getGrouping(*args, **kwargs)
+    totals = {}
+    for key, group in grouping:
+        totals[key] = sum(group.values())
+        unset = False
+        
+        for timestamp, alert in group:
+            date = timestamp
+    
+    #// Loop through each alert/blacklist group of alerts
+		#foreach($grouping as $key => $group){
+			#// Work out the total number of alerts within current group
+			#$totals[$key] = array_sum($group);
+			
+			#$unset = 0;
+			
+			#// Loop through each alert
+			#foreach($group as $timestamp => $alert){
+				#// Set dates for previous, current and next points
+				#$date = $timestamp;
+				#$prev = strtotime(date($dateformat, $date) . ' -' . $interval);
+				#$next = strtotime(date($dateformat, $date) . ' +' . $interval);
+				
+				#// Check previous interval, set to 0 if not set
+				#if ( !isset( $grouping[$key][$prev] ) && $prev > $start){
+					#if($unset == 0){
+						#$grouping[$key][$prev] = 0;
+						#$set = true;
+					#}
+				#}
+				
+				#// Check next interval, set to 0 if not set
+				#if ( !isset( $grouping[$key][$next] ) && $next < $end){
+					#$grouping[$key][$next] = 0;
+					#$unset = 0;
+					#$set = true;
+				#}
+				
+				#// If previous and next points have been set...
+				#if(!$set){
+					#// If 3 points in a row are the same
+					#if( $grouping[$key][$prev] == $grouping[$key][$next] && $grouping[$key][$prev] == $alert){
+						#// unset current point
+						#unset($grouping[$key][$timestamp]);
+						#$unset = $grouping[$key][$prev];
+					#} elseif($unset == $grouping[$key][$next] && $unset == $alert ){
+						#// unset current point
+						#unset($grouping[$key][$timestamp]);
+					#} else {
+						#$unset = 0;
+					#}
+				#}
+				
+				#// Reset the set variable
+				#$set = false;
+			#}
+
+			#// Add starting point
+			#if(!isset($grouping[$key][$start])){
+				#$grouping[$key][$start] = 0;
+			#}
+			
+			#// Add ending point
+			#$checkend = ($interval == "1 hour")
+				#? ($end - 3600)
+				#: $end;
+			
+			#// Add end point if not set
+			#if(!isset($grouping[$key][$checkend]) ){
+				#$grouping[$key][$checkend] = 0;
+			#}
+			
+			#// Sort array by key value (timestamp)
+			#ksort($grouping[$key]);
+		#}
+		
+		#// Loop through entire arary again, offsetting timestamps for Flot
+		#// which only accepts UTC timestamps!
+		#foreach($grouping as $key => $group){
+			#foreach($group as $time => $alerts){
+				#$return[] = '[' . (($time+3600)*1000) . ',' . $alerts . ']';
+			#}
+			
+			#// Generate information for rule/blacklist
+			#$grouping[$key] = array(
+				#'name' => $key,
+				#'json' => '[' . implode(', ', $return) . ']',
+				#'total' => $totals[$key]
+			#);
+			#unset($return);
+		#}
+		
+		#// Return data
+		#return $grouping;
 
 """
 public function getOverview($from, $to, $username=""){
