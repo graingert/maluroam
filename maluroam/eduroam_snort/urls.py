@@ -8,4 +8,5 @@ urlpatterns = patterns('eduroam_snort.views',
     # Examples:
     url(r'^dashboard/$', 'dashboard', name='dashboard'),
     url(r'^overviews.json$', 'overview', name="overviews"),
+    url(r'^user/(?P<slug>[\w-]+)$', 'user', name="user"),
 )

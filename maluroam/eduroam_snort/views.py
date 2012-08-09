@@ -23,3 +23,6 @@ def dashboard(request):
 
 def overview(request):
     return HttpResponse(json.dumps(getOverviews()), content_type="application/json")
+    
+def user(request):
+    return render(request, "eduroam_snort/user.html")
