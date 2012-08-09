@@ -13,11 +13,11 @@ from dateutil.tz import tzutc
 
 def dashboard(request):
     events = Event.objects.filter(
-        Q(rule__hide=False) | Q(blacklist__hide=False),
-        start__gte = (datetime.now(tzutc()) + relativedelta(days=-30)),
+        #Q(rule__hide=False) | Q(blacklist__hide=False),
+        start__gte = (datetime.now(tzutc()) + relativedelta(days=-7)),
     )
     
-    users = events.values("username").annotate(Count('event_id'), Sum("alerts"))
+    users = events.values("username").annotate(Count('event_id'), Sum("alerts")).order_by("-event_id__count","-alerts__sum")
     
     return render(request, "eduroam_snort/dashboard.html", dict(users=users))
 

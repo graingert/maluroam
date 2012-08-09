@@ -24,7 +24,7 @@
             <div id="donut" style="display: inline-block; width: 400px; height:300px;position: relative;"></div>
         </div>
         {% for user in users %}
-            {% if fooloop.first %}
+            {% if forloop.first %}
             <div class="box" id="users_overview">
                 <h2 class="title">Last 7 Days  - Users</h2>
                 <div id="users_overview" class="table" style="width: 450px;">
@@ -36,10 +36,10 @@
             {% endif %}
                     <div class="table-row">
                         <span class="col1"><a href="/index.php?page=user&user={{user.username}}">{{user.username}}</a></span>
-                        <span class="col2">{{user.alerts}}</span>
-                        <span class="col3">{{user.packets}}</span>
+                        <span class="col2">{{user.event_id__count}}</span>
+                        <span class="col3">{{user.alerts__sum}}</span>
                     </div>
-            {% if foolopp.last %}
+            {% if forlopp.last %}
                 </div>
             </div>
             {% endif %}
