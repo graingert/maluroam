@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(function(){
     dashboard = function(){
         line_options = {
             xaxis: { mode: "time" },
@@ -85,9 +85,9 @@ $(document).ready(function(){
             var text = rangeContainer.find('label[for="'+id+'"]').html();
         
             $('.updateRangeSpan span').html('<small>(' + text + ')</small>');
-        
-            eval('results = results_'+id+';');
-            eval('totals = total_'+id+';')
+            
+            results = window["results_" + id];
+            totals = window["total_" + id];
             
             updateLegend();
             plotAccordingToChoices();
@@ -172,10 +172,23 @@ $(document).ready(function(){
     $.ajax({
         url : "/overviews.json",
         success: function(data){
-            for (var prop in data){
-                if (data.hasOwnProperty(prop)){
-                    window["results_" + prop] = data[prop]
-                    window["total_" + prop] = data[prop]
+            for (var range in data){
+                if (data.hasOwnProperty(range)){
+                    var range_data = data[range]
+                    
+                    window["results_" + range] = range_data
+                    
+                    var totals_data = Array()
+                    
+                    for (var i=0; i<range_data.length; i++){
+                        totals_data.push(
+                            {
+                                label : range_data[i].label,
+                                data : range_data[i].total
+                            }
+                        )
+                    }
+                    window["total_" + range] = totals_data
                 }
             }
             dashboard.setupCharts();
