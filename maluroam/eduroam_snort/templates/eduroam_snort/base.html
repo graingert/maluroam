@@ -50,7 +50,6 @@
             <div id="footer">This is a 3rd Year Project by Jon Hargest (<a href="mailto:jh4g09@ecs.soton.ac.uk">jh4g09@ecs.soton.ac.uk</a>)</div>
         </div>
     
-        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
         {% compress js %}
             <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.js"></script>
             <script type="text/javascript" src="{{ STATIC_URL }}eduroam_snort/js/jquery.flot.min.js"></script>
@@ -67,6 +66,7 @@
             <script type="text/javascript" src="{{ STATIC_URL }}eduroam_snort/js/jquery.flot.threshold.min.js"></script>
             <script type="text/javascript" src="{{ STATIC_URL }}eduroam_snort/js/misc.js"></script>
         {% endcompress %}
+        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
         {% block scripts %}
         {% endblock scripts %}
     </body>
