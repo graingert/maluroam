@@ -1,9 +1,14 @@
-$(function(){
-    dashboard = function(){
-        line_options = {
+$(function () {
+    "use strict";
+    window.dashboard = function () {
+        var graph_data = {
+            results : {},
+            total : {}
+        };
+        var histogram_options = {
             xaxis: { mode: "time" },
             series: {
-                lines: {
+                bars: {
                     show: true,
                     fill: true,
                     steps: false
@@ -20,7 +25,7 @@ $(function(){
             }
         };
         
-        pie_options = {
+        var pie_options = {
              series: {
                 pie: { 
                     innerRadius: 0.5,
@@ -35,9 +40,10 @@ $(function(){
             }
         };
         
-        choiceContainer = $("#overviewLegend"), rangeContainer = $('#rangeSelector');
-        results = "";
-        totals = "";
+        var choiceContainer = $("#overviewLegend"), rangeContainer = $('#rangeSelector');
+        var results = "";
+        var totals = "";
+        var graphlabel;
     
     
         function updateLegend(){
@@ -76,7 +82,7 @@ $(function(){
                 }
             });
             
-            $.plot($("#chart1"), data, line_options);
+            $.plot($("#chart1"), data, histogram_options);
         }
         
         function updateDashboardFromSelection() {
@@ -86,8 +92,8 @@ $(function(){
         
             $('.updateRangeSpan span').html('<small>(' + text + ')</small>');
             
-            results = window["results_" + id];
-            totals = window["total_" + id];
+            results = graph_data.results[id];
+            totals = graph_data.total[id];
             
             updateLegend();
             plotAccordingToChoices();
@@ -98,8 +104,27 @@ $(function(){
     
         return {
         
-            setupCharts: function(){
-                
+            setupCharts: function(data){
+                for (var range in data){
+                    if (data.hasOwnProperty(range)){
+                        var range_data = data[range];
+                        
+                        graph_data.results[range] = range_data;
+                        
+                        var totals_data = Array();
+                        
+                        for (var i=0; i<range_data.length; i++){
+                            totals_data.push(
+                                {
+                                    label : range_data[i].label,
+                                    data : range_data[i].total
+                                }
+                            );
+                        }
+                        graph_data.total[range] = totals_data;
+                    }
+                }
+                                
                 // Change those variables if buttonset changes
                 rangeContainer.change(updateDashboardFromSelection);
                                 
@@ -171,28 +196,8 @@ $(function(){
     
     $.ajax({
         url : "/overviews.json",
-        success: function(data){
-            for (var range in data){
-                if (data.hasOwnProperty(range)){
-                    var range_data = data[range]
-                    
-                    window["results_" + range] = range_data
-                    
-                    var totals_data = Array()
-                    
-                    for (var i=0; i<range_data.length; i++){
-                        totals_data.push(
-                            {
-                                label : range_data[i].label,
-                                data : range_data[i].total
-                            }
-                        )
-                    }
-                    window["total_" + range] = totals_data
-                }
-            }
-            dashboard.setupCharts();
-        },
+        success: dashboard.setupCharts,
         dataType: "json"
     })
+    
 });
