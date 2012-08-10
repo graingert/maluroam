@@ -109,31 +109,28 @@ def getGrouping(*args, **kwargs):
     """
     Loop through each event, and group on a key chosen by blacklist__name
     rule__name or rule.
-    
-    To ensure the colors are the same for each instance of blacklist/rule
-    use the hash code of frozenset(("{type}", "id"))
     """
     
-    for event in events:        
+    for event in events:
         event["datetime"] = dateparse(event["timegroup"])
         event["timestamp"] = unix_time_millis(event["datetime"])
         
         if event["blacklist__name"]:
             key = event["blacklist__name"]
-            kls = ("blacklist", event["blacklist"])
         elif event["rule__name"]:
             key = "{rule_name}[{rule}]".format(
                 rule_name = event["rule__name"],
                 rule = event["rule"]
             )
-            kls = ("rule", event["rule"])
         else:
             key = [ "snort_" + event["rule"] ]
-            kls = ("rule", event["rule"])
-        
+                    
         colors.setdefault(key, kls.__hash__() % 84)
         grouping.setdefault(key, sorteddict())[event["timestamp"]] = event["alerts"]
-        
+    
+    for key, num in zip(colors,range(len(colors))):
+        colors[key] = num
+    
     return map(
         lambda group: {
             "label" : group[0],
