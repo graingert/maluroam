@@ -32,21 +32,18 @@ def user(request):
 
 
 class CRUDMixin(object):
-    """
-    Mixin that holds common methods and properties for all the CRUD
-    operations on the Feed model
-    """
+
     def get_success_url(self):
         """
-        Whenever a feed is created or updated successfully this will
-        return the user to the publishnews page with the feed they just
+        Whenever an object is created or updated successfully this will
+        return the user to the settings page with the object they just
         messed with highlighted
         """
         
         if self.object:
             return reverse('settings') + '#{model}-{pk}'.format(
-                model = slugify(self.model.verbose_name),
-                pk = blacklist.pk
+                model = slugify(self.model._meta.verbose_name),
+                pk = self.object.pk
             )
         else:
             return reverse('settings')
@@ -54,8 +51,6 @@ class CRUDMixin(object):
 
 class BlacklistCRUDMixin(CRUDMixin):
     model = Blacklist
-class BlacklistDetailView(BlacklistCRUDMixin, DetailView):
-    pass
 class BlacklistCreateView(BlacklistCRUDMixin, CreateView):
     pass
 class BlacklistDeleteView(BlacklistCRUDMixin, DeleteView):
@@ -65,13 +60,11 @@ class BlacklistUpdateView(BlacklistCRUDMixin, UpdateView):
     
 class RuleCRUDMixin(CRUDMixin):
     model = Rule
-class RuleDetailView(BlacklistCRUDMixin, DetailView):
+class RuleCreateView(RuleCRUDMixin, CreateView):
     pass
-class RuleCreateView(BlacklistCRUDMixin, CreateView):
+class RuleDeleteView(RuleCRUDMixin, DeleteView):
     pass
-class RuleDeleteView(BlacklistCRUDMixin, DeleteView):
-    pass
-class RuleUpdateView(BlacklistCRUDMixin, UpdateView):
+class RuleUpdateView(RuleCRUDMixin, UpdateView):
     pass
 
 def route(request, name, pk=None):
