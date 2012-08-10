@@ -5,24 +5,28 @@ from django.views.generic.base import TemplateView
 # from django.contrib import admin
 # admin.autodiscover()
 
-urlpatterns = patterns('eduroam_snort.views',
+urlpatterns = patterns('maluroam.eduroam_snort.views',
     # Examples:
     url(r'^$', 'dashboard', name='dashboard'),
     url(r'^overviews.json$', 'overview', name="overviews"),
     
-    url(
-        r'^user/(?P<slug>[\w-]+)$',
-        TemplateView.as_view(template_name="eduroam_snort/user.html"),
-        name="user"
-    ),
     url(
         r'^user/$',
         TemplateView.as_view(template_name="eduroam_snort/users.html"),
         name="users"
     ),
     url(
+        r'^user/(?P<slug>[\w-]+)$',
+        TemplateView.as_view(template_name="eduroam_snort/user.html"),
+        name="user"
+    ),
+
+    url(
         r'^settings/$',
         TemplateView.as_view(template_name="eduroam_snort/settings.html"),
         name="settings"
     ),
+    
+    url(r'^blacklist/(?P<pk>\d+)?$', "route", kwargs={"name": "Blacklist"}, name="blacklist"),
+    url(r'^rule/(?P<pk>\d+)?$', "route", kwargs={"name": "Rule"}, name="rule"),
 )
