@@ -104,7 +104,8 @@ $(function () {
                             totals_data.push(
                                 {
                                     label : range_data[i].label,
-                                    data : range_data[i].total
+                                    data : range_data[i].total,
+                                    color : range_data[i].color
                                 }
                             );
                         }
