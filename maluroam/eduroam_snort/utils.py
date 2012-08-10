@@ -47,7 +47,10 @@ def getEvents(
     else:
         interval = relativedelta(years=1)
         sqldateformat = r'%Y-01-01T00:00:00Z'
-        
+    
+    """
+    here we asssume that blacklist__name and rule__name are disjoint
+    """
     events = Event.objects.filter(
         Q(rule__hide=False) | Q(blacklist__hide=False),
         start__gte = start,
@@ -65,67 +68,78 @@ def getEvents(
     return events
     
 def getGrouping(*args, **kwargs):
+    """
+    return groups structured as such:
+    
+        [
+            {
+                "label": "abuse_ch_palevo",
+                "data": [
+                    [1333238400000, 839]
+                ],
+                "total" : 839,
+                "color" : 4
+            },
+            {
+                "label": "abuse_ch_spyeye",
+                "data": [
+                    [
+                        1333238400000,
+                        795
+                    ],
+                    [
+                        1335830400000,
+                        310
+                    ],
+                    [
+                        1338508800000,
+                        34
+                    ]
+                ],
+                "total": 1139,
+                "color": 2
+            }
+        ]
+    """
+    
     events = getEvents(*args, **kwargs)
     grouping = defaultdict(sorteddict)
+    colors = {}
     
-    for event in events:
-        """
-        Determine if event is a blacklist or rule, and if a rule
-        check whether a rule name has been set for it.
-        
-        return code structured as such:
-        
-            [
-                {
-                    "label": "abuse_ch_palevo",
-                    "data": [
-                        [1333238400000, 839]
-                    ],
-                    "total" : 839
-                },
-                {
-                    "label": "abuse_ch_spyeye",
-                    "data": [
-                        [
-                            1333238400000,
-                            795
-                        ],
-                        [
-                            1335830400000,
-                            310
-                        ],
-                        [
-                            1338508800000,
-                            34
-                        ]
-                    ],
-                    "total": 1139
-                }
-            ]
-        
-        """
-        
+    """
+    Loop through each event, and group on a key chosen by blacklist__name
+    rule__name or rule.
+    
+    To ensure the colors are the same for each instance of blacklist/rule
+    use the hash code of frozenset(("{type}", "id"))
+    """
+    
+    for event in events:        
         event["datetime"] = dateparse(event["timegroup"])
         event["timestamp"] = unix_time_millis(event["datetime"])
         
         if event["blacklist__name"]:
-            grouping[ event["blacklist__name"] ][ event["timestamp"] ] = event["alerts"]
-        elif event["rule__name"] != "":
-            grouping[
-                "{rule_name}[{rule}]".format(
-                    rule_name = event["rule__name"], rule = event["rule"]
-                )
-            ][ event["timestamp"] ] = event["alerts"];
+            key = event["blacklist__name"]
+            kls = ("blacklist", event["blacklist"])
+        elif event["rule__name"]:
+            key = "{rule_name}[{rule}]".format(
+                rule_name = event["rule__name"],
+                rule = event["rule"]
+            )
+            kls = ("rule", event["rule"])
         else:
-            grouping[ "snort_" + event["rule"] ][ event["timestamp"] ] = event["alerts"]
-    
-    #convert into data .
-    
+            key = [ "snort_" + event["rule"] ]
+            kls = ("rule", event["rule"])
+        
+        colors.setdefault(key, kls.__hash__() % 84)
+        grouping.setdefault(key, sorteddict())[event["timestamp"]] = event["alerts"]
+        
     return map(
         lambda group: {
             "label" : group[0],
             "data" : tuple(group[1].items()),
-            "total" : sum(group[1].values())
+            "total" : sum(group[1].values()),
+            "color" : colors[group[0]]
         },
         grouping.items()
     )
