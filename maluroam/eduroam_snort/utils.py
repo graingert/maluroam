@@ -124,18 +124,16 @@ def getGrouping(*args, **kwargs):
             )
         else:
             key = [ "snort_" + event["rule"] ]
-                    
-        colors.setdefault(key, kls.__hash__() % 84)
+        colors[key] = 0;
         grouping.setdefault(key, sorteddict())[event["timestamp"]] = event["alerts"]
     
     for key, num in zip(colors,range(len(colors))):
         colors[key] = num
-    
+
     return map(
         lambda group: {
             "label" : group[0],
             "data" : tuple(group[1].items()),
-            "total" : sum(group[1].values()),
             "color" : colors[group[0]]
         },
         grouping.items()

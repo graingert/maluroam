@@ -101,11 +101,17 @@ $(function () {
                         var totals_data = Array();
                         
                         for (var i=0; i<range_data.length; i++){
+                            var item = range_data[i];
+                            item.total = 0;
+                            for (var j=0; j<item.data.length; j++){
+                                item.total += item.data[j][1];
+                            }
+                            
                             totals_data.push(
                                 {
-                                    label : range_data[i].label,
-                                    data : range_data[i].total,
-                                    color : range_data[i].color
+                                    label : item.label,
+                                    data : item.total,
+                                    color : item.color
                                 }
                             );
                         }
@@ -162,7 +168,7 @@ $(function () {
                         showTooltip(pos.pageX, pos.pageY, msg);
                     } else {
                         $("#tooltip").remove();
-                        previousPost = $(this).data('previous-post', -1);
+                        var previousPost = $(this).data('previous-post', -1);
                     }
                 });
             }
