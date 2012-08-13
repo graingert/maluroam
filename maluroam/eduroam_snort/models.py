@@ -14,7 +14,7 @@ class Blacklist(models.Model):
     name = models.CharField(max_length=765)
     url = models.CharField(max_length=765)
     serialized = models.TextField()
-    updated = models.DateTimeField()
+    updated = models.DateTimeField(editable=False)
     hide = models.BooleanField()
     
     def __unicode__(self):
@@ -53,20 +53,20 @@ class Event(models.Model):
         unique_together = ("username", "ip_src", "ip_dst", "start", "finish")
 
 class Rule(models.Model):
-    id = models.BigIntegerField(primary_key=True, db_column="rule_id")
+    id = models.BigIntegerField(primary_key=True, db_column="rule_id", editable=False)
     name = models.CharField(max_length=765, db_column = "rule_name")
     hide = models.BooleanField()
     
     def __unicode__(self):
-        return self.rule_name
+        return self.name
     
     class Meta:
         db_table = u'rules'
 
 class Script(models.Model):
-    id = models.AutoField(primary_key=True, db_column = "script_id")
+    id = models.AutoField(primary_key=True, db_column = "script_id", editable=False)
     name = models.CharField(max_length=765)
-    lastupdated = models.DateTimeField()
+    lastupdated = models.DateTimeField(editable=False)
     
     def __unicode__(self):
         return "{name} Updated: {lastupdated}".format(
