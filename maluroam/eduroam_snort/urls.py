@@ -21,11 +21,7 @@ urlpatterns = patterns('maluroam.eduroam_snort.views',
         name="user"
     ),
 
-    url(
-        r'^settings/$',
-        TemplateView.as_view(template_name="eduroam_snort/settings.html"),
-        name="settings"
-    ),
+    url(r'^settings/$', 'settings', name="settings"),
     
     url(r'^blacklist/(?P<pk>\d+)?$', "route", kwargs={"name": "Blacklist"}, name="blacklist"),
     url(r'^rule/(?P<pk>\d+)?$', "route", kwargs={"name": "Rule"}, name="rule"),

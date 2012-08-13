@@ -30,6 +30,15 @@ def overview(request):
 def user(request):
     return render(request, "eduroam_snort/user.html")
 
+def settings(request):
+    return render(
+        request = request,
+        template_name = "eduroam_snort/settings.html",
+        dictionary = {
+            "rules" : Rule.objects.all(),
+            "blacklists" : Blacklist.objects.all()
+        }
+    )
 
 class CRUDMixin(object):
 
