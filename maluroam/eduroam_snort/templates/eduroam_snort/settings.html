@@ -8,60 +8,66 @@
         </ul>
         
         <div id="rulenames">
-            <div class="table">
-                <div class="table-header ui-accordion-header ui-helper-reset ui-state-default ui-state-active ui-corner-top">
-                    <span class="col1">Snort Rule ID</span>
-                    <span class="col2">Look Up</span>
-                    <span class="col3">Hide</span>
-                    <span class="col4">Rule Name</span>
-                </div>
-            
+            <table>
+                <thead class="table-header ui-accordion-header ui-helper-reset ui-state-default ui-state-active ui-corner-top">
+                    <tr>
+                        <td>Snort Rule ID</td>
+                        <td>Look Up</td>
+                        <td>Hide</td>
+                        <td>Rule Name</td>
+                    </tr>
+                </thead>
+                <tbody>
                 {% for rule in rules %}
-                    <div class="table-row">
+                    <tr>
                         <form action="{% url 'rule' rule.pk %}" method="post" name="rule_{{rule.rule}}">
                             {% csrf_token %}
-                            <span class="col1">{{rule}}</span>
-                            <span class="col2">
+                            <td>{{rule}}</td>
+                            <td>
                                 <a class="button" href="http://snortid.com/snortid.asp?QueryId={{rule.id}}" target="_blank">snortid.com lookup</a>
-                            </span>
-                            <span class="col3">
+                            </td>
+                            <td>
                                 <input type="checkbox" name="hide" {% if rule.hide %}checked="checked"{% endif %} />
-                            </span>
-                            <span class="col4">
+                            </td>
+                            <td>
                                 <input type="text" name="name" value="{{rule.name}}" />
                                 <input class="button" type="submit" value="Update"/>
-                            </span>
+                            </td>
                         </form>
-                    </div>
+                    </tr>
                 {% endfor %}
-            </div>
+                </tbody>
+            </table>
         </div>
         
         <div id="blacklists">
-            <div class="table">
-                <div class="table-header ui-accordion-header ui-helper-reset ui-state-default ui-state-active ui-corner-top">
-                    <span class="col1">Blacklist</span>
-                    <span class="col2">URL</span>
-                    <span class="col3">Last Updated</span>
-                    <span class="col4">Hide</span>
-                </div>
-            
+            <table>
+                <thead class="table-header ui-accordion-header ui-helper-reset ui-state-default ui-state-active ui-corner-top">
+                    <tr>
+                        <td class="col1">Blacklist</td>
+                        <td class="col2">URL</td>
+                        <td class="col3">Last Updated</td>
+                        <td class="col4">Hide</td>
+                    </tr>
+                </thead>
+                
                 {% for blacklist in blacklists %}
-                    <div class="table-row">
-                        <span class="col1">{{blacklist.name}}</span>
-                        <span class="col2"><a class="button" href="{{blacklist.url}}" target="_blank">{{blacklist.url}}</a></span>
-                        <span class="col3">{{blacklist.updated}}</span>
-                        <span class="col4">
+                    <tr>
+                        <td>{{blacklist.name}}</span>
+                        <td>
+                            <a class="button" href="{{blacklist.url}}" target="_blank">{{blacklist.url}}</a>
+                        </td>
+                        <td>{{blacklist.updated}}</td>
+                        <td>
                             <form action="{% url 'blacklist' blacklist.pk %}" method="post" name="blacklist_{{blacklist.pk}}">
                                 {% csrf_token %}
                                 <input type="checkbox" name="hide" {% if blacklist.hide %}checked="checked"{% endif %}/>
                                 <input class="button" type="submit" value="Update"/>
                             </form>
-                        </span>
-                    </div>
+                        </td>
+                    </tr>
                 {% endfor %}
-            </div>
-        
+            </table>
         </div>
     </div>
 {% endblock content %}
