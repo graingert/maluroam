@@ -1,7 +1,8 @@
 {% extends "eduroam_snort/base.html" %}
 {% load url from future %}
 {% block content %}
-<div id="dashboard">
+
+
     <h1 class="title">Dashboard</h1>
     <form style="display: block; text-align: center; font-size: 10px;" >
         <div id="rangeSelector">
@@ -19,14 +20,14 @@
         <ul id="overviewLegend"></ul>
     </div>
     
-    <div class="wrapper" style="display: block; padding: 25px;">
-        <div class="box" style="width: 400px; padding-right: 50px;">
+    <div class="row">
+        <div class="span6">
             <h2 class="title updateRangeSpan">Alert Totals Comparisons<span></span></h2>
             <div id="donut" style="display: inline-block; width: 400px; height:300px;position: relative;"></div>
         </div>
         {% for user in users %}
             {% if forloop.first %}
-            <div class="box" id="users_overview">
+            <div class="span6" id="users_overview">
                 <h2 class="title">Last 7 Days  - Users</h2>
                 <div id="users_overview" class="table" style="width: 450px;">
                     <div class="table-header ui-accordion-header ui-helper-reset ui-state-default ui-state-active ui-corner-top">
@@ -48,7 +49,7 @@
             <p>no users</p>
         {% endfor %}
     </div>
-</div>
+    
 {% endblock content %}
 
 {% block scripts %}

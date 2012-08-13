@@ -10,7 +10,7 @@
 from django.db import models
 
 class Blacklist(models.Model):
-    bl_id = models.BigIntegerField(primary_key=True)
+    id = models.BigIntegerField(primary_key=True, db_column="bl_id", editable=False)
     name = models.CharField(max_length=765)
     url = models.CharField(max_length=765)
     serialized = models.TextField()

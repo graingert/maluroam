@@ -4,27 +4,8 @@ Copyright 2012 Yahoo! Inc. All rights reserved.
 Licensed under the BSD License.
 http://yuilibrary.com/license/
 */
-html{color:#000;background:#FFF}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{margin:0;padding:0}table{border-collapse:collapse;border-spacing:0}fieldset,img{border:0}address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal}ol,ul{list-style:none}caption,th{text-align:left}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal}q:before,q:after{content:''}abbr,acronym{border:0;font-variant:normal}sup{vertical-align:text-top}sub{vertical-align:text-bottom}input,textarea,select{font-family:inherit;font-size:inherit;font-weight:inherit}input,textarea,select{*font-size:100%}legend{color:#000}#yui3-css-stamp.cssreset{display:none}
 
-html{
-	/* background: url('/images/body-bg.png') #A3A3A3; /* F0F0F0 */
-	/* Source: subtlepatterns.com / atlemo.com, Under Creative Commons Attribution 3.0 Unported License */
-	background: url('../images/background.png') #CCC;
-	font-family: "Lucida Grande", Arial, sans-serif;
-	font-size: 12px;
-	display: block;
-}
-body{
-	
-}
-a{
-	color: #0078AE;
-	text-decoration: none;
-}
-a:hover{
-	text-decoration: underline;
-}
-strong, .bold{font-weight: bold;}
+
 #container{
 	padding: 70px 0 5px;
 	margin: 0 auto;
@@ -121,32 +102,6 @@ strong, .bold{font-weight: bold;}
 	margin-left: 10px;
 }
 
-
-h1, h2, h3, h4, h5{
-	display: block;
-	color: #0078AE;
-	font-weight: bold;
-}
-h1{
-	font-size: 2em;
-}
-h2{
-	font-size: 1.6em;
-}
-
-.title{
- 	text-align: center;
- 	padding: 10px;
-}
-.title small{
-	display: block;
-	clear: both;
-	font-size: 0.7em;
-}
-.box{
-	float: left;
-}
-
 .hideLegend .legend{
 	display: none;
 }
@@ -182,21 +137,6 @@ h2{
 	padding-right: 20px;
 }
 
-table{
-	border-collapse: collapse;
-}
-table th{
-	text-align: center;
-	font-weight: bold;
-}
-table th.left{
-	text-align: left;
-}
-
-
-h4{
-	margin: 0;
-}
 .month-events{
 	padding: 10px !important;
 	width: 928px;
@@ -235,41 +175,6 @@ h4{
 #user .radius-row{
 	display: block;
 	text-indent: 50px;
-}
-
-
-
-
-.table{
-	display: inline-block;
-	width: 100%;
-	border-bottom: 1px solid #A6C9E2;
-	margin: 10px 0;
-}
-.table-header{
-	padding: 5px;
-	font-weight: bold;
-}
-.table-header span{
-	font-weight: bold;
-	text-align: center;
-}
-.table-row{
-	display: block;
-	padding: 5px;
-	border-left: 1px solid #A6C9E2;
-	border-right: 1px solid #A6C9E2;
-}
-.table-row.odd{
-	background: #F0F0F0;
-}
-.table-row:hover{
-	background: #A6C9E2;
-}
-.table-header span,
-.table-row span{
-	display: inline-block;
-	text-align: center;
 }
 
 #user #ips{

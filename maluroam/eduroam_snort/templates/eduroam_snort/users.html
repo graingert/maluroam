@@ -1,8 +1,8 @@
-{% extends base.html %}
+{% extends "eduroam_snort/base.html" %}
 {% block content %}
 <div id="users">    
-    {% include "eduroam_snort/users.pagination.html" with info only %}
-    {% include "eduroam_snort/users.filters.html" with filters rules blacklists only %}
+    {% include "eduroam_snort/users.pagination.html" with info=info only %}
+    {% include "eduroam_snort/users.filters.html" with filters=filters rules=rules blacklists=blacklists only %}
     
     {% for user in users %}
         {% if forloop.first %}
@@ -43,7 +43,7 @@
             <span>No users were returned. Please check your filters or go back to <a href="/index.php?page=users">the first page</a>.</span>
         </div>
     {% endfor %}
-    {% include "eduroam_snort/users.pagination.html" with info only %}
+    {% include "eduroam_snort/users.pagination.html" with info=info only %}
 </div>
 {% endblock content %}
 {% block scripts %}
