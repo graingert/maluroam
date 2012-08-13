@@ -128,6 +128,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'jquery',
     'compressor',
+    'crispy_forms',
     'maluroam.eduroam_snort',
 )
 
