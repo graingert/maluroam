@@ -1352,4 +1352,6 @@ $(document).ready(function(){
 			dateFormat: 'yy-mm-dd'
 		});
 		
+        $('#tabs').tabs();
+        $('.button').button();
 });
