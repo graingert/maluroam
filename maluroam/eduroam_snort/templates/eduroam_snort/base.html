@@ -35,17 +35,17 @@
                         </div>
                         
                         <div id="date-search">
-                            <form method="get" action="/index.php">
+                            <form class="form-inline" method="get" action="{% url 'users' %}">
                                 <input type="hidden" name="page" value="users" />
                                 <input type="hidden" name="action" value="filter" />
                                 <input type="hidden" name="rules[all]" value="1" />
                                 <input type="hidden" name="blacklists[all]" value="1" />
                                 
                                 <label for="searchfrom">Search from:</label>
-                                <input type="text" id="searchfrom" name="date[from]" value="" />
+                                <input type="date" id="searchfrom" name="date[from]" value="" />
                                 <label for="searchto">to</label>
-                                <input type="text" id="searchto" name="date[to]" value="" />
-                                <input type="submit" class="button" value="Search" />
+                                <input type="date" id="searchto" name="date[to]" value="" />
+                                <input type="submit" class="btn btn-primary" value="Search" />
                             </form>
                         </div>
                     </div>
@@ -74,10 +74,11 @@
             <script type="text/javascript" src="{{ STATIC_URL }}eduroam_snort/js/jquery.flot.stack.min.js"></script>
             <script type="text/javascript" src="{{ STATIC_URL }}eduroam_snort/js/jquery.flot.symbol.min.js"></script>
             <script type="text/javascript" src="{{ STATIC_URL }}eduroam_snort/js/jquery.flot.threshold.min.js"></script>
+            <script type="text/javascript" src="{{ STATIC_URL }}html5Forms.js/shared/js/modernizr.com/Modernizr-2.5.3.forms.js"></script>
         {% endcompress %}
+        <script type="text/javascript" data-webforms2-support="validation" src="{{ STATIC_URL }}html5Forms.js/shared/js/html5Forms.js"></script>
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.0.4/bootstrap.min.js"></script>
         <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
-        <script type="text/javascript" src="{{ STATIC_URL }}eduroam_snort/js/jquery-ui-timepicker-addon.js"></script>
         <script type="text/javascript" src="{{ STATIC_URL }}eduroam_snort/js/misc.js"></script>
         {% block scripts %}
         {% endblock scripts %}

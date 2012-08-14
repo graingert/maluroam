@@ -9,9 +9,4 @@ $(document).ready(function(){
             }
         }
     });
-    
-    $('#date-search .button').button();
-    $('#date-search #searchfrom, #date-search #searchto').datetimepicker({
-        dateFormat: 'yy-mm-dd'
-    });
 });
