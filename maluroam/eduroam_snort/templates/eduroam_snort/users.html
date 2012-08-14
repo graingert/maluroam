@@ -1,50 +1,56 @@
-{% extends base.html %}
+{% extends "eduroam_snort/base.html" %}
+{% load url from future %}
 {% block content %}
-<div id="users">    
-    {% include "eduroam_snort/users.pagination.html" with info only %}
-    {% include "eduroam_snort/users.filters.html" with filters rules blacklists only %}
+  
+    {% include "eduroam_snort/users.pagination.html" with info=info only %}
+    {% include "eduroam_snort/users.filters.html" with filters=filters rules=rules blacklists=blacklists only %}
     
     {% for user in users %}
         {% if forloop.first %}
-            <div class="table">
-                <div class="table-header ui-accordion-header ui-helper-reset ui-state-default ui-state-active ui-corner-top">
-                    <span class="col1">Username</span></span>
-                    <span class="col2">Rules</span>
-                    <span class="col3">Blacklists</span>
-                    <span class="col4">Alerts</span>
-                    <span class="col5">Packets</span>
-                    <span class="col6">Earliest Alert</span>
-                    <span class="col7">Latest Alert</span>
-                </div>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr class="table-header ui-accordion-header ui-helper-reset ui-state-default ui-state-active ui-corner-top">
+                        <th>Username</th>
+                        <th>Rules</th>
+                        <th>Blacklists</th>
+                        <th>Alerts</th>
+                        <th>Packets</th>
+                        <th>Earliest Alert</th>
+                        <th>Latest Alert</th>
+                    </tr>
+                </thead>
+                <tbody>
         {% endif %}
-            <div class="table-row {% cycle 'even' 'odd' %}">
-                <span class="col1"><a href="/index.php?page=user&user={{user.username}}">{{user.username}}</a></span>
-                <span class="col2">
+            <tr>
+                <td>
+                    <a href="{% url 'user' user.username %}">{{user.username}}</a>
+                </td>
+                <td>
                     {% filter force_escape %}
                         {% firstof user.rules "-" %}
                     {% endfilter %}
-                </span>
-                <span class="col3">
+                </td>
+                <td>
                     {% filter force_escape %}
                         {% firstof user.blacklists "-" %}
                     {% endfilter %}
-                </span>
-                <span class="col4">{{user.alerts}}</span>
-                <span class="col5">{{user.packets}}</span>
-                <span class="col6">{{user.earliest}}</span>
-                <span class="col7">{{user.latest}}</span>
-                <span class="col8"><a class="viewuser" href="/index.php?page=user&user={{user.username}}">&raquo;</a></span>
-            </div>
+                </td>
+                <td>{{user.alerts}}</td>
+                <td>{{user.packets}}</td>
+                <td>{{user.earliest}}</td>
+                <td>{{user.latest}}</td>
+            </tr>
         {% if forloop.last %}
-            </div>
+                </tbody>
+            </table>
         {% endif %}
     {% empty %}
-        <div class="error">
-            <span>No users were returned. Please check your filters or go back to <a href="/index.php?page=users">the first page</a>.</span>
+        <div class="alert alert-error">
+            <span>No users were returned. Please check your filters or go back to <a href="{% url 'users' %}">the users page</a>.</span>
         </div>
     {% endfor %}
-    {% include "eduroam_snort/users.pagination.html" with info only %}
-</div>
+    {% include "eduroam_snort/users.pagination.html" with info=info only %}
+
 {% endblock content %}
 {% block scripts %}
             <script type="text/javascript" src="{{ STATIC_URL }}eduroam_snort/js/page.users.js"></script>

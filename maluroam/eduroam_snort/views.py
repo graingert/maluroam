@@ -1,10 +1,10 @@
 from django.shortcuts import render
-from django.db.models import Q, Count, Sum
+from django.db.models import Q, Count, Sum, Min, Max
 
 from maluroam.eduroam_snort.models import Event, Blacklist, Rule
 from maluroam.eduroam_snort.utils import getOverviews
 import json
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
@@ -27,8 +27,88 @@ def dashboard(request):
 def overview(request):
     return HttpResponse(json.dumps(getOverviews()), content_type="application/json")
     
-def user(request):
-    return render(request, "eduroam_snort/user.html")
+def user(request, slug):
+    
+    if not Event.objects.filter(username = slug).exists():
+        raise Http404()
+    
+    events = False
+        
+    
+    """
+    public function displayUser(){
+        // Is there a user in the $_GET?
+        if(!isset($_GET['user']) || empty($_GET['user'])){
+            // display error
+            return;			
+        } else {
+            // Clean the input, and determine if they exist
+            $user = mysql_real_escape_string($_GET['user']);
+            $usercheck = mysql_query(sprintf("SELECT username FROM event WHERE username = '%s' LIMIT 1;", $user));
+            
+            if(mysql_num_rows($usercheck) != 1){
+                // display error
+                return;
+            }
+        }
+    
+        // Send data to Smarty
+        $this->assign('user', array(
+            'user' => $user,
+            'statistics' => $this->fetchUserStatistics($user),
+            'events' => $this->fetchUserEvents($user),
+            'l28d' => $this->tools->getCache('getUsersLast28Days', 60, array($user), $this)
+        ));
+        
+        return;
+    }
+    """
+    
+    
+    return render(
+        request=request,
+        template_name = "eduroam_snort/user.html",
+        dictionary = {
+            "name" : slug,
+            "events" : events,
+        }
+    )
+
+class UsersListView(ListView):
+    model = Event
+    template_name = "eduroam_snort/users.html"
+    context_object_name = "users"
+    paginate_by = 20
+    
+    def get_queryset(self):
+        return self.model.objects.filter(
+            Q(rule__hide=False) | Q(blacklist__hide=False)
+        #).extra(
+        #    select={
+        #        'rules': "GROUP_CONCAT(DISTINCT(rule.rule_name))",
+        #        'blacklists': "GROUP_CONCAT(DISTINCT(blacklist.name))"
+        #    }
+        ).values(
+            "username"#, "rules", "blacklists"
+        ).annotate(
+            Count('event_id'), packets = Sum('alerts'), earliest = Min("start"), latest = Max("finish")
+        ).order_by("username")
+        
+        """
+        SELECT username, GROUP_CONCAT(DISTINCT(rule) SEPARATOR ',') as rules, GROUP_CONCAT(DISTINCT(bl.name) SEPARATOR ',') as blacklists, COUNT(e.event_id) as alerts, SUM(e.alerts) as packets, MIN(DATE_FORMAT(e.start,'%%Y-%%m-%%d')) as earliest, MAX(DATE_FORMAT(e.finish,'%%Y-%%m-%%d')) as latest
+            FROM event e
+            LEFT JOIN blacklists bl
+                ON bl.bl_id = e.blacklist
+            LEFT JOIN rules r
+                ON r.rule_id = e.rule
+            WHERE
+                %s
+                AND (r.hide = 0
+                OR bl.hide = 0)
+            GROUP BY username
+        """
+    
+    
 
 def settings(request):
     return render(

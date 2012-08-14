@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.views.generic.base import TemplateView
-
+from maluroam.eduroam_snort.views import UsersListView
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
 # admin.autodiscover()
@@ -12,7 +12,7 @@ urlpatterns = patterns('maluroam.eduroam_snort.views',
     
     url(
         r'^user/$',
-        TemplateView.as_view(template_name="eduroam_snort/users.html"),
+        UsersListView.as_view(),
         name="users"
     ),
     url(
