@@ -15,6 +15,7 @@
                             <td>Look Up</td>
                             <td>Hide</td>
                             <td>Rule Name</td>
+                            <td>Update</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -31,7 +32,9 @@
                                 </td>
                                 <td>
                                     <input type="text" name="name" value="{{rule.name}}" />
-                                    <input class="button" type="submit" value="Update"/>
+                                </td>
+                                <td>
+                                    <input class="btn btn-primary" type="submit" value="Update"/>
                                 </td>
                             </form>
                         </tr>
@@ -48,23 +51,26 @@
                             <td>URL</td>
                             <td>Last Updated</td>
                             <td>Hide</td>
+                            <td>Update</td>
                         </tr>
                     </thead>
                     
                     {% for blacklist in blacklists %}
                         <tr>
-                            <td>{{blacklist.name}}</span>
-                            <td>
-                                <a class="button" href="{{blacklist.url}}" target="_blank">{{blacklist.url}}</a>
-                            </td>
-                            <td>{{blacklist.updated}}</td>
-                            <td>
-                                <form action="{% url 'blacklist' blacklist.pk %}" method="post" name="blacklist_{{blacklist.pk}}">
-                                    {% csrf_token %}
+                            <form action="{% url 'blacklist' blacklist.pk %}" method="post" name="blacklist_{{blacklist.pk}}">
+                                {% csrf_token %}
+                                <td>{{blacklist.name}}</span>
+                                <td>
+                                    <a class="button" href="{{blacklist.url}}" target="_blank">{{blacklist.url}}</a>
+                                </td>
+                                <td>{{blacklist.updated}}</td>
+                                <td>
                                     <input type="checkbox" name="hide" {% if blacklist.hide %}checked="checked"{% endif %}/>
-                                    <input class="button" type="submit" value="Update"/>
-                                </form>
-                            </td>
+                                </td>
+                                <td>
+                                    <input class="btn btn-primary" type="submit" value="Update"/>
+                                </td>
+                            </form>
                         </tr>
                     {% endfor %}
                 </table>
