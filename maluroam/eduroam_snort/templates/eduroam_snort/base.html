@@ -4,7 +4,16 @@
 <html>
     <head>
         <title>eduroam Wireless Malware Monitoring - {% block title %} Untitled {%endblock title %}</title>
+        <link href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css" rel="stylesheet" type="text/css">
+        <style type="text/css">
+            body {
+                padding-top: 60px;
+                padding-bottom: 40px;
+            }
+        </style>
+        <link href="http://twitter.github.com/bootstrap/assets/css/bootstrap-responsive.css" rel="stylesheet" type="text/css">
         <link href="{{ STATIC_URL }}eduroam_snort/css/start/jquery-ui-1.8.18.custom.css" rel="stylesheet" type="text/css">
+        <link href="{{ STATIC_URL }}eduroam_snort/css/timepicker.css" rel="stylesheet" type="text/css">
         <link href="{{ STATIC_URL }}eduroam_snort/css/site.css" rel="stylesheet" type="text/css">
     </head>
     <body>
@@ -66,6 +75,7 @@
             <script type="text/javascript" src="{{ STATIC_URL }}eduroam_snort/js/jquery.flot.symbol.min.js"></script>
             <script type="text/javascript" src="{{ STATIC_URL }}eduroam_snort/js/jquery.flot.threshold.min.js"></script>
         {% endcompress %}
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.0.4/bootstrap.min.js"></script>
         <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
         <script type="text/javascript" src="{{ STATIC_URL }}eduroam_snort/js/jquery-ui-timepicker-addon.js"></script>
         <script type="text/javascript" src="{{ STATIC_URL }}eduroam_snort/js/misc.js"></script>

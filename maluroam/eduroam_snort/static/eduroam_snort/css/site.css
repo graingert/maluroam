@@ -15,7 +15,7 @@ html{
 	display: block;
 }
 body{
-	
+	background: url('../images/background.png') #CCC;
 }
 a{
 	color: #0078AE;
@@ -182,17 +182,6 @@ h2{
 	padding-right: 20px;
 }
 
-table{
-	border-collapse: collapse;
-}
-table th{
-	text-align: center;
-	font-weight: bold;
-}
-table th.left{
-	text-align: left;
-}
-
 
 h4{
 	margin: 0;
@@ -235,41 +224,6 @@ h4{
 #user .radius-row{
 	display: block;
 	text-indent: 50px;
-}
-
-
-
-
-.table{
-	display: inline-block;
-	width: 100%;
-	border-bottom: 1px solid #A6C9E2;
-	margin: 10px 0;
-}
-.table-header{
-	padding: 5px;
-	font-weight: bold;
-}
-.table-header span{
-	font-weight: bold;
-	text-align: center;
-}
-.table-row{
-	display: block;
-	padding: 5px;
-	border-left: 1px solid #A6C9E2;
-	border-right: 1px solid #A6C9E2;
-}
-.table-row.odd{
-	background: #F0F0F0;
-}
-.table-row:hover{
-	background: #A6C9E2;
-}
-.table-header span,
-.table-row span{
-	display: inline-block;
-	text-align: center;
 }
 
 #user #ips{
@@ -453,15 +407,3 @@ h4{
 	padding: 25px;
 	text-align: center;
 }
-
-/**
- * TimePicker CSS
- * Source: http://trentrichardson.com/examples/timepicker/ 
- * License: MIT and GPL 
- */
-.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
-.ui-timepicker-div dl { text-align: left; }
-.ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; }
-.ui-timepicker-div dl dd { margin: 0 10px 10px 65px; }
-.ui-timepicker-div td { font-size: 90%; }
-.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
