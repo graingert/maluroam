@@ -107,7 +107,12 @@ class UsersListView(ListView):
                 OR bl.hide = 0)
             GROUP BY username
         """
-    
+        
+    def get_context_data(self, **kwargs):
+        context = super(UsersListView, self).get_context_data(**kwargs)
+        context["rules"] = Rule.objects.all()
+        context["blacklists"] = Blacklist.objects.all()
+        return context
     
 
 def settings(request):
