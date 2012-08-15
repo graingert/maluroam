@@ -82,7 +82,7 @@ class UsersListView(ListView):
     
     def get_queryset(self):
         return self.model.objects.filter(
-            Q(rule__hide=False) | Q(blacklist__hide=False)
+        #    Q(rule__hide=False) | Q(blacklist__hide=False)
         #).extra(
         #    select={
         #        'rules': "GROUP_CONCAT(DISTINCT(rule.rule_name))",
@@ -92,7 +92,7 @@ class UsersListView(ListView):
             "username"#, "rules", "blacklists"
         ).annotate(
             Count('event_id'), packets = Sum('alerts'), earliest = Min("start"), latest = Max("finish")
-        ).order_by("username")
+        ).order_by("-event_id__count")
         
         """
         SELECT username, GROUP_CONCAT(DISTINCT(rule) SEPARATOR ',') as rules, GROUP_CONCAT(DISTINCT(bl.name) SEPARATOR ',') as blacklists, COUNT(e.event_id) as alerts, SUM(e.alerts) as packets, MIN(DATE_FORMAT(e.start,'%%Y-%%m-%%d')) as earliest, MAX(DATE_FORMAT(e.finish,'%%Y-%%m-%%d')) as latest

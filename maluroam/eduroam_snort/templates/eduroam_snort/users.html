@@ -1,8 +1,8 @@
 {% extends "eduroam_snort/base.html" %}
 {% load url from future %}
 {% block content %}
-  
-    {% include "eduroam_snort/users.pagination.html" with info=info only %}
+
+    {% include "eduroam_snort/pagination.html" with page_name="users" page_obj=page_obj only %}
     {% include "eduroam_snort/users.filters.html" with filters=filters rules=rules blacklists=blacklists only %}
     
     {% for user in users %}
@@ -35,7 +35,7 @@
                         {% firstof user.blacklists "-" %}
                     {% endfilter %}
                 </td>
-                <td>{{user.alerts}}</td>
+                <td>{{user.event_id__count}}</td>
                 <td>{{user.packets}}</td>
                 <td>{{user.earliest}}</td>
                 <td>{{user.latest}}</td>
@@ -49,7 +49,7 @@
             <span>No users were returned. Please check your filters or go back to <a href="{% url 'users' %}">the users page</a>.</span>
         </div>
     {% endfor %}
-    {% include "eduroam_snort/users.pagination.html" with info=info only %}
+    {% include "eduroam_snort/pagination.html" with page_name="users" page_obj=page_obj only %}
 
 {% endblock content %}
 {% block scripts %}
