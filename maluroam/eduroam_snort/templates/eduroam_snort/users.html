@@ -1,15 +1,15 @@
 {% extends "eduroam_snort/base.html" %}
 {% load url from future %}
 {% block content %}
-
-    {% include "eduroam_snort/pagination.html" with page_name="users" page_obj=page_obj only %}
     {% include "eduroam_snort/users.filters.html" with filters=filters rules=rules blacklists=blacklists only %}
+    {% include "eduroam_snort/pagination.html" with page_name="users" page_obj=page_obj only %}
+    
     
     {% for user in users %}
         {% if forloop.first %}
             <table class="table table-bordered table-striped">
                 <thead>
-                    <tr class="table-header ui-accordion-header ui-helper-reset ui-state-default ui-state-active ui-corner-top">
+                    <tr>
                         <th>Username</th>
                         <th>Rules</th>
                         <th>Blacklists</th>
