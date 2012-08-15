@@ -1,47 +1,47 @@
+{% load url from future %}
 {% block content %}
-<form method="get" action="/index.php?page=users">
-<input type="hidden" value="users" name="page" />
+<form method="get" action="{% url 'users' %}">
 <input type="hidden" value="filter" name="action" />
-<div id="filters">
-    <div id="date">
-        <h3 class="title">Date</h3>
+<div class="row-fluid">
+    <div class="well span4">
+        <h3>Date</h3>
         <div class="filter">
             <label for="date[from]">From:</label>
-            <input name="date[from]" value="{{ filters.from }}" type="text" class="datepicker" />
-            <a class="clear" href="#">x</a>
+            <input name="date[from]" value="{{ filters.from }}" type="datetime" />
+            <a class="btn btn-danger" href="#">x</a>
         </div>
         
         <div class="filter">
             <label for="date[to]">To:</label>
-            <input name="date[to]" value="{{ filters.to }}" type="text" class="datepicker" />
-            <a class="clear" href="#">x</a>
+            <input name="date[to]" value="{{ filters.to }}" type="datetime" />
+            <a class="btn btn-danger" href="#">x</a>
         </div>
     </div>
     
-    <div id="rules" class="checkboxes">
-        <h3 class="title">Rules</h3>
+    <div class="well span4">
+        <h3>Rules</h3>
         <div class="filter all">
             <label for="rules[all]">
                 All Rules:
             </label>
-            <input name="rules[all]" type="checkbox" value="1" class="all" {% if filters.rules == "all" %}checked="checked"{% endif %} />
+            <input name="rules[all]" type="checkbox" class="all" {% if filters.rules == "all" %}checked="checked"{% endif %} />
         </div>
         {% for rule in rules %}
             <div class="filter">
                 <label for="rules[{{ rule.rule }}]">
                     {{ rule.name }}[{{ rule.rule }}]:
                 </label>
-                <input name="rules[{{ rule.rule }}]" type="checkbox" value="1" {% if rule.rule in filters.rules %} checked="checked"{% endif %} />
-                {# <input name="rules[{{ rule.rule }}]" type="checkbox" value="1" {% if filters.rules[$rule.rule] eq 1}checked=checked{/if} />  #}
+                <input name="rules[{{ rule.rule }}]" type="checkbox" {% if rule.rule in filters.rules %} checked="checked"{% endif %} />
+                {# <input name="rules[{{ rule.rule }}]" type="checkbox" {% if filters.rules[$rule.rule] eq 1}checked=checked{/if} />  #}
             </div>      
         {% endfor %}
     </div>
     
-    <div id="blacklists" class="checkboxes">
+    <div class="well span4">
         <h3 class="title">Blacklists</h3>
         <div class="filter all">
             <label for="blacklists[all]">All Blacklists:</label>
-            <input name="blacklists[all]" type="checkbox" class="all" value="1" {% if filters.blacklists == "all" %}checked="checked" {% endif %} />
+            <input name="blacklists[all]" type="checkbox" class="all" {% if filters.blacklists == "all" %}checked="checked" {% endif %} />
         </div>
         {% for blacklist in blacklists %}
             <div class="filter">
@@ -49,10 +49,10 @@
             </div>
         {% endfor %}
     </div>
-    
-    <div id="apply">
-        <input class="button" type="submit" value="Apply Filters" />
-        <a class="button" href="/index.php?page=users&action=resetfilters">Reset Filters</a>
+</div>
+<div class="row">
+    <div class="span12">
+        <input class="btn btn-primary" type="submit" value="Apply Filters" />
     </div>
 </div>
 </form>
