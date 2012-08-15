@@ -60,7 +60,11 @@ def getEvents(
             'timegroup': "DATE_FORMAT(event.start, %s)",
         },
         select_params = (sqldateformat,),
-    ).values("timegroup", "blacklist", "blacklist__name", "rule", "rule__name").annotate(alerts=Count('event_id')).order_by("rule", "blacklist__name", "start")
+    ).values(
+        "timegroup", "blacklist", "blacklist__name", "rule", "rule__name"
+    ).annotate(
+        alerts=Count('event_id')
+    ).order_by("rule", "blacklist__name", "start")
     
     if username:
         events = events.filter(username=username)
@@ -148,3 +152,119 @@ def getOverviews():
         'l28d' : getGrouping(now+relativedelta(days=  -28)),
         'l12m' : getGrouping(now+relativedelta(months=-12)),
     }
+
+def fetchUserStatistics(username):
+    
+    events = Event.objects.filter(
+        Q(rule__hide=False) | Q(blacklist__hide=False),
+        username = username,
+    ).exclude(
+        ip_src__startswith = "152.78."
+    )
+    
+    events_src = events.values(
+        "username", "ip_src", "blacklist__name", "rule__name"
+    ).annotate(
+        Count('event_id'),
+        packets = Sum("alerts"),
+        earliest = Min("start"),
+        latest = Min("latest")
+    )
+    
+    events_dst = events.values(
+        "username", "ip_dst"
+    ).annotate(
+        Count('event_id'),
+        packets = Sum("alerts"),
+        earliest = Min("start"),
+        latest = Min("latest")
+    )
+    """
+    public function fetchUserStatistics($user){
+        // Fetch BAD IP stats
+        $ip_sql = sprintf("
+            SELECT ip, SUM(alerts) as alerts, SUM(packets) as packets, blacklist, rule, rule_name, MIN(earliest) as earliest, MAX(latest) as latest
+            FROM (
+                SELECT e.event_id, ip_src as ip, COUNT(e.event_id) as alerts, SUM(e.alerts) as packets, bl.name as blacklist, rule, rule_name, MIN(e.start) AS earliest, MAX(e.finish) as latest
+                FROM event e
+                LEFT JOIN blacklists bl
+                    ON bl.bl_id = e.blacklist
+                LEFT JOIN rules r
+                    ON r.rule_id = e.rule
+                WHERE
+                    ip_src NOT LIKE '152.78.%%'
+                    AND username = '%s'
+                    AND (r.hide = 0 OR bl.hide = 0)
+                GROUP BY username, ip_src
+                
+                UNION
+                
+                SELECT e.event_id, ip_dst as ip, COUNT(e.event_id) as alerts, SUM(e.alerts) as packets, bl.name as blacklist, rule, rule_name, MIN(e.start) AS earliest, MAX(e.finish) as latest
+                FROM event e
+                LEFT JOIN blacklists bl
+                    ON bl.bl_id = e.blacklist
+                LEFT JOIN rules r
+                    ON r.rule_id = e.rule
+                WHERE
+                    ip_dst NOT LIKE '152.78.%%'
+                    AND username = '%s'
+                    AND (r.hide = 0 OR bl.hide = 0)
+                GROUP BY username, ip_dst
+            ) as tmp
+            GROUP BY ip
+            ORDER BY alerts DESC
+        ", $user, $user);
+        
+        $ip_rst = mysql_query($ip_sql);
+        
+        if($ip_rst){
+            // Loop through all IP addresses and create an array of them
+            while($ip = mysql_fetch_assoc($ip_rst)){
+                $ips[] = $ip;
+            }
+        } else {
+            // Something broke
+            echo mysql_error();exit;
+        }
+        unset($ip_rst);
+        
+        // Fetch Alert Occurance Stats
+        $ao_sql = sprintf("
+            SELECT username, rule, rule_name, bl.name as blacklist, COUNT(e.event_id) as alerts, SUM(e.alerts) as packets, MIN(e.start) as earliest, MAX(e.finish) as latest
+            FROM event e
+            LEFT JOIN blacklists bl
+                ON bl.bl_id = e.blacklist
+            LEFT JOIN rules r
+                ON r.rule_id = e.rule
+            WHERE
+                username = '%s'
+                AND (r.hide = 0 OR bl.hide = 0)
+            GROUP BY
+                e.rule,
+                e.blacklist
+            ORDER BY
+                alerts DESC
+        ", $user);
+        
+        // Fetch alert occurances
+        $ao_rst = mysql_query($ao_sql);
+        if($ao_rst){
+            while($ao = mysql_fetch_assoc($ao_rst)){
+                // Add alert occurance to an array, keep a tally of total events
+                $aos[] = $ao;
+                $totals += $ao['alerts'];
+            }
+        } else {
+            // Something broke
+            echo mysql_error();exit;
+        }
+        unset($ao_rst);
+        
+        // Return an array of useful information
+        return array(
+            'ip_occ' => $ips,
+            'alert_occ' => $aos,
+            'total_alerts' => $totals
+        );
+    }
+    """
