@@ -26,14 +26,22 @@
                     <a href="{% url 'user' user.username %}">{{user.username}}</a>
                 </td>
                 <td>
-                    {% filter force_escape %}
-                        {% firstof user.rules "-" %}
-                    {% endfilter %}
+                    {% for rule in user.rules %}
+                        {% if fooloop.first %} <ul> {% endif %}
+                            <li>{{ rule }}</li>
+                        {% if fooloop.last %} </ul> {% endif %}
+                    {% empty %}
+                        -
+                    {% endfor %}
                 </td>
                 <td>
-                    {% filter force_escape %}
-                        {% firstof user.blacklists "-" %}
-                    {% endfilter %}
+                    {% for blacklist in user.blacklists %}
+                        {% if fooloop.first %} <ul> {% endif %}
+                            <li>{{ blacklist }}</li>
+                        {% if fooloop.last %} </ul> {% endif %}
+                    {% empty %}
+                        -
+                    {% endfor %}
                 </td>
                 <td>{{user.event_id__count}}</td>
                 <td>{{user.packets}}</td>

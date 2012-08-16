@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.db.models import Q, Count, Sum, Min, Max
 
 from maluroam.eduroam_snort.models import Event, Blacklist, Rule
+from maluroam.eduroam_snort.aggregates import Concatenate
 from maluroam.eduroam_snort.utils import getOverviews
 import json
 from django.http import HttpResponse, Http404
@@ -82,17 +83,17 @@ class UsersListView(ListView):
     
     def get_queryset(self):
         return self.model.objects.filter(
-        #    Q(rule__hide=False) | Q(blacklist__hide=False)
-        #).extra(
-        #    select={
-        #        'rules': "GROUP_CONCAT(DISTINCT(rule.rule_name))",
-        #        'blacklists': "GROUP_CONCAT(DISTINCT(blacklist.name))"
-        #    }
-        ).values(
-            "username"#, "rules", "blacklists"
-        ).annotate(
-            Count('event_id'), packets = Sum('alerts'), earliest = Min("start"), latest = Max("finish")
-        ).order_by("-event_id__count")
+            #    Q(rule__hide=False) | Q(blacklist__hide=False)
+            #).extra(
+            #    select={
+            #        'rules': "GROUP_CONCAT(DISTINCT(rule.rule_name))",
+            #        'blacklists': "GROUP_CONCAT(DISTINCT(blacklist.name))"
+            #    }
+            ).values(
+                "username"#, "rules", "blacklists"
+            ).annotate(
+                Concatenate("blacklist__name"), Concatenate("rule__name"), Count('event_id'), packets = Sum('alerts'), earliest = Min("start"), latest = Max("finish")
+            ).order_by("-event_id__count")
         
         """
         SELECT username, GROUP_CONCAT(DISTINCT(rule) SEPARATOR ',') as rules, GROUP_CONCAT(DISTINCT(bl.name) SEPARATOR ',') as blacklists, COUNT(e.event_id) as alerts, SUM(e.alerts) as packets, MIN(DATE_FORMAT(e.start,'%%Y-%%m-%%d')) as earliest, MAX(DATE_FORMAT(e.finish,'%%Y-%%m-%%d')) as latest
@@ -110,6 +111,11 @@ class UsersListView(ListView):
         
     def get_context_data(self, **kwargs):
         context = super(UsersListView, self).get_context_data(**kwargs)
+
+        for obj in context["object_list"]:
+            obj["blacklists"] = obj["blacklist__name__concatenate"].split(' / ') if obj["blacklist__name__concatenate"] else tuple()
+            obj["rules"] = obj["rule__name__concatenate"].split(' / ') if obj["rule__name__concatenate"] else tuple()
+        
         context["rules"] = Rule.objects.all()
         context["blacklists"] = Blacklist.objects.all()
         return context
