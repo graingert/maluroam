@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.db.models import Q, Count, Sum, Min, Max
 
 from maluroam.eduroam_snort.models import Event, Blacklist, Rule
-from maluroam.eduroam_snort.aggregates import Concatenate
+from maluroam.eduroam_snort.aggregates import Concatenate, parse_concat
 from maluroam.eduroam_snort.utils import getOverviews
 import json
 from django.http import HttpResponse, Http404
@@ -113,8 +113,8 @@ class UsersListView(ListView):
         context = super(UsersListView, self).get_context_data(**kwargs)
 
         for obj in context["object_list"]:
-            obj["blacklists"] = obj["blacklist__name__concatenate"].split(' / ') if obj["blacklist__name__concatenate"] else tuple()
-            obj["rules"] = obj["rule__name__concatenate"].split(' / ') if obj["rule__name__concatenate"] else tuple()
+            obj["blacklists"] = parse_concat(obj["blacklist__name__concatenate"])
+            obj["rules"] = parse_concat(obj["rule__name__concatenate"])
         
         context["rules"] = Rule.objects.all()
         context["blacklists"] = Blacklist.objects.all()
