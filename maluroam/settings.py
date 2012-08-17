@@ -129,6 +129,7 @@ INSTALLED_APPS = (
     'jquery',
     'compressor',
     'crispy_forms',
+    'django_extensions',
     'maluroam.eduroam_snort',
 )
 
