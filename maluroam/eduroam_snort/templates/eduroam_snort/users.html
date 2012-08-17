@@ -27,18 +27,18 @@
                 </td>
                 <td>
                     {% for rule in user.rules %}
-                        {% if fooloop.first %} <ul> {% endif %}
+                        {% if forloop.first %} <ol> {% endif %}
                             <li>{{ rule }}</li>
-                        {% if fooloop.last %} </ul> {% endif %}
+                        {% if forloop.last %} </ol> {% endif %}
                     {% empty %}
                         -
                     {% endfor %}
                 </td>
                 <td>
                     {% for blacklist in user.blacklists %}
-                        {% if fooloop.first %} <ul> {% endif %}
+                        {% if forloop.first %} <ol> {% endif %}
                             <li>{{ blacklist }}</li>
-                        {% if fooloop.last %} </ul> {% endif %}
+                        {% if forloop.last %} </ol> {% endif %}
                     {% empty %}
                         -
                     {% endfor %}
