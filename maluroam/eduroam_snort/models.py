@@ -58,7 +58,7 @@ class Rule(models.Model):
     hide = models.BooleanField()
     
     def __unicode__(self):
-        return self.name
+        return "{name}[{pk}]".format(name=self.name, pk=self.pk)
     
     class Meta:
         db_table = u'rules'
