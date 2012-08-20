@@ -1,7 +1,7 @@
 {% extends "eduroam_snort/base.html" %}
 {% load url from future %}
 {% block content %}
-    {% include "eduroam_snort/users.filters.html" with filters=filters rules=rules blacklists=blacklists only %}
+    {% include "eduroam_snort/users.filters.html" with filter_form=filter_form only %}
     {% include "eduroam_snort/pagination.html" with page_name="users" page_obj=page_obj only %}
     
     

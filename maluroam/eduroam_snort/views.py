@@ -4,11 +4,14 @@ from django.db.models import Q, Count, Sum, Min, Max
 from maluroam.eduroam_snort.models import Event, Blacklist, Rule
 from maluroam.eduroam_snort.aggregates import Concatenate, parse_concat
 from maluroam.eduroam_snort.utils import getOverviews
+from maluroam.eduroam_snort.forms import FilterForm
+
 import json
 from django.http import HttpResponse, Http404
 
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
+from dateutil.parser import parse
 from dateutil.tz import tzutc
 
 from django.template.defaultfilters import slugify
@@ -82,17 +85,28 @@ class UsersListView(ListView):
     paginate_by = 20
     
     def get_queryset(self):
-        return self.model.objects.filter(
-            #    Q(rule__hide=False) | Q(blacklist__hide=False)
-            #).extra(
-            #    select={
-            #        'rules': "GROUP_CONCAT(DISTINCT(rule.rule_name))",
-            #        'blacklists': "GROUP_CONCAT(DISTINCT(blacklist.name))"
-            #    }
-            ).values(
-                "username"#, "rules", "blacklists"
-            ).annotate(
-                Concatenate("blacklist__name"), Concatenate("rule__name"), Count('event_id'), packets = Sum('alerts'), earliest = Min("start"), latest = Max("finish")
+        filters = Q()
+        filter_form = FilterForm(self.request.GET)
+        if filter_form.is_valid():
+            if filter_form["rule"].value():
+                filters = filters & Q(rule__in = filter_form["rule"].value())
+            if filter_form["blacklist"].value():
+                filters = filters & Q(rule__in = filter_form["blacklist"].value())
+            earliest = filter_form["earliest"].value()
+            latest = filter_form["latest"].value()
+            
+            if earliest:
+                filters = filters & Q(start__gte = earliest)
+            if latest:
+                filters = filters & Q(finish__lte = latest)
+            
+        return self.model.objects.filter(filters).values("username").annotate(
+                Concatenate("blacklist__name"),
+                Concatenate("rule__name"),
+                Count('event_id'),
+                packets = Sum('alerts'),
+                earliest = Min("start"),
+                latest = Max("finish")
             ).order_by("-event_id__count")
         
         """
@@ -116,8 +130,7 @@ class UsersListView(ListView):
             obj["blacklists"] = parse_concat(obj["blacklist__name__concatenate"])
             obj["rules"] = parse_concat(obj["rule__name__concatenate"])
         
-        context["rules"] = Rule.objects.all()
-        context["blacklists"] = Blacklist.objects.all()
+        context["filter_form"] = FilterForm(self.request.GET)
         return context
     
 
