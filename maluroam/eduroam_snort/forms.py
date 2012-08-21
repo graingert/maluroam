@@ -3,7 +3,7 @@ from django.forms.widgets import CheckboxSelectMultiple
 from django.core.urlresolvers import reverse
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit, Layout, Div, Fieldset
+from crispy_forms.layout import Submit, Reset, Layout, Div, Fieldset
 from crispy_forms.bootstrap import FormActions
 from maluroam.eduroam_snort.models import Blacklist, Rule
 
@@ -51,7 +51,8 @@ class FilterForm(forms.Form):
                 css_class = "row-fluid"
             ),
             FormActions(
-                Submit('filter', 'Filter', css_class="btn-primary"),
+                Submit('filter', 'Filter', css_class="btn btn-primary"),
+                Reset('reset', 'Reset', css_class="btn btn-danger")
             )
         )
         
