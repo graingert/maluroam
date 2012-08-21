@@ -326,13 +326,3 @@ h4{
 #settings .button{
 	font-size: 11px;
 }
-
-#users .error{
-	display: block;
-	background: #FFB6B6; 
-	border-top: 2px solid #FF0000;
-	border-bottom: 2px solid #FF0000;
-	margin: 25px 0;
-	padding: 25px;
-	text-align: center;
-}
