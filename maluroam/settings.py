@@ -128,9 +128,9 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'jquery',
     'compressor',
+    'maluroam.eduroam_snort',
     'crispy_forms',
     'django_extensions',
-    'maluroam.eduroam_snort',
 )
 
 # A sample logging configuration. The only tangible logging

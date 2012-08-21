@@ -1,4 +1,5 @@
 from django import forms
+from django.forms.widgets import CheckboxSelectMultiple
 from django.core.urlresolvers import reverse
 
 from crispy_forms.helper import FormHelper
@@ -6,13 +7,22 @@ from crispy_forms.layout import Submit, Layout, Div, Fieldset
 from crispy_forms.bootstrap import FormActions
 from maluroam.eduroam_snort.models import Blacklist, Rule
 
+
 class FilterForm(forms.Form):
     earliest = forms.DateTimeField(required=False)
     latest = forms.DateTimeField(required=False)
-    rule = forms.ModelMultipleChoiceField(required=False, queryset=Rule.objects.all())
-    blacklist = forms.ModelMultipleChoiceField(required=False, queryset=Blacklist.objects.all())
+    rule = forms.ModelMultipleChoiceField(
+        required=False,
+        queryset=Rule.objects.all(),
+        widget = forms.CheckboxSelectMultiple,
+    )
+    blacklist = forms.ModelMultipleChoiceField(
+        required=False,
+        queryset=Blacklist.objects.all(),
+        widget = forms.CheckboxSelectMultiple,
+    )
     
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs):        
         helper = FormHelper()
         helper.form_class = "form-inline"
         helper.form_method = "get"
@@ -41,7 +51,7 @@ class FilterForm(forms.Form):
                 css_class = "row-fluid"
             ),
             FormActions(
-                Submit('save', 'save', css_class="btn-primary"),
+                Submit('filter', 'Filter', css_class="btn-primary"),
             )
         )
         
