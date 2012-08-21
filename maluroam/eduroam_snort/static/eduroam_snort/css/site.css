@@ -245,16 +245,3 @@ h4{
 #user #alerts span.col4{width: 90px;}
 #user #alerts span.col5{width: 180px;}
 #user #alerts span.col6{width: 180px;}
-
-#dashboard #users_overview{
-	width: 450px;
-}
-#dashboard #users_overview span.col1{
-	width: 280px;
-	text-align: left;
-	text-indent: 5px;
-}
-#dashboard #users_overview .table-header span.col1{text-align: center;}
-#dashboard #users_overview span.col2{width: 70px;}
-#dashboard #users_overview span.col3{width: 70px;}
-#dashboard #users_overview span.col4{width: 50px;}
