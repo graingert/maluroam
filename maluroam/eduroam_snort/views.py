@@ -123,6 +123,11 @@ class UsersListView(ListView):
         context["filter_form"] = FilterForm(self.request.GET)
         query = self.request.GET.copy()
         query.pop("page", None)
+        
+        for key, value in query.items():
+            if not len(value) > 0:
+                del(query[key])
+        
         context["querystring"] = '?' + query.urlencode()
         return context
     
