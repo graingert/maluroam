@@ -87,6 +87,7 @@ class UsersListView(ListView):
     def get_queryset(self):
         filters = Q()
         filter_form = FilterForm(self.request.GET)
+        
         if filter_form.is_valid():
             if filter_form["rule"].value():
                 filters = filters & Q(rule__in = filter_form["rule"].value())
@@ -108,20 +109,6 @@ class UsersListView(ListView):
                 earliest = Min("start"),
                 latest = Max("finish")
             ).order_by("-event_id__count")
-        
-        """
-        SELECT username, GROUP_CONCAT(DISTINCT(rule) SEPARATOR ',') as rules, GROUP_CONCAT(DISTINCT(bl.name) SEPARATOR ',') as blacklists, COUNT(e.event_id) as alerts, SUM(e.alerts) as packets, MIN(DATE_FORMAT(e.start,'%%Y-%%m-%%d')) as earliest, MAX(DATE_FORMAT(e.finish,'%%Y-%%m-%%d')) as latest
-            FROM event e
-            LEFT JOIN blacklists bl
-                ON bl.bl_id = e.blacklist
-            LEFT JOIN rules r
-                ON r.rule_id = e.rule
-            WHERE
-                %s
-                AND (r.hide = 0
-                OR bl.hide = 0)
-            GROUP BY username
-        """
         
     def get_context_data(self, **kwargs):
         context = super(UsersListView, self).get_context_data(**kwargs)
