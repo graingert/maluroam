@@ -86,19 +86,18 @@ class UsersListView(ListView):
     
     def get_queryset(self):
         filters = Q()
-        filter_form = FilterForm(self.request.GET)
+        self.filter_form = FilterForm(self.request.GET)
         
-        if filter_form.is_valid():
-            rules = filter_form.cleaned_data['rule']
-            blacklists = filter_form.cleaned_data['blacklist']
-            earliest = filter_form.cleaned_data['earliest']
-            latest = filter_form.cleaned_data['latest']
+        if self.filter_form.is_valid():
+            rules = self.filter_form.cleaned_data['rule']
+            blacklists = self.filter_form.cleaned_data['blacklist']
+            earliest = self.filter_form.cleaned_data['earliest']
+            latest = self.filter_form.cleaned_data['latest']
             
             if rules:
-                filters = filters & Q(rule__in = filter_form["rule"].value())
+                filters = filters & Q(rule__in = rules)
             if blacklists:
-                filters = filters & Q(rule__in = filter_form["blacklist"].value())
-            
+                filters = filters & Q(rule__in = blacklists)
             if earliest:
                 filters = filters & Q(start__gte = earliest)
             if latest:
@@ -120,7 +119,7 @@ class UsersListView(ListView):
             obj["blacklists"] = parse_concat(obj["blacklist__name__concatenate"])
             obj["rules"] = parse_concat(obj["rule__name__concatenate"])
         
-        context["filter_form"] = FilterForm(self.request.GET)
+        context["filter_form"] = self.filter_form
         query = self.request.GET.copy()
         query.pop("page", None)
         
