@@ -35,8 +35,8 @@
         
         
         {% if page_obj.has_next %}
-            <li><a href="{{url}}?page={{page_obj.next_page_number}}">&rsaquo;</a></li>
-            <li><a href="{{url}}?page=last">&raquo;</a></li>
+            <li><a href="{{url}}&amp;page={{page_obj.next_page_number}}">&rsaquo;</a></li>
+            <li><a href="{{url}}&amp;page=last">&raquo;</a></li>
         {% else %}
             <li class="disabled"><a>&rsaquo;</a></li>
             <li class="disabled"><a>&raquo;</a></li>
