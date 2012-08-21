@@ -89,12 +89,15 @@ class UsersListView(ListView):
         filter_form = FilterForm(self.request.GET)
         
         if filter_form.is_valid():
-            if filter_form["rule"].value():
+            rules = filter_form.cleaned_data['rule']
+            blacklists = filter_form.cleaned_data['blacklist']
+            earliest = filter_form.cleaned_data['earliest']
+            latest = filter_form.cleaned_data['latest']
+            
+            if rules:
                 filters = filters & Q(rule__in = filter_form["rule"].value())
-            if filter_form["blacklist"].value():
+            if blacklists:
                 filters = filters & Q(rule__in = filter_form["blacklist"].value())
-            earliest = filter_form["earliest"].value()
-            latest = filter_form["latest"].value()
             
             if earliest:
                 filters = filters & Q(start__gte = earliest)
@@ -118,6 +121,9 @@ class UsersListView(ListView):
             obj["rules"] = parse_concat(obj["rule__name__concatenate"])
         
         context["filter_form"] = FilterForm(self.request.GET)
+        query = self.request.GET.copy()
+        query.pop("page", None)
+        context["querystring"] = '?' + query.urlencode()
         return context
     
 

@@ -1,8 +1,9 @@
 {% extends "eduroam_snort/base.html" %}
 {% load url from future %}
+{% url 'users' as users_url %}
 {% block content %}
     {% include "eduroam_snort/users.filters.html" with filter_form=filter_form only %}
-    {% include "eduroam_snort/pagination.html" with page_name="users" page_obj=page_obj only %}
+    {% include "eduroam_snort/pagination.html" with url=users_url|add:querystring page_obj=page_obj only %}
     
     
     {% for user in users %}
@@ -54,10 +55,10 @@
         {% endif %}
     {% empty %}
         <div class="alert alert-error">
-            <span>No users were returned. Please check your filters or go back to <a href="{% url 'users' %}">the users page</a>.</span>
+            <span>No users were returned. Please check your filters or go back to <a href="{{users_url}}">the users page</a>.</span>
         </div>
     {% endfor %}
-    {% include "eduroam_snort/pagination.html" with page_name="users" page_obj=page_obj only %}
+    {% include "eduroam_snort/pagination.html" with url=users_url|add:querystring page_obj=page_obj only %}
 
 {% endblock content %}
 {% block scripts %}
