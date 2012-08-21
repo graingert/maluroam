@@ -306,23 +306,3 @@ h4{
 	text-align: right;
 }
 #users .pagination a:hover{text-decoration: underline;}
-
-#settings #rulenames .table{
-	font-size: 0.9em;
-}
-#settings #rulenames span.col1{width: 200px;}
-#settings #rulenames span.col2{width: 200px;}
-#settings #rulenames span.col3{width: 50px;}
-#settings #rulenames span.col4{width: 400px;}
-#settings #blacklists .table{
-	font-size: 0.9em;
-}
-#settings #blacklists span.col1{width: 160px;}
-#settings #blacklists span.col2{width: 400px; font-size: 0.8em;}
-#settings #blacklists span.col3{width: 200px;}
-#settings #blacklists span.col4{width: 100px;}
-
-
-#settings .button{
-	font-size: 11px;
-}
