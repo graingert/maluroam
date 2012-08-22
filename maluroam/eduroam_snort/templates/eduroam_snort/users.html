@@ -1,5 +1,6 @@
 {% extends "eduroam_snort/base.html" %}
 {% load url from future %}
+{% block title%}Users{% endblock title %}
 {% block isusers %}active{%endblock%}
 {% url 'users' as users_url %}
 {% block content %}
