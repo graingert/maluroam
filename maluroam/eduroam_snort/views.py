@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.db.models import Q, Count, Sum, Min, Max
+from django.core.urlresolvers import reverse
 
 from maluroam.eduroam_snort.models import Event, Blacklist, Rule
 from maluroam.eduroam_snort.aggregates import Concatenate, parse_concat

@@ -22,7 +22,7 @@
                     </thead>
                     <tbody>
                     {% for rule in rules %}
-                        <tr>
+                        <tr id="rule-{{rule.id}}">
                             <form action="{% url 'rule' rule.pk %}" method="post" name="rule_{{rule.rule}}">
                                 {% csrf_token %}
                                 <td>{{rule}}</td>
@@ -58,7 +58,7 @@
                     </thead>
                     
                     {% for blacklist in blacklists %}
-                        <tr>
+                        <tr id="blacklist-{{rule.id}}">
                             <form action="{% url 'blacklist' blacklist.pk %}" method="post" name="blacklist_{{blacklist.pk}}">
                                 {% csrf_token %}
                                 <td>{{blacklist.name}}</span>
