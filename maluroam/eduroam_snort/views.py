@@ -25,7 +25,7 @@ def dashboard(request):
         start__gte = (datetime.now(tzutc()) + relativedelta(days=-7)),
     )
     
-    users = events.values("username").annotate(Count('event_id'), Sum("alerts")).order_by("-event_id__count","-alerts__sum")
+    users = events.values("username").annotate(Count('id'), Sum("alerts")).order_by("-id__count","-alerts__sum")
     
     return render(request, "eduroam_snort/dashboard.html", dict(users=users))
 
@@ -107,11 +107,11 @@ class UsersListView(ListView):
         return self.model.objects.filter(filters).values("username").annotate(
                 Concatenate("blacklist__name"),
                 Concatenate("rule__name"),
-                Count('event_id'),
+                Count('id'),
                 packets = Sum('alerts'),
                 earliest = Min("start"),
                 latest = Max("finish")
-            ).order_by("-event_id__count")
+            ).order_by("-id__count")
         
     def get_context_data(self, **kwargs):
         context = super(UsersListView, self).get_context_data(**kwargs)

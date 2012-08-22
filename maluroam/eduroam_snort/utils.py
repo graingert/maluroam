@@ -63,7 +63,7 @@ def getEvents(
     ).values(
         "timegroup", "blacklist", "blacklist__name", "rule", "rule__name"
     ).annotate(
-        alerts=Count('event_id')
+        alerts=Count('id')
     ).order_by("rule", "blacklist__name", "start")
     
     if username:
@@ -165,7 +165,7 @@ def fetchUserStatistics(username):
     events_src = events.values(
         "username", "ip_src", "blacklist__name", "rule__name"
     ).annotate(
-        Count('event_id'),
+        Count('pk'),
         packets = Sum("alerts"),
         earliest = Min("start"),
         latest = Min("latest")
@@ -174,7 +174,7 @@ def fetchUserStatistics(username):
     events_dst = events.values(
         "username", "ip_dst"
     ).annotate(
-        Count('event_id'),
+        Count('pk'),
         packets = Sum("alerts"),
         earliest = Min("start"),
         latest = Min("latest")

@@ -10,7 +10,7 @@
 from django.db import models
 
 class Event(models.Model):
-    event_id = models.BigIntegerField(primary_key=True)
+    id = models.BigIntegerField(db_column= "event_id", primary_key=True)
     username = models.CharField(max_length=765)
     radius_account_id = models.CharField(max_length=765)
     radius_session_id = models.CharField(max_length=765)
@@ -50,7 +50,7 @@ class Rule(models.Model):
         db_table = u'rules'
         
 class Blacklist(models.Model):
-    bl_id = models.BigIntegerField(primary_key=True, editable=False)
+    id = models.BigIntegerField(primary_key=True, db_column="bl_id", editable=False)
     name = models.CharField(max_length=765, editable=False)
     url = models.CharField(max_length=765, editable=False)
     serialized = models.TextField(editable=False)

@@ -49,7 +49,7 @@
             {% endif %}
                     <div class="table-row">
                         <span class="col1"><a href="{% url 'user' user.username %}">{{user.username}}</a></span>
-                        <span class="col2">{{user.event_id__count}}</span>
+                        <span class="col2">{{user.id__count}}</span>
                         <span class="col3">{{user.alerts__sum}}</span>
                     </div>
             {% if forloop.last %}
