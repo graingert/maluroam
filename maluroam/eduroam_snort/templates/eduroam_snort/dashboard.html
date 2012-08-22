@@ -1,8 +1,8 @@
 {% extends "eduroam_snort/base.html" %}
 {% load url from future %}
+
+{% block isdashboard%}active{%endblock%}
 {% block content %}
-<div id="dashboard">
-    <h1 class="title">Dashboard</h1>
     <form style="display: block; text-align: center; font-size: 10px;" >
         <div id="rangeSelector">
             <input type="radio" id="l24h" graphlabel="hours" name="radio" checked=checked /><label for="l24h">Last 24 hrs</label>
@@ -13,21 +13,33 @@
         </div>
     </form>
     
-    <h2 class="title updateRangeSpan">Suspected Malicious Activity<span></span></h2>
-    <div class="graph hideLegend" style="position: relative;">
-        <div id="chart1" style="display: block; margin: 10px 200px 25px 0; height: 450px;position: relative;"></div>
-        <ul id="overviewLegend"></ul>
+    <h2>Suspected Malicious Activity</h2>
+    <p class="updateRangeSpan">
+        <small></small>
+    </p>
+    <div class="row graph hideLegend">
+        <div class="span6" style="height:450px" id="chart1"></div>
+        <div class="span3">
+            <ul id="overviewLegend">
+            </ul>
+        </div>
     </div>
     
-    <div class="wrapper" style="display: block; padding: 25px;">
-        <div class="box" style="width: 400px; padding-right: 50px;">
-            <h2 class="title updateRangeSpan">Alert Totals Comparisons<span></span></h2>
+    <div class="row">
+        <div class="span6">
+            <h2>Alert Totals Comparisons</h2>
+            <p class="updateRangeSpan">
+                <small></small>
+            </p>
             <div id="donut" style="display: inline-block; width: 400px; height:300px;position: relative;"></div>
         </div>
+        <div class="span3" id="users_overview">
+            <h2>Users</h2>
+            <p class="updateRangeSpan">
+                <small></small>
+            </p>
         {% for user in users %}
             {% if forloop.first %}
-            <div class="box" id="users_overview">
-                <h2 class="title">Last 7 Days  - Users</h2>
                 <div id="users_overview" class="table" style="width: 450px;">
                     <div class="table-header ui-accordion-header ui-helper-reset ui-state-default ui-state-active ui-corner-top">
                         <span class="col1">Username</span>
@@ -42,13 +54,12 @@
                     </div>
             {% if forloop.last %}
                 </div>
-            </div>
             {% endif %}
         {% empty %}
-            <p>no users</p>
+            <div class="alert">No users for this range</div>
         {% endfor %}
+        </div>
     </div>
-</div>
 {% endblock content %}
 
 {% block scripts %}

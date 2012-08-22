@@ -17,48 +17,32 @@
         <link href="{{ STATIC_URL }}eduroam_snort/css/site.css" rel="stylesheet" type="text/css">
     </head>
     <body>
-        <div id="container">
-            <div id="inner-wrapper">
-                <h1 id="sitetitle"><a href="/">eduroam Wireless Malware Monitoring</a></h1>
-                <span id="lastupdated"><strong>Last Updated:</strong> {{lastupdated}}</span>
-                
-                <div id="menu-search">
-                    <ul id="menu">
-                        <li><a href="{% url 'dashboard' %}">Dashboard</a></li> |&nbsp;
-                        <li><a href="{% url 'users' %}">Users</a></li> |&nbsp;
-                        <li><a href="{% url 'settings' %}">Settings</a></li>
-                    </ul>
-                    
-                    <div id="search" class="ui-widget">
-                        <div id="user-search">
-                            <label for="usersearch">Search for User:</label><input type="text" id="usersearch" name="user" value="" style="width: 250px; padding: 5px;" />
-                        </div>
-                        
-                        <div id="date-search">
-                            <form class="form-inline" method="get" action="{% url 'users' %}">
-                                <input type="hidden" name="action" value="filter" />
-                                <input type="hidden" name="rules[all]" value="1" />
-                                <input type="hidden" name="blacklists[all]" value="1" />
-                                
-                                <label for="searchfrom">Search from:</label>
-                                <input type="date" id="searchfrom" name="date[from]" value="" />
-                                <label for="searchto">to</label>
-                                <input type="date" id="searchto" name="date[to]" value="" />
-                                <input type="submit" class="btn btn-primary" value="Search" />
-                            </form>
-                        </div>
-                    </div>
-                    
-                    <div id="log">
-                    </div>
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="/">Maluroam</a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav">
+                            <li class="{% block isdashboard %}{%endblock%}"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                            <li class="{% block isusers %}{%endblock%}"><a href="{% url 'users' %}">Users</a></li>
+                            <li class="{% block issettings %}{%endblock%}"><a href="{% url 'settings' %}">Settings</a></li>
+                        </ul>
+                    </div><!--/.nav-collapse -->
                 </div>
-                {% block content %}
-                {% endblock content %}
             </div>
-            
-            <div id="footer">This is a 3rd Year Project by Jon Hargest (<a href="mailto:jh4g09@ecs.soton.ac.uk">jh4g09@ecs.soton.ac.uk</a>)</div>
         </div>
-    
+
+        <div class="container">
+            {% block content %}
+            {% endblock content %}
+        </div>
+        <footer>This is a 3rd Year Project by Jon Hargest (<a href="mailto:jh4g09@ecs.soton.ac.uk">jh4g09@ecs.soton.ac.uk</a>)<footer>
+
         {% compress js %}
             <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.js"></script>
             <script type="text/javascript" src="{{ STATIC_URL }}eduroam_snort/js/jquery.flot.min.js"></script>

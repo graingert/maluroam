@@ -1,5 +1,6 @@
 {% extends "eduroam_snort/base.html" %}
 {% load url from future %}
+{% block isusers %}active{%endblock%}
 {% url 'users' as users_url %}
 {% block content %}
     {% include "eduroam_snort/users.filters.html" with filter_form=filter_form only %}

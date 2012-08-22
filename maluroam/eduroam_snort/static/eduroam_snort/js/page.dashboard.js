@@ -79,7 +79,7 @@ $(function () {
             graphlabel = rangeContainer.find("input:checked").attr('graphlabel');
             var text = rangeContainer.find('label[for="'+id+'"]').html();
         
-            $('.updateRangeSpan span').html('<small>(' + text + ')</small>');
+            $('.updateRangeSpan small').html('(' + text + ')');
             
             results = graph_data.results[id];
             totals = graph_data.total[id];
