@@ -9,20 +9,6 @@
 
 from django.db import models
 
-class Blacklist(models.Model):
-    bl_id = models.BigIntegerField(primary_key=True)
-    name = models.CharField(max_length=765)
-    url = models.CharField(max_length=765)
-    serialized = models.TextField()
-    updated = models.DateTimeField(editable=False)
-    hide = models.BooleanField()
-    
-    def __unicode__(self):
-        return self.name
-    
-    class Meta:
-        db_table = u'blacklists'
-
 class Event(models.Model):
     event_id = models.BigIntegerField(primary_key=True)
     username = models.CharField(max_length=765)
@@ -62,6 +48,20 @@ class Rule(models.Model):
     
     class Meta:
         db_table = u'rules'
+        
+class Blacklist(models.Model):
+    bl_id = models.BigIntegerField(primary_key=True, editable=False)
+    name = models.CharField(max_length=765, editable=False)
+    url = models.CharField(max_length=765, editable=False)
+    serialized = models.TextField(editable=False)
+    updated = models.DateTimeField(editable=False)
+    hide = models.BooleanField()
+    
+    def __unicode__(self):
+        return self.name
+    
+    class Meta:
+        db_table = u'blacklists'
 
 class Script(models.Model):
     id = models.AutoField(primary_key=True, db_column = "script_id", editable=False)
