@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.db.models import Q, Count, Sum, Min, Max
 from django.core.urlresolvers import reverse
 
-from maluroam.eduroam_snort.models import Event, Blacklist, Rule
+from maluroam.eduroam_snort.models import Event, Blacklist, Rule, Script
 from maluroam.eduroam_snort.aggregates import Concatenate, parse_concat
 from maluroam.eduroam_snort.utils import getOverviews
 from maluroam.eduroam_snort.forms import FilterForm
@@ -143,7 +143,7 @@ def settings(request):
     )
 
 class CRUDMixin(object):
-
+    template_name = "eduroam_snort/generic_form.html"
     def get_success_url(self):
         """
         Whenever an object is created or updated successfully this will
@@ -159,23 +159,11 @@ class CRUDMixin(object):
         else:
             return reverse('settings')
 
-
-class BlacklistCRUDMixin(CRUDMixin):
-    model = Blacklist
-class BlacklistCreateView(BlacklistCRUDMixin, CreateView):
+class CreateView(CRUDMixin, CreateView):
     pass
-class BlacklistDeleteView(BlacklistCRUDMixin, DeleteView):
+class DeleteView(CRUDMixin, DeleteView):
     pass
-class BlacklistUpdateView(BlacklistCRUDMixin, UpdateView):
-    pass
-    
-class RuleCRUDMixin(CRUDMixin):
-    model = Rule
-class RuleCreateView(RuleCRUDMixin, CreateView):
-    pass
-class RuleDeleteView(RuleCRUDMixin, DeleteView):
-    pass
-class RuleUpdateView(RuleCRUDMixin, UpdateView):
+class UpdateView(CRUDMixin, UpdateView):
     pass
 
 def route(request, name, pk=None):
@@ -183,10 +171,16 @@ def route(request, name, pk=None):
     Route to the correct view based on Method or the existance of
     pk.
     """
+    model = {
+        "Script" : Script,
+        "Rule" : Rule,
+        "Blacklist" : Blacklist
+    }[name]
+    
     if request.method == 'DELETE':
-        return globals()[name + "DeleteView"].as_view()(request=request, pk=pk)
+        return DeleteView.as_view(model=model)(request=request, pk=pk)
     else:
         if pk:
-            return globals()[name + "UpdateView"].as_view()(request=request, pk=pk)
+            return UpdateView.as_view(model=model)(request=request, pk=pk)
         else:
-            return globals()[name + "CreateView"].as_view()(request=request)
+            return CreateView.as_view(model=model)(request=request)
