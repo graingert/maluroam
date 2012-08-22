@@ -1,0 +1,15 @@
+.hideLegend .legend{
+	display: none;
+}
+.legend{
+	font-size: 12px;
+}
+
+#overviewLegend li > div {
+    display: inline-block;
+    margin-right: 4px;
+}
+
+#overviewLegend li label {
+    margin-left: 3px;
+}
