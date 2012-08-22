@@ -66,12 +66,12 @@ class Blacklist(models.Model):
 class Script(models.Model):
     id = models.AutoField(primary_key=True, db_column = "script_id", editable=False)
     name = models.CharField(max_length=765)
-    lastupdated = models.DateTimeField(editable=False)
+    updated = models.DateTimeField(db_column="lastupdated", editable=False)
     
     def __unicode__(self):
-        return "{name} Updated: {lastupdated}".format(
+        return "{name}[{pk}]".format(
             name=self.name,
-            lastupdated=self.lastupdated
+            pk=self.pk
         ) 
     
     class Meta:

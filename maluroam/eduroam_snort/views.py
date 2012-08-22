@@ -138,7 +138,8 @@ def settings(request):
         template_name = "eduroam_snort/settings.html",
         dictionary = {
             "rules" : Rule.objects.all(),
-            "blacklists" : Blacklist.objects.all()
+            "blacklists" : Blacklist.objects.all(),
+            "scripts" : Script.objects.all()
         }
     )
 

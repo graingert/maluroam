@@ -25,4 +25,5 @@ urlpatterns = patterns('maluroam.eduroam_snort.views',
     
     url(r'^blacklist/(?P<pk>\d+)?$', "route", kwargs={"name": "Blacklist"}, name="blacklist"),
     url(r'^rule/(?P<pk>\d+)?$', "route", kwargs={"name": "Rule"}, name="rule"),
+    url(r'^script/(?P<pk>\d+)?$', "route", kwargs={"name": "Blacklist"}, name="script"),
 )

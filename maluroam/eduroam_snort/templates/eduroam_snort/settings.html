@@ -6,6 +6,7 @@
         <ul class="nav nav-tabs">
             <li><a href="#rulenames" data-toggle="tab">Rule Names</a></li>
             <li><a href="#blacklists" data-toggle="tab">Blacklists</a></li>
+            <li><a href="#scripts" data-toggle="tab">Scripts</a></li>
         </ul>
         
         <div class="tab-content">
@@ -23,7 +24,7 @@
                     <tbody>
                     {% for rule in rules %}
                         <tr id="rule-{{rule.pk}}">
-                            <form action="{% url 'rule' rule.pk %}" method="post" name="rule_{{rule.rule}}">
+                            <form action="{% url 'rule' rule.pk %}" method="post" name="rule_{{rule.pk}}">
                                 {% csrf_token %}
                                 <td>{{rule}}</td>
                                 <td>
@@ -77,5 +78,35 @@
                     {% endfor %}
                 </table>
             </div>
+        
+        <div class="tab-pane" id="scripts">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <td>Script</td>
+                            <td>Last Updated</td>
+                            <td>Script Name</td>
+                            <td>Update</td>
+                        </tr>
+                    </thead>
+                    
+                    {% for script in scripts %}
+                        <tr id="script-{{script.pk}}">
+                            <form action="{% url 'script' script.pk %}" method="post" name="script_{{script.pk}}">
+                                {% csrf_token %}
+                                <td>{{script}}</td>
+                                <td>{{script.updated}}</td>
+                                <td>
+                                    <input type="text" name="name" value="{{script.name}}" />
+                                </td>
+                                <td>
+                                    <input class="btn btn-primary" type="submit" value="Update"/>
+                                </td>
+                            </form>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
         </div>
+    </div>
 {% endblock content %}
