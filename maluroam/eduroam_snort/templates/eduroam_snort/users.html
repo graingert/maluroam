@@ -5,64 +5,68 @@
 {% url 'users' as users_url %}
 {% block content %}
     {% include "eduroam_snort/users.filters.html" with filter_form=filter_form only %}
-    {% include "eduroam_snort/pagination.html" with url=users_url|add:querystring page_obj=page_obj only %}
     
-    
-    {% for user in users %}
-        {% if forloop.first %}
-            <table class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th>Username</th>
-                        <th>Rules</th>
-                        <th>Blacklists</th>
-                        <th>Alerts</th>
-                        <th>Packets</th>
-                        <th>Earliest Alert</th>
-                        <th>Latest Alert</th>
-                    </tr>
-                </thead>
-                <tbody>
-        {% endif %}
-            <tr>
-                <td>
-                    <a href="{% url 'user' user.username %}">{{user.username}}</a>
-                </td>
-                <td>
-                    {% for rule in user.rules %}
-                        {% if forloop.first %} <ol> {% endif %}
-                            <li>{{ rule }}</li>
-                        {% if forloop.last %} </ol> {% endif %}
-                    {% empty %}
-                        -
-                    {% endfor %}
-                </td>
-                <td>
-                    {% for blacklist in user.blacklists %}
-                        {% if forloop.first %} <ol> {% endif %}
-                            <li>{{ blacklist }}</li>
-                        {% if forloop.last %} </ol> {% endif %}
-                    {% empty %}
-                        -
-                    {% endfor %}
-                </td>
-                <td>{{user.id__count}}</td>
-                <td>{{user.packets}}</td>
-                <td>{{user.earliest}}</td>
-                <td>{{user.latest}}</td>
-            </tr>
-        {% if forloop.last %}
-                </tbody>
-            </table>
-        {% endif %}
-    {% empty %}
-        <div class="alert alert-error">
-            <span>No users were returned. Please check your filters or go back to <a href="{{users_url}}">the users page</a>.</span>
+    <div id="paginated-content">
+        <div hidden="hidden" class="loader progress progress-striped active">
+            <div class="bar" style="width: 100%;"></div>
         </div>
-    {% endfor %}
-    {% include "eduroam_snort/pagination.html" with url=users_url|add:querystring page_obj=page_obj only %}
+        
+        {% include "eduroam_snort/pagination.html" with url=users_url|add:querystring page_obj=page_obj only %}
+        
+        
+        {% for user in users %}
+            {% if forloop.first %}
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Rules</th>
+                            <th>Blacklists</th>
+                            <th>Alerts</th>
+                            <th>Packets</th>
+                            <th>Earliest Alert</th>
+                            <th>Latest Alert</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            {% endif %}
+                <tr>
+                    <td>
+                        <a href="{% url 'user' user.username %}">{{user.username}}</a>
+                    </td>
+                    <td>
+                        {% for rule in user.rules %}
+                            {% if forloop.first %} <ol> {% endif %}
+                                <li>{{ rule }}</li>
+                            {% if forloop.last %} </ol> {% endif %}
+                        {% empty %}
+                            -
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for blacklist in user.blacklists %}
+                            {% if forloop.first %} <ol> {% endif %}
+                                <li>{{ blacklist }}</li>
+                            {% if forloop.last %} </ol> {% endif %}
+                        {% empty %}
+                            -
+                        {% endfor %}
+                    </td>
+                    <td>{{user.id__count}}</td>
+                    <td>{{user.packets}}</td>
+                    <td>{{user.earliest}}</td>
+                    <td>{{user.latest}}</td>
+                </tr>
+            {% if forloop.last %}
+                    </tbody>
+                </table>
+            {% endif %}
+        {% empty %}
+            <div class="alert alert-error">
+                <span>No users were returned. Please check your filters or go back to <a href="{{users_url}}">the users page</a>.</span>
+            </div>
+        {% endfor %}
+        {% include "eduroam_snort/pagination.html" with url=users_url|add:querystring page_obj=page_obj only %}
+    </div>
 
 {% endblock content %}
-{% block scripts %}
-            <script type="text/javascript" src="{{ STATIC_URL }}eduroam_snort/js/page.users.js"></script>
-{% endblock scripts %}
