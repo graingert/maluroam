@@ -20,12 +20,10 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 
 
 def dashboard(request):
-    events = Event.objects.filter(
+    users = Event.objects.filter(
         #Q(rule__hide=False) | Q(blacklist__hide=False),
-        start__gte = (datetime.now(tzutc()) + relativedelta(days=-7)),
-    )
-    
-    users = events.values("username").annotate(Count('id'), Sum("alerts")).order_by("-id__count","-alerts__sum")
+        #start__gte = (datetime.now(tzutc()) + relativedelta(days=-7)),
+    ).values("username").annotate(Count('id'), Sum("alerts")).order_by("-id__count","-alerts__sum")
     
     return render(request, "eduroam_snort/dashboard.html", dict(users=users))
 
