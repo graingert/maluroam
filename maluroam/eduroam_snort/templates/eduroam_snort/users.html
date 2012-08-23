@@ -6,13 +6,11 @@
 {% block content %}
     {% include "eduroam_snort/users.filters.html" with filter_form=filter_form only %}
     
-    <div id="paginated-content">
+    <div id="paginate">
+        {% include "eduroam_snort/pagination.html" with url=users_url|add:querystring page_obj=page_obj only %}
         <div hidden="hidden" class="loader progress progress-striped active">
             <div class="bar" style="width: 100%;"></div>
         </div>
-        
-        {% include "eduroam_snort/pagination.html" with url=users_url|add:querystring page_obj=page_obj only %}
-        
         
         {% for user in users %}
             {% if forloop.first %}

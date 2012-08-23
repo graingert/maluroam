@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="utf-8">
         <title>eduroam Wireless Malware Monitoring - {% block title %} Untitled {%endblock title %}</title>
         <link href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css" rel="stylesheet" type="text/css">
         <style type="text/css">
@@ -39,7 +40,7 @@
             </div>
         </div>
 
-        <div class="container">
+        <div id="main" class="container">
             {% block content %}
             {% endblock content %}
         </div>
@@ -64,7 +65,8 @@
         <script type="text/javascript" data-webforms2-support="date" data-lang="en" src="{{ STATIC_URL }}html5Forms/shared/js/html5Forms.js"></script>
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.0.4/bootstrap.min.js"></script>
         <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
-        <script type="text/javascript" src="{{ STATIC_URL }}eduroam_snort/js/misc.js"></script>
+        <script type="text/javascript" src="https://raw.github.com/defunkt/jquery-pjax/master/jquery.pjax.js"></script>
+        <script type="text/javascript" src="{{ STATIC_URL }}eduroam_snort/js/pjax-paginator.js"></script>
         {% block scripts %}
         {% endblock scripts %}
     </body>
