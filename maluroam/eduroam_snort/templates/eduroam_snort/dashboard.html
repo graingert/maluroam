@@ -38,20 +38,26 @@
             </p>
         {% for user in users %}
             {% if forloop.first %}
-                <div id="users_overview" class="table">
-                    <div class="table-header ui-accordion-header ui-helper-reset ui-state-default ui-state-active ui-corner-top">
-                        <span class="col1">Username</span>
-                        <span class="col2">Events</span>
-                        <span class="col3">Packets</span>
-                    </div>
+                <table class="table table-bordered table-striped" id="users_overview">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Alerts</th>
+                            <th>Packets</th>
+                        </tr>
+                    </thead>
+                    <tbody>
             {% endif %}
-                    <div class="table-row">
-                        <span class="col1"><a href="{% url 'user' user.username %}">{{user.username}}</a></span>
-                        <span class="col2">{{user.id__count}}</span>
-                        <span class="col3">{{user.alerts__sum}}</span>
-                    </div>
+                    <tr>
+                        <td>
+                            <a href="{% url 'user' user.username %}">{{user.username}}</a>
+                        </td>
+                        <td>{{user.id__count}}</td>
+                        <td>{{user.alerts__sum}}</td>
+                    </tr>
             {% if forloop.last %}
-                </div>
+                    </tbody>
+                </table>
             {% endif %}
         {% empty %}
             <div class="alert">No users for this range</div>
