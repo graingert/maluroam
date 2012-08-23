@@ -125,8 +125,13 @@ class UsersListView(ListView):
         for key, value in query.items():
             if not len(value) > 0:
                 del(query[key])
+                
+            if key not in set(("rule", "blacklist", "earliest", "latest")):
+                del(query[key])
         
-        context["querystring"] = '?' + query.urlencode()
+        context["querystring"] = '?'
+        if query:
+            context["querystring"] += (query.urlencode() + '&')
         return context
     
 
