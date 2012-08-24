@@ -4,8 +4,8 @@ from django.core.urlresolvers import reverse
 
 from maluroam.eduroam_snort.models import Event, Blacklist, Rule, Script
 from maluroam.eduroam_snort.aggregates import Concatenate, parse_concat
-from maluroam.eduroam_snort.utils import getOverviews
-from maluroam.eduroam_snort.forms import FilterForm
+from maluroam.eduroam_snort.utils import getGrouping
+from maluroam.eduroam_snort.forms import FilterForm, ActivityRangeForm
 
 import json
 from django.http import HttpResponse, Http404
@@ -26,9 +26,18 @@ def dashboard(request):
     ).values("username").annotate(Count('id'), Sum("alerts")).order_by("-id__count","-alerts__sum")
     
     return render(request, "eduroam_snort/dashboard.html", dict(users=users))
-
-def overview(request):
-    return HttpResponse(json.dumps(getOverviews()), content_type="application/json")
+    
+def activity(request):
+    arForm = ActivityRangeForm(request.GET)
+    if arForm.is_valid():
+        return HttpResponse(json.dumps(getGrouping(**arForm.cleaned_data)), content_type="application/json")
+    else:
+        response = {
+            "success":False,
+            "general_message":"Invalid request",
+            "errors":dict(arForm.errors.items())
+        }
+        return HttpResponse(json.dumps(response), status=400, content_type="application/json")
     
 def user(request, slug):
     
@@ -66,7 +75,6 @@ def user(request, slug):
         return;
     }
     """
-    
     
     return render(
         request=request,
@@ -134,7 +142,6 @@ class UsersListView(ListView):
             context["querystring"] += (query.urlencode() + '&')
         return context
     
-
 def settings(request):
     return render(
         request = request,

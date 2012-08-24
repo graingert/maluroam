@@ -22,13 +22,12 @@ def unix_time_millis(dt):
     return int(unix_time(dt) * 1000.0)
 
 def getEvents(
-        start=datetime.min.replace(tzinfo=tzutc()),
-        finish=datetime.now(tzutc()),
+        earliest=datetime.min.replace(tzinfo=tzutc()),
+        latest=datetime.now(tzutc()),
         delta=None, username=None):
-    
-    assert start < finish
+    assert earliest < latest
     if not delta:
-        delta = finish - start;
+        delta = latest - earliest;
     
     """
     Determine the best interval for the graph, and sqldateformat to
@@ -53,8 +52,8 @@ def getEvents(
     """
     events = Event.objects.filter(
         Q(rule__hide=False) | Q(blacklist__hide=False),
-        start__gte = start,
-        finish__lte = finish,
+        start__gte = earliest,
+        finish__lte = latest,
     ).extra(
         select={
             'timegroup': "DATE_FORMAT(event.start, %s)",
@@ -143,16 +142,6 @@ def getGrouping(*args, **kwargs):
         grouping.items()
     )
     
-def getOverviews():
-    now = datetime.now(tzutc());
-    return {
-        'l24h' : getGrouping(now+relativedelta(hours= -24)),
-        'l3d'  : getGrouping(now+relativedelta(days=   -3)),
-        'l7d'  : getGrouping(now+relativedelta(days=   -7)),
-        'l28d' : getGrouping(now+relativedelta(days=  -28)),
-        'l12m' : getGrouping(now+relativedelta(months=-12)),
-    }
-
 def fetchUserStatistics(username):
     
     events = Event.objects.filter(

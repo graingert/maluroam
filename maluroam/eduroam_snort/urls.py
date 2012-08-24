@@ -8,8 +8,7 @@ from maluroam.eduroam_snort.views import UsersListView
 urlpatterns = patterns('maluroam.eduroam_snort.views',
     # Examples:
     url(r'^$', 'dashboard', name='dashboard'),
-    url(r'^overviews.json$', 'overview', name="overviews"),
-    
+    url(r'^activity.json$', 'activity', name="activity"),
     url(
         r'^user/$',
         UsersListView.as_view(),

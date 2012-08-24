@@ -94,6 +94,7 @@ $(function () {
             setupCharts: function(data){
                 for (var range in data){
                     if (data.hasOwnProperty(range)){
+                        console.log(data);
                         var range_data = data[range];
                         
                         graph_data.results[range] = range_data;
@@ -175,9 +176,35 @@ $(function () {
         }
     }();
     $('#rangeSelector').buttonset();
-    $.ajax({
-        url : "/overviews.json",
-        success: dashboard.setupCharts,
-        dataType: "json"
-    })
+    
+    $.when(
+        $.get("/activity.json", {
+            earliest : (24).hours().ago().toJSON(),
+            latest : Date.today().toJSON()
+        }, "json"),
+        $.get("/activity.json", {
+            earliest : (3).days().ago().toJSON(),
+            latest : Date.today().toJSON()
+        }, "json"),
+        $.get("/activity.json", {
+            earliest : (7).days().ago().toJSON(),
+            latest : Date.today().toJSON()
+        }, "json"),
+        $.get("/activity.json", {
+            earliest : (1).month().ago().toJSON(),
+            latest : Date.today().toJSON()
+        }, "json"),
+        $.get("/activity.json", {
+            earliest : (1).year().ago().toJSON(),
+            latest : Date.today().toJSON()
+        }, "json")
+    ).done(function (l24h, l3d, l7d, l28d, l12m){
+        dashboard.setupCharts({
+            "l24h" : $.parseJSON(l24h[2].responseText),
+            "l3d"  : $.parseJSON(l3d[2].responseText),
+            "l7d"  : $.parseJSON(l7d[2].responseText),
+            "l28d" : $.parseJSON(l28d[2].responseText),
+            "l12m" : $.parseJSON(l12m[2].responseText)
+        });
+    });
 });
