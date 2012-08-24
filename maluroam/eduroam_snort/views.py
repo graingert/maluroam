@@ -123,7 +123,7 @@ class UsersListView(ListView):
         query.pop("page", None)
         
         for key, value in query.items():
-            if not len(value) > 0:
+            if not value:
                 del(query[key])
                 
             if key not in set(("rule", "blacklist", "earliest", "latest")):
