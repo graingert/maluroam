@@ -13,7 +13,7 @@
             }
         </style>
         <link href="http://twitter.github.com/bootstrap/assets/css/bootstrap-responsive.css" rel="stylesheet" type="text/css">
-        <link href="{{ STATIC_URL }}eduroam_snort/css/start/jquery-ui-1.8.18.custom.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/themes/base/jquery-ui.css" type="text/css" />
         <link href="{{ STATIC_URL }}eduroam_snort/css/timepicker.css" rel="stylesheet" type="text/css">
         <link href="{{ STATIC_URL }}eduroam_snort/css/site.css" rel="stylesheet" type="text/css">
         <link href="{{ STATIC_URL }}eduroam_snort/css/users.css" rel="stylesheet" type="text/css">
@@ -62,10 +62,11 @@
             <script type="text/javascript" src="{{ STATIC_URL }}eduroam_snort/js/jquery.flot.threshold.min.js"></script>
             <script type="text/javascript" src="{{ STATIC_URL }}html5Forms/shared/js/modernizr.com/Modernizr-2.5.3.forms.js"></script>
         {% endcompress %}
-        <script type="text/javascript" src="//datejs.googlecode.com/files/date.js"></script>
-        <script type="text/javascript" data-webforms2-support="date" data-lang="en" src="{{ STATIC_URL }}html5Forms/shared/js/html5Forms.js"></script>
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.3/underscore.js"></script>
+        <script type="text/javascript" src="http://arshaw.com/xdate/downloads/0.7/xdate.dev.js"></script>
+        {# <script type="text/javascript" data-webforms2-support="date" data-lang="en" src="{{ STATIC_URL }}html5Forms/shared/js/html5Forms.js"></script> #}
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.0.4/bootstrap.min.js"></script>
-        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.js"></script>
         <script type="text/javascript" src="https://raw.github.com/defunkt/jquery-pjax/master/jquery.pjax.js"></script>
         <script type="text/javascript" src="{{ STATIC_URL }}eduroam_snort/js/pjax-paginator.js"></script>
         {% block scripts %}

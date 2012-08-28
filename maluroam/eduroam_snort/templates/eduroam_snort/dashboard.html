@@ -1,27 +1,21 @@
 {% extends "eduroam_snort/base.html" %}
 {% load url from future %}
+{% load crispy_forms_tags %}
 {% block title%}Dashboard{% endblock title %}
 {% block isdashboard%}active{% endblock %}
 {% block content %}
-    <div id="rangeSelector">
-            <input type="radio" id="l24h" graphlabel="hours" name="radio" checked=checked /><label for="l24h">Last 24 hrs</label>
-            <input type="radio" id="l3d" graphlabel="hours" name="radio" /><label for="l3d">Last 3 days</label>
-            <input type="radio" id="l7d" graphlabel="days" name="radio" /><label for="l7d">Last 7 days</label>
-            <input type="radio" id="l28d" graphlabel="days" name="radio" /><label for="l28d">Last month</label>
-            <input type="radio" id="l12m" graphlabel="months" name="radio" /><label for="l12m">Last year</label>
-    </div>
+    
+    <div id="slider-range"></div>
+    <form class="unstyled" id="activity-range">
+        {{ activityRangeForm|crispy }}
+    </form>
     
     <h2>Suspected Malicious Activity</h2>
     <p class="updateRangeSpan">
         <small></small>
     </p>
-    <div class="row graph hideLegend">
-        <div class="span6" style="height:450px" id="chart1"></div>
-        <div class="span3">
-            <ul id="overviewLegend">
-            </ul>
-        </div>
-    </div>
+    
+    <div class="span9" style="height:450px" id="chart1"></div>
     
     <div class="row">
         <div class="span6">
@@ -67,5 +61,5 @@
 {% endblock content %}
 
 {% block scripts %}
-    <script type="text/javascript" src="{{ STATIC_URL }}eduroam_snort/js/page.dashboard.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}eduroam_snort/js/dashboard.js"></script>
 {% endblock scripts %}
