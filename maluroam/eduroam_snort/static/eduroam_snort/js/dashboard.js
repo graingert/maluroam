@@ -65,27 +65,34 @@ $(function(){
         max = xdate.getTime(),
         min = xdate.clone().addYears(-1,true).getTime();
     
-    $( "#slider-range" ).slider({
-        range: true,
-        min: min,
-        max: max,
-        values : [min, max],
-        slide: function ( event,ui ) {
-            $("#id_earliest").val(new XDate(ui.values[0]).toJSON());
-            $("#id_latest").val(new XDate(ui.values[1]).toJSON());
-        },
-        change: function( event, ui ) {
-            $(this).slider("option", "max", new XDate().getTime());
-            $.get(
-                "/activity.json",
-                {
-                    earliest : new XDate(ui.values[0]).toJSON(),
-                    latest : new XDate(ui.values[1]).toJSON()
+    $( "#slider-range" ).livequery(
+        function(){
+            $(this).slider({
+                range: true,
+                min: min,
+                max: max,
+                values : [min, max],
+                slide: function ( event,ui ) {
+                    $("#id_earliest").val(new XDate(ui.values[0]).toJSON());
+                    $("#id_latest").val(new XDate(ui.values[1]).toJSON());
                 },
-                setupCharts,
-                "json"
-            );
+                change: function( event, ui ) {
+                    $(this).slider("option", "max", new XDate().getTime());
+                    $.get(
+                        "/activity.json",
+                        {
+                            earliest : new XDate(ui.values[0]).toJSON(),
+                            latest : new XDate(ui.values[1]).toJSON()
+                        },
+                        setupCharts,
+                        "json"
+                    );
+                }
+            });
+        },
+        function(){
+            $(this).slider("destroy");
         }
-    });
+    );
 });
     
