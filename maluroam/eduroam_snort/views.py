@@ -25,7 +25,7 @@ def dashboard(request):
         #start__gte = (datetime.now(tzutc()) + relativedelta(days=-7)),
     ).values("username").annotate(Count('id'), Sum("alerts")).order_by("-id__count","-alerts__sum")
     
-    return render(request, "eduroam_snort/dashboard.html", dict(users=users))
+    return render(request, "eduroam_snort/dashboard.html", dict(users=users, activityRangeForm=ActivityRangeForm()))
     
 def activity(request):
     arForm = ActivityRangeForm(request.GET)
