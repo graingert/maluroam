@@ -24,7 +24,7 @@ $(function(){
                 range: true,
                 min: min,
                 max: max,
-                values : [min, max],
+                values : [0, max],
                 slide: function ( event,ui ) {
                     $("#id_earliest").val(new XDate(ui.values[0]).toJSON());
                     $("#id_latest").val(new XDate(ui.values[1]).toJSON());
@@ -42,6 +42,7 @@ $(function(){
                     );
                 }
             });
+            $(this).slider("values", 0, min);
         },
         function(){
             $(this).slider("destroy");
