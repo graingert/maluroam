@@ -43,6 +43,11 @@ class Rule(models.Model):
     name = models.CharField(max_length=765, db_column = "rule_name")
     hide = models.BooleanField()
     
+    @models.permalink
+    def get_absolute_url(self):
+        return ('rule', (), {"pk":str(self.pk)});
+    
+    
     def __unicode__(self):
         return "{name}[{pk}]".format(name=self.name, pk=self.pk)
     
@@ -57,6 +62,10 @@ class Blacklist(models.Model):
     updated = models.DateTimeField(editable=False)
     hide = models.BooleanField()
     
+    @models.permalink
+    def get_absolute_url(self):
+        return ('blacklist', (), {"pk":str(self.pk)});
+    
     def __unicode__(self):
         return self.name
     
@@ -67,6 +76,10 @@ class Script(models.Model):
     id = models.AutoField(primary_key=True, db_column = "script_id", editable=False)
     name = models.CharField(max_length=765)
     updated = models.DateTimeField(db_column="lastupdated", editable=False)
+    
+    @models.permalink
+    def get_absolute_url(self):
+        return ('script', (), {"pk":str(self.pk)});
     
     def __unicode__(self):
         return "{name}[{pk}]".format(

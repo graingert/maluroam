@@ -11,6 +11,9 @@ from collections import defaultdict
 from maluroam.eduroam_snort.models import Event
 
 from bintrees import FastBinaryTree as sorteddict
+from itertools import starmap
+
+from maluroam.eduroam_snort.models import Blacklist, Rule
 
 
 def unix_time(dt):
@@ -68,7 +71,7 @@ def getEvents(
     if username:
         events = events.filter(username=username)
     
-    return events
+    return (events, interval)
     
 def getGrouping(*args, **kwargs):
     """
@@ -80,8 +83,10 @@ def getGrouping(*args, **kwargs):
                 "data": [
                     [1333238400000, 839]
                 ],
-                "total" : 839,
-                "color" : 4
+                "source" : {
+                    "class" : "blacklist",
+                    "pk" : 2
+                }
             },
             {
                 "label": "abuse_ch_spyeye",
@@ -98,14 +103,12 @@ def getGrouping(*args, **kwargs):
                         1338508800000,
                         34
                     ]
-                ],
-                "total": 1139,
-                "color": 2
+                ]
             }
         ]
     """
     
-    events = getEvents(*args, **kwargs)
+    events, interval = getEvents(*args, **kwargs)
     grouping = defaultdict(sorteddict)
     colors = {}
     
@@ -119,28 +122,25 @@ def getGrouping(*args, **kwargs):
         event["timestamp"] = unix_time_millis(event["datetime"])
         
         if event["blacklist__name"]:
-            key = event["blacklist__name"]
+            key = Blacklist(pk=event["blacklist"], name=event["blacklist__name"])
         elif event["rule__name"]:
-            key = "{rule_name}[{rule}]".format(
-                rule_name = event["rule__name"],
-                rule = event["rule"]
-            )
+            key = Rule(pk=event["rule"], name=event["rule__name"])
         else:
-            key = [ "snort_" + event["rule"] ]
-        colors[key] = 0;
-        grouping.setdefault(key, sorteddict())[event["timestamp"]] = event["alerts"]
-    
-    for key, num in zip(colors,range(len(colors))):
-        colors[key] = num
-
-    return map(
-        lambda group: {
-            "label" : group[0],
-            "data" : tuple(group[1].items()),
-            "color" : colors[group[0]]
+            key = Rule(pk=event["rule"], name="snort")
+            
+        grouping[key][event["timestamp"]] = {
+            "alerts" : event["alerts"],
+            "width" : unix_time_millis(event["datetime"] + interval) - event["timestamp"]
+        }
+        
+    return tuple(starmap(
+        lambda model, data: {
+            "label" : str(model),
+            "uri" : model.get_absolute_url(),
+            "data" : [(time, plot["alerts"], plot["width"]) for time, plot in data.items()],
         },
         grouping.items()
-    )
+    ))
     
 def fetchUserStatistics(username):
     
