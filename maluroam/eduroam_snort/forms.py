@@ -7,20 +7,21 @@ from crispy_forms.layout import Submit, Reset, Layout, Div, Fieldset
 from crispy_forms.bootstrap import FormActions
 from maluroam.eduroam_snort.models import Blacklist, Rule
 
-
-class ActivityRangeForm(forms.Form):
+class RangeForm(forms.Form):
     earliest = forms.DateTimeField(required=False, input_formats=("%Y-%m-%dT%H:%M:%S.%fZ",))
     latest = forms.DateTimeField(required=False, input_formats=("%Y-%m-%dT%H:%M:%S.%fZ",))
-    username = forms.CharField(required=False)
     
     def clean(self):
-        cleaned_data = super(ActivityRangeForm, self).clean()
+        cleaned_data = super(RangeForm, self).clean()
         
         for key, value in cleaned_data.items():
             if not value:
                 del(cleaned_data[key])
 
         return cleaned_data
+
+class ActivityRangeForm(RangeForm):
+    username = forms.CharField(required=False)
 
 class FilterForm(forms.Form):
     earliest = forms.DateTimeField(required=False)

@@ -24,20 +24,7 @@ def dashboard(request):
         #Q(rule__hide=False) | Q(blacklist__hide=False),
         #start__gte = (datetime.now(tzutc()) + relativedelta(days=-7)),
     ).values("username").annotate(Count('id'), Sum("alerts")).order_by("-id__count","-alerts__sum")
-    
     return render(request, "eduroam_snort/dashboard.html", dict(users=users, activityRangeForm=ActivityRangeForm()))
-    
-def activity(request):
-    arForm = ActivityRangeForm(request.GET)
-    if arForm.is_valid():
-        return HttpResponse(json.dumps(getGrouping(**arForm.cleaned_data)), content_type="application/json")
-    else:
-        response = {
-            "success":False,
-            "general_message":"Invalid request",
-            "errors":dict(arForm.errors.items())
-        }
-        return HttpResponse(json.dumps(response), status=400, content_type="application/json")
     
 def user(request, slug):
     

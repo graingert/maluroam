@@ -8,7 +8,6 @@ from maluroam.eduroam_snort.views import UsersListView
 urlpatterns = patterns('maluroam.eduroam_snort.views',
     # Examples:
     url(r'^$', 'dashboard', name='dashboard'),
-    url(r'^activity.json$', 'activity', name="activity"),
     url(
         r'^user/$',
         UsersListView.as_view(),
@@ -25,4 +24,9 @@ urlpatterns = patterns('maluroam.eduroam_snort.views',
     url(r'^blacklist/(?P<pk>\d+)?$', "route", kwargs={"name": "Blacklist"}, name="blacklist"),
     url(r'^rule/(?P<pk>\d+)?$', "route", kwargs={"name": "Rule"}, name="rule"),
     url(r'^script/(?P<pk>\d+)?$', "route", kwargs={"name": "Blacklist"}, name="script"),
+)
+
+urlpatterns += patterns('maluroam.eduroam_snort.api',
+    url(r'^activity.json$', 'activity', name="activity-api"),
+    url(r'^users.json$', 'users', name="users-api"),
 )
