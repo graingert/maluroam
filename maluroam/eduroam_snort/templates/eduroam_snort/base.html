@@ -13,11 +13,13 @@
             }
         </style>
         <link href="http://twitter.github.com/bootstrap/assets/css/bootstrap-responsive.css" rel="stylesheet" type="text/css">
-        <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/themes/base/jquery-ui.css" type="text/css" />
-        <link href="{{ STATIC_URL }}eduroam_snort/css/timepicker.css" rel="stylesheet" type="text/css">
-        <link href="{{ STATIC_URL }}eduroam_snort/css/site.css" rel="stylesheet" type="text/css">
-        <link href="{{ STATIC_URL }}eduroam_snort/css/users.css" rel="stylesheet" type="text/css">
-        <link href="{{ STATIC_URL }}eduroam_snort/css/legend.css" rel="stylesheet" type="text/css">
+        <link href="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+        {% compress css %}
+            <link href="{{ STATIC_URL }}eduroam_snort/css/timepicker.css" rel="stylesheet" type="text/css">
+            <link href="{{ STATIC_URL }}eduroam_snort/css/site.css" rel="stylesheet" type="text/css">
+            <link href="{{ STATIC_URL }}eduroam_snort/css/users.css" rel="stylesheet" type="text/css">
+            <link href="{{ STATIC_URL }}eduroam_snort/css/legend.css" rel="stylesheet" type="text/css">
+        {% endcompress %}
     </head>
     <body>
         <div class="navbar navbar-inverse navbar-fixed-top">
@@ -60,16 +62,20 @@
             <script type="text/javascript" src="{{ STATIC_URL }}eduroam_snort/js/jquery.flot.stack.min.js"></script>
             <script type="text/javascript" src="{{ STATIC_URL }}eduroam_snort/js/jquery.flot.symbol.min.js"></script>
             <script type="text/javascript" src="{{ STATIC_URL }}eduroam_snort/js/jquery.flot.threshold.min.js"></script>
-            <script type="text/javascript" src="{{ STATIC_URL }}html5Forms/shared/js/modernizr.com/Modernizr-2.5.3.forms.js"></script>
         {% endcompress %}
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.1/modernizr.min.js"></script>
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.0.1/angular.min.js"></script>
         <script type="text/javascript" src="https://raw.github.com/brandonaaron/livequery/master/jquery.livequery.js"></script>
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.3/underscore.js"></script>
-        <script type="text/javascript" src="http://arshaw.com/xdate/downloads/0.7/xdate.dev.js"></script>
-        {# <script type="text/javascript" data-webforms2-support="date" data-lang="en" src="{{ STATIC_URL }}html5Forms/shared/js/html5Forms.js"></script> #}
-        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.0.4/bootstrap.min.js"></script>
+        <script type="text/javascript" src="https://raw.github.com/arshaw/xdate/master/src/xdate.js"></script>
+        <script type="text/javascript" src="https://raw.github.com/timborden/cdnjs/master/ajax/libs/twitter-bootstrap/2.1.0/js/bootstrap.js"></script>
         <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.js"></script>
         <script type="text/javascript" src="https://raw.github.com/defunkt/jquery-pjax/master/jquery.pjax.js"></script>
-        <script type="text/javascript" src="{{ STATIC_URL }}eduroam_snort/js/pjax-paginator.js"></script>
+        
+        {% compress js %}
+            <script type="text/javascript" src="{{ STATIC_URL }}eduroam_snort/js/initapp.js"></script>
+            <script type="text/javascript" src="{{ STATIC_URL }}eduroam_snort/js/pjax-paginator.js"></script>
+        {% endcompress %}
         {% block scripts %}
         {% endblock scripts %}
     </body>
