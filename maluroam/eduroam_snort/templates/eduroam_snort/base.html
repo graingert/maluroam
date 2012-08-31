@@ -15,6 +15,7 @@
         <link href="http://twitter.github.com/bootstrap/assets/css/bootstrap-responsive.css" rel="stylesheet" type="text/css">
         <link href="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
         {% compress css %}
+            <link href="{{ STATIC_URL }}3rdparty/jQuery-UI-Date-Range-Picker/ui.daterangepicker.css" rel="stylesheet" type="text/css" />
             <link href="{{ STATIC_URL }}eduroam_snort/css/timepicker.css" rel="stylesheet" type="text/css">
             <link href="{{ STATIC_URL }}eduroam_snort/css/site.css" rel="stylesheet" type="text/css">
             <link href="{{ STATIC_URL }}eduroam_snort/css/users.css" rel="stylesheet" type="text/css">
@@ -50,29 +51,30 @@
 
         {% compress js %}
             <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.js"></script>
-            <script type="text/javascript" src="{{ STATIC_URL }}eduroam_snort/js/jquery.flot.min.js"></script>
-            <script type="text/javascript" src="{{ STATIC_URL }}eduroam_snort/js/jquery.colorhelpers.min.js"></script>
-            <script type="text/javascript" src="{{ STATIC_URL }}eduroam_snort/js/jquery.flot.crosshair.min.js"></script>
-            <script type="text/javascript" src="{{ STATIC_URL }}eduroam_snort/js/jquery.flot.fillbetween.min.js"></script>
-            <script type="text/javascript" src="{{ STATIC_URL }}eduroam_snort/js/jquery.flot.image.min.js"></script>
-            <script type="text/javascript" src="{{ STATIC_URL }}eduroam_snort/js/jquery.flot.navigate.min.js"></script>
-            <script type="text/javascript" src="{{ STATIC_URL }}eduroam_snort/js/jquery.flot.pie.min.js"></script>
-            <script type="text/javascript" src="{{ STATIC_URL }}eduroam_snort/js/jquery.flot.resize.min.js"></script>
-            <script type="text/javascript" src="{{ STATIC_URL }}eduroam_snort/js/jquery.flot.selection.min.js"></script>
-            <script type="text/javascript" src="{{ STATIC_URL }}eduroam_snort/js/jquery.flot.stack.min.js"></script>
-            <script type="text/javascript" src="{{ STATIC_URL }}eduroam_snort/js/jquery.flot.symbol.min.js"></script>
-            <script type="text/javascript" src="{{ STATIC_URL }}eduroam_snort/js/jquery.flot.threshold.min.js"></script>
+            <script type="text/javascript" src="{{ STATIC_URL }}3rdparty/flot/jquery.flot.min.js"></script>
+            <script type="text/javascript" src="{{ STATIC_URL }}3rdparty/flot/jquery.colorhelpers.min.js"></script>
+            <script type="text/javascript" src="{{ STATIC_URL }}3rdparty/flot/jquery.flot.crosshair.min.js"></script>
+            <script type="text/javascript" src="{{ STATIC_URL }}3rdparty/flot/jquery.flot.fillbetween.min.js"></script>
+            <script type="text/javascript" src="{{ STATIC_URL }}3rdparty/flot/jquery.flot.image.min.js"></script>
+            <script type="text/javascript" src="{{ STATIC_URL }}3rdparty/flot/jquery.flot.navigate.min.js"></script>
+            <script type="text/javascript" src="{{ STATIC_URL }}3rdparty/flot/jquery.flot.pie.min.js"></script>
+            <script type="text/javascript" src="{{ STATIC_URL }}3rdparty/flot/jquery.flot.resize.min.js"></script>
+            <script type="text/javascript" src="{{ STATIC_URL }}3rdparty/flot/jquery.flot.selection.min.js"></script>
+            <script type="text/javascript" src="{{ STATIC_URL }}3rdparty/flot/jquery.flot.stack.min.js"></script>
+            <script type="text/javascript" src="{{ STATIC_URL }}3rdparty/flot/jquery.flot.symbol.min.js"></script>
+            <script type="text/javascript" src="{{ STATIC_URL }}3rdparty/flot/jquery.flot.threshold.min.js"></script>
         {% endcompress %}
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.1/modernizr.min.js"></script>
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.0.1/angular.min.js"></script>
-        <script type="text/javascript" src="https://raw.github.com/brandonaaron/livequery/master/jquery.livequery.js"></script>
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.3/underscore.js"></script>
-        <script type="text/javascript" src="https://raw.github.com/arshaw/xdate/master/src/xdate.js"></script>
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/datejs/1.0/date.min.js"></script>
+        <script type="text/javascript" src="https://raw.github.com/brandonaaron/livequery/master/jquery.livequery.js"></script>
         <script type="text/javascript" src="https://raw.github.com/timborden/cdnjs/master/ajax/libs/twitter-bootstrap/2.1.0/js/bootstrap.js"></script>
-        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.js"></script>
         <script type="text/javascript" src="https://raw.github.com/defunkt/jquery-pjax/master/jquery.pjax.js"></script>
+        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.js"></script>
         
         {% compress js %}
+            <script type="text/javascript" src="{{ STATIC_URL }}3rdparty/jQuery-UI-Date-Range-Picker/daterangepicker.jQuery.js"></script>
             <script type="text/javascript" src="{{ STATIC_URL }}eduroam_snort/js/initapp.js"></script>
             <script type="text/javascript" src="{{ STATIC_URL }}eduroam_snort/js/pjax-paginator.js"></script>
         {% endcompress %}
