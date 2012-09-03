@@ -1,0 +1,11 @@
+.chart {
+    z-index: -1;
+}
+
+.daterange form{
+    margin: 0;
+}
+
+.daterange.affix{
+    top: 40px;
+}
