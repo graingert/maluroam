@@ -10,8 +10,8 @@
         <div class="daterange well" data-spy="affix" data-offset-top="40">
             <form class="unstyled" ng:init="earliest='Last Year'; latest='Today'" id="activity-range">
                 {# {{ activityRangeForm|crispy }} #}
-                <input class="text" id="id_earliest" ng:model="earliest" ng:change="fetch()"/>
-                <input class="text" id="id_latest" ng:model="latest" ng:change="fetch()" />
+                <input type="text" class="earliest" ng:model="earliest" ng:change="fetch()"/>
+                <input type="text" class="latest" ng:model="latest" ng:change="fetch()" />
             </form>
         </div>
         
