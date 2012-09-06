@@ -9,3 +9,8 @@
 .daterange.affix{
     top: 40px;
 }
+
+.legend rect.color{
+    stroke:grey;
+    stroke-width:2;
+}

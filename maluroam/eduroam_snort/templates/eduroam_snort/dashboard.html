@@ -8,10 +8,10 @@
         {# <div id="slider-range"></div> #}
         
         <div class="daterange well" data-spy="affix" data-offset-top="40">
-            <form class="unstyled" id="activity-range">
+            <form class="unstyled" ng:init="earliest='Last Year'; latest='Today'" id="activity-range">
                 {# {{ activityRangeForm|crispy }} #}
-                <input class="text" id="id_earliest" value="Last Year" ng:model="earliest" ng:change="fetch()"/>
-                <input class="text" id="id_latest" value="Today" ng:model="latest" ng:change="fetch()" />
+                <input class="text" id="id_earliest" ng:model="earliest" ng:change="fetch()"/>
+                <input class="text" id="id_latest" ng:model="latest" ng:change="fetch()" />
             </form>
         </div>
         
@@ -26,7 +26,12 @@
                     <ol>
                         <li ng:repeat="item in charts.data">
                             <input id="legend-[[item.uri]]" name="[[item.label]]" ng:model="item.show" ng:change="plot()" type="checkbox">
-                            <label for="legend-[[item.uri]]" ng:bind="item.label"></label>
+                            <label for="legend-[[item.uri]]">
+                                <svg width="10" height="10">
+                                    <rect class="color" width="10" height="10" fill="[[item.csscolor]]"/>
+                                </svg>
+                                <span ng:bind="item.label"></span>
+                            </label>
                         </li>
                     </ol>
                 </form>

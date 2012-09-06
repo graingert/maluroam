@@ -1,20 +1,15 @@
 function DashboardChartsCtrl($scope, $http, $templateCache) {
     "use strict";
-    $scope.latest = "Today";
-    $scope.earliest = "Last Year";
+    
     var orderedSet = new function () {
         this.dict = {}
         this.items = 0;
         this.get_color = function(url){
-            if(!(this.dict.hasOwnProperty(url))){
+            if(!(url in this.dict)){
                 this.items++;
                 this.dict[url] = this.items;
             }
             return this.dict[url];
-        }
-        
-        this.has = function(url){
-            
         }
     }()
 
@@ -95,11 +90,17 @@ function DashboardChartsCtrl($scope, $http, $templateCache) {
     
     $scope.plot = function () {
         var ch = $scope.charts;
-        $.plot(
+        
+        var data = $.plot(
             $("#histogram"),
             JSONSelect.match(":has(:root > .show:expr(x=true))", $scope.charts),
             ch.histogram_options
-        );
+        ).getData();
+        
+        var colors = JSONSelect.match(":has(:root > .uri) > .color", data);
+        _.each(colors, function (color, i, colors) {
+            $scope.charts.data[i].csscolor = color;
+        })
         $.plot($("#donut"), ch.totals, ch.pie_options);
     }
     
