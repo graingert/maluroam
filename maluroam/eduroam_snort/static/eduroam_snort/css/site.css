@@ -1,3 +1,7 @@
 tr:target td{
     background-color:#FFFFCC !important;
 }
+
+[ng\:cloak], [ng-cloak], .ng-cloak {
+  display: none;
+}
