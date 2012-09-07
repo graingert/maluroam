@@ -1,6 +1,5 @@
 function DashboardChartsCtrl($scope, $http, $templateCache) {
     "use strict";
-    
     var orderedSet = new function () {
         this.dict = {}
         this.items = 0;
@@ -98,8 +97,13 @@ function DashboardChartsCtrl($scope, $http, $templateCache) {
         ).getData();
         
         var colors = JSONSelect.match(":has(:root > .uri) > .color", data);
-        _.each(colors, function (color, i, colors) {
-            $scope.charts.data[i].csscolor = color;
+        var color_index = 0;
+        
+        _.each($scope.charts.data, function (item, i, data) {
+            if (item.show == true){
+                data[i].csscolor = colors[color_index];
+                color_index++;
+            }
         })
         $.plot($("#donut"), ch.totals, ch.pie_options);
     }
@@ -125,7 +129,12 @@ $(function(){
     "use strict";
     $('#activity-range').livequery(
         function(){
-            $(this).find("#id_earliest, #id_latest").daterangepicker();
+            var form = $(this);
+            form.find(".earliest, .latest").daterangepicker({
+                "onChange" : function () {
+                    form.find(".comms").change();
+                }
+            });
         },
         function(){
             
