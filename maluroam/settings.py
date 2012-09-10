@@ -128,6 +128,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'jquery',
+    'angularjs',
     'compressor',
     'maluroam.eduroam_snort',
     'crispy_forms',
