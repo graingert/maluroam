@@ -1,3 +1,4 @@
+/*! maluroam github.com/graingert/maluroam/ | github.com/graingert/maluroam/raw/master/COPYING */
 function DashboardChartsCtrl($scope, $http, $templateCache) {
     "use strict";
     var orderedSet = new function () {
