@@ -5,14 +5,16 @@
     <head>
         <meta charset="utf-8">
         <title>eduroam Wireless Malware Monitoring - {% block title %} Untitled {%endblock title %}</title>
-        <link href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css" rel="stylesheet" type="text/css">
-        <style type="text/css">
-            body {
-                padding-top: 60px;
-                padding-bottom: 40px;
-            }
-        </style>
-        <link href="http://twitter.github.com/bootstrap/assets/css/bootstrap-responsive.css" rel="stylesheet" type="text/css">
+        {% compress css %}
+            <link rel="stylesheet" href="{{ STATIC_URL }}lib/bootstrap/less/bootstrap.less" type="text/less">
+            <style type="text/css">
+                body {
+                    padding-top: 60px;
+                    padding-bottom: 40px;
+                }
+            </style>
+            <link rel="stylesheet" href="{{ STATIC_URL }}lib/bootstrap/less/responsive.less" type="text/less">
+        {% endcompress %}
         <link href="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
         {% compress css %}
             <link href="{{ STATIC_URL }}3rdparty/jQuery-UI-Date-Range-Picker/ui.daterangepicker.css" rel="stylesheet" type="text/css" />
@@ -69,12 +71,16 @@
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.3/underscore.js"></script>
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/datejs/1.0/date.min.js"></script>
         <script type="text/javascript" src="https://raw.github.com/brandonaaron/livequery/master/jquery.livequery.js"></script>
-        <script type="text/javascript" src="https://raw.github.com/timborden/cdnjs/master/ajax/libs/twitter-bootstrap/2.1.0/js/bootstrap.js"></script>
         <script type="text/javascript" src="https://raw.github.com/defunkt/jquery-pjax/master/jquery.pjax.js"></script>
         <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.js"></script>
         <script type="text/javascript" src="http://jsonselect.org/js/jsonselect.js"></script>
         <script type="text/javascript" src="{{ STATIC_URL }}3rdparty/jQuery-UI-Date-Range-Picker/daterangepicker.jQuery.js"></script>
         {% compress js %}
+            <script type="text/javascript" src="{{ STATIC_URL }}lib/bootstrap/js/bootstrap-transition.js"></script>
+            <script type="text/javascript" src="{{ STATIC_URL }}lib/bootstrap/js/bootstrap-dropdown.js"></script>
+            <script type="text/javascript" src="{{ STATIC_URL }}lib/bootstrap/js/bootstrap-tab.js"></script>
+            <script type="text/javascript" src="{{ STATIC_URL }}lib/bootstrap/js/bootstrap-affix.js"></script>
+
             <script type="text/javascript" src="{{ STATIC_URL}}lib/angularjs/angular.js"></script>
             <script type="text/javascript" src="{{ STATIC_URL }}eduroam_snort/js/initapp.js"></script>
             <script type="text/javascript" src="{{ STATIC_URL }}eduroam_snort/js/pjax-paginator.js"></script>
