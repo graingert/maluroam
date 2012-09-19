@@ -179,21 +179,16 @@ class DeleteView(CRUDMixin, DeleteView):
 class UpdateView(CRUDMixin, UpdateView):
     pass
 
-def route(request, name, pk=None):
+def route(request, view_kwargs={}, pk=None):
     """
     Route to the correct view based on Method or the existance of
     pk.
     """
-    model = {
-        "Script" : Script,
-        "Rule" : Rule,
-        "Blacklist" : Blacklist
-    }[name]
     
     if request.method == 'DELETE':
-        return DeleteView.as_view(model=model)(request=request, pk=pk)
+        return DeleteView.as_view(**view_kwargs)(request=request, pk=pk)
     else:
         if pk:
-            return UpdateView.as_view(model=model)(request=request, pk=pk)
+            return UpdateView.as_view(**view_kwargs)(request=request, pk=pk)
         else:
-            return CreateView.as_view(model=model)(request=request)
+            return CreateView.as_view(**view_kwargs)(request=request)

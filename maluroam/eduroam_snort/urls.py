@@ -22,9 +22,11 @@
 #
 
 from django.conf.urls import patterns, include, url
+
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormView
 
+from maluroam.eduroam_snort.models import Blacklist, Rule, Script
 from maluroam.eduroam_snort.views import UsersListView
 from maluroam.eduroam_snort.forms import ActivityRangeForm
 # Uncomment the next two lines to enable the admin:
@@ -53,9 +55,9 @@ urlpatterns = patterns('maluroam.eduroam_snort.views',
 
     url(r'^settings/$', 'settings', name="settings"),
     
-    url(r'^blacklist/(?P<pk>\d+)?$', "route", kwargs={"name": "Blacklist"}, name="blacklist"),
-    url(r'^rule/(?P<pk>\d+)?$', "route", kwargs={"name": "Rule"}, name="rule"),
-    url(r'^script/(?P<pk>\d+)?$', "route", kwargs={"name": "Blacklist"}, name="script"),
+    url(r'^blacklist/(?P<pk>\d+)?$', "route", kwargs={"view_kwargs": {"model":Blacklist}}, name="blacklist"),
+    url(r'^rule/(?P<pk>\d+)?$', "route", kwargs={"view_kwargs": {"model":Rule}}, name="rule"),
+    url(r'^script/(?P<pk>\d+)?$', "route", kwargs={"view_kwargs": {"model":Script}}, name="script"),
 )
 
 urlpatterns += patterns('maluroam.eduroam_snort.api',
