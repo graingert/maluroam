@@ -8,10 +8,10 @@
         {# <div id="slider-range"></div> #}
         
         <div class="daterange well" data-spy="affix" data-offset-top="40">
-            <form class="unstyled" ng:init="earliest='Last Year'; latest='Today'" id="activity-range">
+            <form class="unstyled" ng:init="" id="activity-range">
                 {# {{ activityRangeForm|crispy }} #}
-                <input type="text" class="earliest" ng:model="earliest" ng:change="fetch()"/>
-                <input type="text" class="latest" ng:model="latest" ng:change="fetch()" />
+                <input type="text" class="earliest" ng:model="earliest" force-model-update />
+                <input type="text" class="latest" ng:model="latest" force-model-update />
             </form>
         </div>
         

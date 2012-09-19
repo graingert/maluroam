@@ -1,15 +1,33 @@
 var djangoModule = angular.module('djangoModule', []);
 
-djangoModule.config(function($interpolateProvider) {
-  $interpolateProvider.startSymbol('[[');
-  $interpolateProvider.endSymbol(']]');
+djangoModule.config(function ($interpolateProvider) {
+    "use strict";
+    $interpolateProvider.startSymbol('[[');
+    $interpolateProvider.endSymbol(']]');
+});
+/*
+ * http://jsfiddle.net/witoldsz/UvRmw/
+ */
+djangoModule.directive('forceModelUpdate',function ($compile) {
+    "use strict";
+    return {
+        "restrict": 'A',
+        "require": 'ngModel',
+        "link": function(scope, element, attrs, ctrl) {
+            console.log("link");
+            scope.$on('event:force-model-update', function() {
+                ctrl.$setViewValue(element.val());
+            });
+        }
+    };
 });
 
-/*
 
+/*
 https://docs.djangoproject.com/en/dev/ref/contrib/csrf/#ajax
 */
 jQuery(document).ajaxSend(function(event, xhr, settings) {
+    "use strict";
     function getCookie(name) {
         var cookieValue = null;
         if (document.cookie && document.cookie != '') {

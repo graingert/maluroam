@@ -1,6 +1,9 @@
 /*! maluroam github.com/graingert/maluroam/ | github.com/graingert/maluroam/raw/master/COPYING */
 function DashboardChartsCtrl($scope, $http, $templateCache) {
     "use strict";
+    $scope.earliest='Last Year';
+    $scope.latest='Today';
+    
     var orderedSet = new function () {
         this.dict = {}
         this.items = 0;
@@ -109,7 +112,7 @@ function DashboardChartsCtrl($scope, $http, $templateCache) {
         $.plot($("#donut"), ch.totals, ch.pie_options);
     }
     
-    $scope.fetch = _.debounce(function(){
+    $scope.fetch = function(){
         $http.get('/activity.json',{
             params: {
                 "earliest" : Date.parse($scope.earliest).toJSON(),
@@ -122,24 +125,14 @@ function DashboardChartsCtrl($scope, $http, $templateCache) {
         }).success(function(data,status){
             setupCharts(data);
         });
-    }, 300);
+    }
+    
+    $('#activity-range').find(".earliest, .latest").daterangepicker({
+        "onChange" : _.debounce(function () {
+            $scope.$broadcast('event:force-model-update');
+            $scope.fetch();
+        })
+    });
+    
     $scope.fetch();
 }
-
-$(function(){
-    "use strict";
-    $('#activity-range').livequery(
-        function(){
-            var form = $(this);
-            form.find(".earliest, .latest").daterangepicker({
-                "onChange" : function () {
-                    form.find(".comms").change();
-                }
-            });
-        },
-        function(){
-            
-        }
-    );
-});
-    
