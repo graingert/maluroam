@@ -40,14 +40,6 @@ from dateutil.tz import tzutc
 
 from django.template.defaultfilters import slugify
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-
-
-def dashboard(request):
-    users = Event.objects.filter(
-        #Q(rule__hide=False) | Q(blacklist__hide=False),
-        #start__gte = (datetime.now(tzutc()) + relativedelta(days=-7)),
-    ).values("username").annotate(Count('id'), Sum("alerts")).order_by("-id__count","-alerts__sum")
-    return render(request, "eduroam_snort/dashboard.html", dict(users=users, activityRangeForm=ActivityRangeForm()))
     
 def user(request, slug):
     

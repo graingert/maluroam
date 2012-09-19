@@ -23,14 +23,23 @@
 
 from django.conf.urls import patterns, include, url
 from django.views.generic.base import TemplateView
+from django.views.generic.edit import FormView
+
 from maluroam.eduroam_snort.views import UsersListView
+from maluroam.eduroam_snort.forms import ActivityRangeForm
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
 # admin.autodiscover()
 
 urlpatterns = patterns('maluroam.eduroam_snort.views',
     # Examples:
-    url(r'^$', 'dashboard', name='dashboard'),
+    url(r'^$', 
+        FormView.as_view(
+            template_name = "eduroam_snort/dashboard.html",
+            form_class = ActivityRangeForm
+        ),
+        name='dashboard'
+    ),
     url(
         r'^user/$',
         UsersListView.as_view(),
