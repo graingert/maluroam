@@ -37,25 +37,22 @@
                 </form>
             </div>
         </div>
-    </div>
 
     
-    <div class="row">
-        <div class="span8">
-            <h2>Alert Totals Comparisons</h2>
-            <p class="updateRangeSpan">
-                <small></small>
-            </p>
-            <div class="chart" id="donut" style="height:300px"></div>
-        </div>
-        <div class="span3" id="users_overview">
-            <h2>Users</h2>
-            <p class="updateRangeSpan">
-                <small></small>
-            </p>
-        {% for user in users %}
-            {% if forloop.first %}
-                <table class="table table-bordered table-striped" id="users_overview">
+        <div class="row">
+            <div class="span8">
+                <h2>Alert Totals Comparisons</h2>
+                <p class="updateRangeSpan">
+                    <small></small>
+                </p>
+                <div class="chart" id="donut" style="height:300px"></div>
+            </div>
+            <div class="span3" id="users_overview">
+                <h2>Users</h2>
+                <p class="updateRangeSpan">
+                    <small></small>
+                </p>
+                <table ng:cloak ng:show="users.length" class="table table-bordered table-striped" id="users_overview">
                     <thead>
                         <tr>
                             <th>Username</th>
@@ -64,21 +61,17 @@
                         </tr>
                     </thead>
                     <tbody>
-            {% endif %}
-                    <tr>
+                    <tr ng:repeat="user in users">
                         <td>
-                            <a href="{% url 'user' user.username %}">{{user.username}}</a>
+                            <a ng:bind="user.username" ng:href="user.uri"></a>
                         </td>
-                        <td>{{user.id__count}}</td>
-                        <td>{{user.alerts__sum}}</td>
+                        <td ng:bind="user.id__count"></td>
+                        <td ng:bind="user.alerts__sum"></td>
                     </tr>
-            {% if forloop.last %}
                     </tbody>
                 </table>
-            {% endif %}
-        {% empty %}
-            <div class="alert">No users for this range</div>
-        {% endfor %}
+                <div ng:cloak ng:show = "!users.length" class="alert">No users for this range</div>
+            </div>
         </div>
     </div>
 {% endblock content %}

@@ -3,6 +3,7 @@ function DashboardChartsCtrl($scope, $http, $templateCache) {
     "use strict";
     $scope.earliest='Last Year';
     $scope.latest='Today';
+    $scope.users = [];
     
     var orderedSet = new function () {
         this.dict = {}
@@ -113,17 +114,30 @@ function DashboardChartsCtrl($scope, $http, $templateCache) {
     }
     
     $scope.fetch = function(){
-        $http.get('/activity.json',{
-            params: {
+        
+        var params = {
                 "earliest" : Date.parse($scope.earliest).toJSON(),
                 "latest" : Date.parse($scope.latest).toJSON()
-            },
+        }
+        
+        $http.get('/activity.json',{
+            params: params,
             cache: $templateCache,
             transformResponse: function(data,headersGetter){
                 return jQuery.parseJSON(data);
             }
         }).success(function(data,status){
             setupCharts(data);
+        });
+        
+        $http.get('/users.json',{
+            params: params,
+            cache: $templateCache,
+            transformResponse: function(data,headersGetter){
+                return jQuery.parseJSON(data);
+            }
+        }).success(function (data,status) {
+            $scope.users = data;
         });
     }
     
