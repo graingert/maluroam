@@ -130,6 +130,7 @@ INSTALLED_APPS = (
     'jquery',
     'angularjs',
     'bootstrap',
+    'underscore',
     'compressor',
     'maluroam.eduroam_snort',
     'crispy_forms',
