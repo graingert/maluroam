@@ -54,6 +54,14 @@
 
         {% compress js %}
             <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.js"></script>
+        {% endcompress %}
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/datejs/1.0/date.min.js"></script>
+        <script type="text/javascript" src="https://raw.github.com/brandonaaron/livequery/master/jquery.livequery.js"></script>
+        <script type="text/javascript" src="https://raw.github.com/defunkt/jquery-pjax/master/jquery.pjax.js"></script>
+        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.js"></script>
+        <script type="text/javascript" src="http://jsonselect.org/js/jsonselect.js"></script>
+        <script type="text/javascript" src="{{ STATIC_URL }}3rdparty/jQuery-UI-Date-Range-Picker/daterangepicker.jQuery.js"></script>
+        {% compress js %}
             <script type="text/javascript" src="{{ STATIC_URL }}lib/flot/jquery.flot.js"></script>
             <script type="text/javascript" src="{{ STATIC_URL }}lib/flot/jquery.flot.crosshair.js"></script>
             <script type="text/javascript" src="{{ STATIC_URL }}lib/flot/jquery.flot.fillbetween.js"></script>
@@ -66,21 +74,16 @@
             <script type="text/javascript" src="{{ STATIC_URL }}lib/flot/jquery.flot.symbol.js"></script>
             <script type="text/javascript" src="{{ STATIC_URL }}lib/flot/jquery.flot.threshold.js"></script>
             <script type="text/javascript" src="{{ STATIC_URL }}lib/flot/jquery.flot.time.js"></script>
-        {% endcompress %}
-        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/datejs/1.0/date.min.js"></script>
-        <script type="text/javascript" src="https://raw.github.com/brandonaaron/livequery/master/jquery.livequery.js"></script>
-        <script type="text/javascript" src="https://raw.github.com/defunkt/jquery-pjax/master/jquery.pjax.js"></script>
-        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.js"></script>
-        <script type="text/javascript" src="http://jsonselect.org/js/jsonselect.js"></script>
-        <script type="text/javascript" src="{{ STATIC_URL }}3rdparty/jQuery-UI-Date-Range-Picker/daterangepicker.jQuery.js"></script>
-        {% compress js %}
+        
             <script type="text/javascript" src="{{ STATIC_URL }}lib/underscore/underscore.js"></script>
+            
             <script type="text/javascript" src="{{ STATIC_URL }}lib/bootstrap/js/bootstrap-transition.js"></script>
             <script type="text/javascript" src="{{ STATIC_URL }}lib/bootstrap/js/bootstrap-dropdown.js"></script>
             <script type="text/javascript" src="{{ STATIC_URL }}lib/bootstrap/js/bootstrap-tab.js"></script>
             <script type="text/javascript" src="{{ STATIC_URL }}lib/bootstrap/js/bootstrap-affix.js"></script>
 
             <script type="text/javascript" src="{{ STATIC_URL}}lib/angularjs/angular.js"></script>
+            
             <script type="text/javascript" src="{{ STATIC_URL }}eduroam_snort/js/initapp.js"></script>
             <script type="text/javascript" src="{{ STATIC_URL }}eduroam_snort/js/pjax-paginator.js"></script>
         {% endcompress %}
