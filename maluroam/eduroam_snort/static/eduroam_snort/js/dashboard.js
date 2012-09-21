@@ -5,6 +5,16 @@ function DashboardChartsCtrl($scope, $q, $http, $templateCache) {
     $scope.latest='Today';
     $scope.users = [];
     $scope.loading = false;
+    
+    /*
+     * To maintain the same colors for the same object accross requests
+     * the URL of the type of malware is added to the dictionary, and 
+     * the insertion order represents the Flot color of that legend.
+     * 
+     * The advantage of using a URL rather than the label means that
+     * two identically labeled series can have different colors. Eg two 
+     * objects of a different type, both called foo
+     */ 
     var orderedSet = new function () {
         this.dict = {}
         this.items = 0;
@@ -16,7 +26,9 @@ function DashboardChartsCtrl($scope, $q, $http, $templateCache) {
             return this.dict[url];
         }
     }()
-
+    
+    
+    
     function setupCharts(data){
         
         var graph_data = {
@@ -61,8 +73,10 @@ function DashboardChartsCtrl($scope, $q, $http, $templateCache) {
         
         var barWidth = Infinity;
         var total_widths = 0;
-        var totals = Array();
+        var totals = [];
+        
         $scope.legend = [];
+        
         _.each(data, function(item, i, data){
             item.total = 0;
             item.color = orderedSet.get_color(item.uri);
@@ -93,52 +107,46 @@ function DashboardChartsCtrl($scope, $q, $http, $templateCache) {
     }
     
     $scope.plot = function () {
-        var ch = $scope.charts;
         
-        var data = $.plot(
-            $("#histogram"),
-            JSONSelect.match(":has(:root > .show:expr(x=true))", $scope.charts),
-            ch.histogram_options
-        ).getData();
+        /*
+         * To draw the legend, colors must be extracted from flot
+         */
+            
+            //match only series that are showing
+            var visible = JSONSelect.match(":has(:root > .show:expr(x=true))", $scope.charts.data);
+            
+            //plot the histogram, extracting normalized data from the flot API
+            var data = $.plot($("#histogram"),visible,$scope.charts.histogram_options).getData();
+            
+            //generate an array of colors for all the series
+            var colors = JSONSelect.match(":has(:root > .uri) > .color", data);
+            
+            //each of the visible items match it to the correct color
+            _.each(_.zip(visible, colors), function (item) {
+                item[0].csscolor = item[1]
+            })
         
-        console.log(data)
-        
-        var colors = JSONSelect.match(":has(:root > .uri) > .color", data);
-        var color_index = 0;
-        
-        _.each($scope.charts.data, function (item, i, data) {
-            if (item.show == true){
-                data[i].csscolor = colors[color_index];
-                color_index++;
-            }
-        })
-        $.plot($("#donut"), ch.totals, ch.pie_options);
+        $.plot($("#donut"), $scope.charts.totals, $scope.charts.pie_options);
     }
-    
+    /*
+     * Grab both users and activity from the API
+     */ 
     $scope.fetch = function(){
         $scope.loading = true;
-        var params = {
+        var options = {
+            "params" :{
                 "earliest" : Date.parse($scope.earliest).toJSON(),
                 "latest" : Date.parse($scope.latest).toJSON()
+            },
+            "cache": $templateCache,
+            "transformResponse" : jQuery.parseJSON,
         }
         
-        var activity = $http.get('/activity.json',{
-            params: params,
-            cache: $templateCache,
-            transformResponse: function(data,headersGetter){
-                return jQuery.parseJSON(data);
-            }
-        }).success(function(data,status){
+        var activity = $http.get('/activity.json',options).success(function(data,status){
             setupCharts(data);
         });
         
-        var users = $http.get('/users.json',{
-            params: params,
-            cache: $templateCache,
-            transformResponse: function(data,headersGetter){
-                return jQuery.parseJSON(data);
-            }
-        }).success(function (data,status) {
+        var users = $http.get('/users.json',options).success(function (data,status) {
             $scope.users = data;
         });
         
@@ -148,12 +156,24 @@ function DashboardChartsCtrl($scope, $q, $http, $templateCache) {
     }
     
     $('#activity-range').find(".earliest, .latest").daterangepicker({
-        "onChange" : _.debounce(function () {
+        /*
+         * debounce is used because daterangepicker, when used with two
+         * fields will fire an event for each field it changes. We don't
+         * the first change will be stale by the time it's loaded so we 
+         * need to wait for the last event
+         */
+        "onChange" : _.debounce(function () { 
+            /*
+             * daterangepicker does not fire change events on the fields
+             * it changes, so angular cannot pick them up and will not
+             * update the view. See initapp.js force-model-update
+             * handling
+             */ 
             $scope.$broadcast('event:force-model-update');
             $scope.fetch();
         })
     });
-    
+    //do the initial fetch, so that the page loads with some content
     $scope.fetch();
 }
 
