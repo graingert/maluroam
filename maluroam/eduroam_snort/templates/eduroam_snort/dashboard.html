@@ -64,7 +64,7 @@
                     <tbody>
                     <tr ng:repeat="user in users">
                         <td>
-                            <a ng:bind="user.username" ng:href="user.uri"></a>
+                            <a ng:bind="user.username" ng:href="[[user.uri]]"></a>
                         </td>
                         <td ng:bind="user.id__count"></td>
                         <td ng:bind="user.alerts__sum"></td>
