@@ -12,9 +12,10 @@
                 {# {{ activityRangeForm|crispy }} #}
                 <input type="text" class="earliest" ng:model="earliest" force-model-update />
                 <input type="text" class="latest" ng:model="latest" force-model-update />
+                            <span ng:show="loading">Loading</span>
             </form>
+
         </div>
-        
         <h2>Suspected Malicious Activity</h2>
         <p class="updateRangeSpan">
             <small></small>
@@ -70,7 +71,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <div ng:cloak ng:show = "!users.length" class="alert">No users for this range</div>
+                <div ng:cloak ng:show="!users.length && !loading" class="alert">No users for this range</div>
             </div>
         </div>
     </div>
