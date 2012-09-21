@@ -14,7 +14,6 @@ djangoModule.directive('forceModelUpdate',function ($compile) {
         "restrict": 'A',
         "require": 'ngModel',
         "link": function(scope, element, attrs, ctrl) {
-            console.log("link");
             scope.$on('event:force-model-update', function() {
                 ctrl.$setViewValue(element.val());
             });
